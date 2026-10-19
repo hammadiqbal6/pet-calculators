@@ -11,7 +11,7 @@ A **static Astro 7 site of free dog and cat calculators** (puppy weight, dog/cat
 3. **Get and stay AdSense-approved** with real content, trust pages, a clean ad layout and consent.
 4. **Be fast**: plain HTML, light vanilla TypeScript, Lighthouse mobile >= 95.
 
-Brand/domain/IDs live in one file: `src/config/site.ts` (`siteName`, `siteUrl`, `buildDate`, GA4, Search Console/Bing verification, `adsensePublisherId`, `indexNowKey`, author/reviewer). `siteUrl`, GA4, and GSC HTML-tag verification are filled from build-time `PUBLIC_SITE_URL`, `PUBLIC_GA4_MEASUREMENT_ID`, and `PUBLIC_GSC_VERIFICATION` (see `.env.example`); never hard-code the domain or brand elsewhere — use `absoluteUrl()`. Deploy as static-assets Worker `pet-calculators` via `wrangler.jsonc`.
+Brand/domain/IDs live in one file: `src/config/site.ts` (`siteName`, `siteUrl`, `buildDate`, GA4, Search Console/Bing verification, `adsensePublisherId`, `indexNowKey`, author/reviewer, `contactEmail`). `siteUrl`, GA4, GSC HTML-tag verification, and contact email are filled from build-time `PUBLIC_SITE_URL`, `PUBLIC_GA4_MEASUREMENT_ID`, `PUBLIC_GSC_VERIFICATION`, and `PUBLIC_CONTACT_EMAIL` (see `.env.example`); never hard-code the domain or brand elsewhere — use `absoluteUrl()`. Deploy as static-assets Worker `pet-calculators` via `wrangler.jsonc`.
 
 ### Governing guidelines (binding)
 

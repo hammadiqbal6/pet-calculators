@@ -213,7 +213,7 @@ Committed template: **`.env.example`**. Copy to `.env` for local builds (gitigno
 | `PUBLIC_SITE_URL` | production build | → `siteConfig.siteUrl`; canonicals, sitemap, robots, llms.txt |
 | `PUBLIC_GA4_MEASUREMENT_ID` | optional | → `siteConfig.ga4MeasurementId`; empty = no gtag |
 | `PUBLIC_GSC_VERIFICATION` | optional | → `siteConfig.googleSiteVerification`; empty = no meta tag |
-| `contactEmail` (`site.ts`) | deploy | Contact page, Organization JSON-LD |
+| `PUBLIC_CONTACT_EMAIL` | optional | → `siteConfig.contactEmail`; Contact/privacy/terms, footer, Organization JSON-LD; empty = `hammadiqbal117@gmail.com` |
 | `buildDate` (`site.ts`) | each content release | `lastmod`, "Last updated", `dateModified` |
 | `bingSiteVerification` (`site.ts`) | meta-tag verification only | prefer DNS; GSC uses `PUBLIC_GSC_VERIFICATION` |
 | `adsensePublisherId` / `adsenseAutoAds` | after AdSense approval | [ADSENSE.md](./ADSENSE.md) |

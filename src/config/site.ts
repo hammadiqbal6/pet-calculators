@@ -1,11 +1,15 @@
 /**
  * Single source of truth for brand, domain, analytics, and AdSense placeholders.
- * Canonical URL, GA4, and GSC verification come from build-time PUBLIC_* env vars
- * (see `.env.example`). Do not scatter domain strings across pages — use `absoluteUrl()`.
+ * Canonical URL, GA4, GSC verification, and contact email come from build-time
+ * PUBLIC_* env vars (see `.env.example`). Do not scatter domain strings across
+ * pages — use `absoluteUrl()`.
  */
 
 /** Used when `PUBLIC_SITE_URL` is unset (local builds / audits). */
 export const FALLBACK_SITE_URL = 'https://www.petcalctools.example';
+
+/** Public contact mailbox when `PUBLIC_CONTACT_EMAIL` is unset. */
+export const DEFAULT_CONTACT_EMAIL = 'hammadiqbal117@gmail.com';
 
 function publicEnv(name: string): string {
   const fromMeta =
@@ -36,6 +40,10 @@ function resolveGoogleSiteVerification(): string {
   return publicEnv('PUBLIC_GSC_VERIFICATION');
 }
 
+function resolveContactEmail(): string {
+  return publicEnv('PUBLIC_CONTACT_EMAIL') || DEFAULT_CONTACT_EMAIL;
+}
+
 export const siteConfig = {
   /** Public site name shown in UI, titles, and Organization schema */
   siteName: 'PetCalc Tools',
@@ -46,8 +54,11 @@ export const siteConfig = {
    * Set via `PUBLIC_SITE_URL` at build time (Workers Builds / local `.env`).
    */
   siteUrl: resolveSiteUrl(),
-  /** Primary contact mailbox (mailto on Contact page) */
-  contactEmail: 'hello@petcalctools.example',
+  /**
+   * Primary contact mailbox (Contact page, footer, privacy/terms, Organization JSON-LD).
+   * Override with `PUBLIC_CONTACT_EMAIL` at build time; defaults to `DEFAULT_CONTACT_EMAIL`.
+   */
+  contactEmail: resolveContactEmail(),
   /** ISO date used for lastmod / "Last updated" defaults (YYYY-MM-DD) */
   buildDate: '2026-10-19',
   /** Tagline for homepage and meta fallbacks */
