@@ -6,7 +6,7 @@
  */
 
 /** Used when `PUBLIC_SITE_URL` is unset (local builds / audits). */
-export const FALLBACK_SITE_URL = 'https://www.petcalctools.example';
+export const FALLBACK_SITE_URL = 'https://pet-calculators.hammadiqbal117.workers.dev';
 
 /** Public contact mailbox when `PUBLIC_CONTACT_EMAIL` is unset. */
 export const DEFAULT_CONTACT_EMAIL = 'hammadiqbal117@gmail.com';
@@ -91,11 +91,15 @@ export const siteConfig = {
     name: 'PetCalc Editorial',
     role: 'Content team',
   },
-  /** Reviewer placeholder — replace with a real credentialed reviewer when available */
-  reviewerPlaceholder: {
-    name: '[Veterinary reviewer name]',
-    credentials: '[DVM / credential placeholder]',
-    note: 'Content pending independent veterinary review. Formulas cite published guidelines; they are not a substitute for clinical judgment.',
+  /**
+   * Named veterinary reviewer. Keep `null` until a real credentialed reviewer
+   * has checked pages — never invent names or credentials. When set, ReviewerBox
+   * shows "Reviewed by: {name}, {credentials}".
+   */
+  reviewerPlaceholder: null as null | {
+    name: string;
+    credentials: string;
+    note?: string;
   },
   /** Locale */
   locale: 'en_US',

@@ -3,7 +3,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { siteConfig, absoluteUrl } from '../config/site.ts';
 
 const description =
-  'Meet the PetCalc Tools editorial team and learn how veterinary reviewers are credited on calculators and guides across the site.';
+  'Who builds PetCalc Tools: an independent developer maintains the calculators and guides, with formulas sourced from cited veterinary references.';
+
+const reviewer = siteConfig.reviewerPlaceholder;
+const hasRealReviewer = Boolean(
+  reviewer &&
+    reviewer.name.trim() &&
+    reviewer.credentials.trim() &&
+    !/\[[^\]]*\]/.test(`${reviewer.name}${reviewer.credentials}`),
+);
 
 const jsonLd = [
   {
@@ -30,8 +38,8 @@ const jsonLd = [
   <header class="hero">
     <h1>Authors and reviewers</h1>
     <p class="lead">
-      Calculators and guides on {siteConfig.siteName} are written by our editorial team and are intended to be reviewed
-      by credentialed veterinary professionals. This page explains who is responsible for what.
+      {siteConfig.siteName} is built and maintained by an independent developer. Calculators and guides cite published
+      veterinary sources; they are educational tools, not clinical advice.
     </p>
   </header>
 
@@ -39,20 +47,33 @@ const jsonLd = [
     <h2>{siteConfig.defaultAuthor.name}</h2>
     <p><strong>Role:</strong> {siteConfig.defaultAuthor.role}</p>
     <p>
-      The editorial team researches published veterinary guidelines, translates formulas into working calculators, writes
-      the explanations, and checks every number against a cited source. The team's background is in science writing and
-      software, not clinical practice, which is why we cite primary guidance throughout and ask for professional review.
-      [Author bio placeholder: add editor names, relevant experience, and a headshot here before launch.]
+      This site is built and maintained by an independent developer. Formulas are implemented from cited references
+      (such as NRC, AAHA, WSAVA, AAFCO, AAFP, ASPCA, and the MSD Veterinary Manual), explained in plain language, and
+      checked against the published numbers in those sources. The maintainer is not a veterinarian; clinical decisions
+      always belong with a licensed professional and the individual animal.
+    </p>
+    <p>
+      Questions, corrections, or source suggestions: <a href={`mailto:${siteConfig.contactEmail}`}>{siteConfig.contactEmail}</a>
+      or the <a href="/contact/">contact page</a>.
     </p>
 
-    <h2>Veterinary reviewer</h2>
-    <p>
-      <strong>{siteConfig.reviewerPlaceholder.name}</strong>, {siteConfig.reviewerPlaceholder.credentials}
-    </p>
-    <p>
-      [Reviewer bio placeholder: add the reviewer's name, licensure, clinic or institution, areas of focus, and the pages they have reviewed.]
-      {siteConfig.reviewerPlaceholder.note}
-    </p>
+    <h2>Veterinary review</h2>
+    {
+      hasRealReviewer && reviewer ? (
+        <>
+          <p>
+            <strong>{reviewer.name}</strong>, {reviewer.credentials}
+          </p>
+          {reviewer.note ? <p>{reviewer.note}</p> : null}
+        </>
+      ) : (
+        <p>
+          No named veterinary reviewer is credited on these pages yet. Content is checked for accuracy against the
+          published sources listed on each page and on the <a href="/methodology/">methodology</a> page. Licensed
+          veterinarians who want to review a page are welcome to get in touch.
+        </p>
+      )
+    }
 
     <h2>Editorial standards</h2>
     <ul>
@@ -65,7 +86,8 @@ const jsonLd = [
     <h2>Become a reviewer</h2>
     <p>
       Licensed veterinarians, veterinary technicians, and board-certified nutritionists who would like to review pages
-      can reach us through the <a href="/contact/">contact page</a>. Reviewers are credited by name on the pages they check.
+      can reach us at <a href={`mailto:${siteConfig.contactEmail}`}>{siteConfig.contactEmail}</a> or through the
+      <a href="/contact/">contact page</a>. Reviewers are credited by name on the pages they check.
     </p>
   </div>
 </BaseLayout>

@@ -49,7 +49,7 @@ Copied into `dist/` and applied by Workers static assets:
 - Detach headers with `! Header-Name` (never an empty value — Cloudflare rejects empty header values).
 - `_redirects` is **path-only** with numeric status codes (`301`). No host-based rules and no Netlify `301!` syntax (unsupported on Workers). Apex→www belongs in a Cloudflare Redirect Rule / Bulk Redirects when a custom domain is attached.
 - Site-wide CSP allows `googletagmanager.com` / `google-analytics.com` (and AdSense hosts) so GA4 works when `PUBLIC_GA4_MEASUREMENT_ID` is set. `/embed/*` replaces CSP with `frame-ancestors *` and detaches `X-Frame-Options`.
-- Version preview hosts `https://:version.:subdomain.workers.dev/*` get `X-Robots-Tag: noindex`. Do **not** noindex the production `*.workers.dev` hostname while it is the canonical `PUBLIC_SITE_URL`.
+- Do **not** add a host-based `X-Robots-Tag: noindex` for `*.workers.dev` in `public/_headers` while the production canonical is `*.workers.dev` — Cloudflare’s `:version.:subdomain.workers.dev` pattern also matches the production hostname and would de-index the live site. Preview/noindex belongs in a Cloudflare dashboard rule scoped to version hosts only, or wait until a custom domain is the canonical.
 
 Local check: `PUBLIC_SITE_URL=… npm run build && npx wrangler deploy --dry-run`.
 
