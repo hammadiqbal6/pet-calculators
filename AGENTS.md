@@ -189,6 +189,7 @@ Node `>= 22.22.0` is required (`engines`). If `node` is missing from `PATH`, use
 | `npm run check:links` | Broken internal links, assets and fragments (`-- --external` also checks outbound links) |
 | `npm run audit` | `build` + `test` + all audits above |
 | `npm run lhci` | Lighthouse CI (mobile): Perf >= 95, LCP <= 2.5 s, CLS <= 0.1, TBT <= 200 ms (build first; set `CHROME_PATH` if Chrome is not found) |
+| `npm run proof` | Regenerate committed evidence under `docs/proof/` (audits, Lighthouse HTML/JSON, screenshots, JSON-LD extract) |
 | `AUDIT_PROD=1 npm run audit` | Same as `audit` but placeholder domain/reviewer/IndexNow become errors; use for the production deploy |
 
 Audit flags: `--strict` (or `AUDIT_STRICT=1`) turns warnings into errors; `AUDIT_DIST=/path` audits another build; budget limits can be overridden with `BUDGET_*` env vars (see `scripts/audit/budgets.mjs`). Audit output groups findings by code; each finding names the route or file.
@@ -213,6 +214,7 @@ Astro docs for routing, components and content: <https://docs.astro.build>.
 ## 12. Git and PR conventions
 
 - Small, logical commits; imperative subject ("Add dog food transition calculator").
-- Run `npm run audit` before pushing; CI (`.github/workflows/ci.yml`) re-runs tests, audits and Lighthouse.
+- Run `npm run audit` before pushing; CI (`.github/workflows/ci.yml`) re-runs tests, audits, Lighthouse, and `npm run proof` (artifact upload).
+- Committed proof bundle: [docs/proof/README.md](docs/proof/README.md) — regenerate with `npm run proof`, do not hand-edit.
 - Do not commit `dist/`, `.astro/`, `.lighthouseci/` or `node_modules/` (all ignored).
 - Do not change `docs/MARKET-RESEARCH.md`, `docs/SEO-PLAYBOOK.md` or `docs/ideas/*` without an explicit instruction; add dated notes in the operational docs instead.
