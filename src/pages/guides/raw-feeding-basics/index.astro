@@ -1,0 +1,192 @@
+---
+import GuidePageShell from '../../../components/GuidePageShell.astro';
+
+const faq = [
+  {
+    q: 'Is raw feeding safer or healthier than kibble?',
+    a: 'There is no clear evidence that raw diets are healthier for the average healthy dog. Raw meat can carry bacteria such as Salmonella and Listeria that sicken pets and people. If you choose raw feeding, use strict hygiene, veterinary oversight, and a balanced recipe—not random meat from the grocery store.',
+  },
+  {
+    q: 'What is the difference between BARF and prey-model raw feeding?',
+    a: 'BARF (biologically appropriate raw food) typically includes muscle meat, bone, organ meat, vegetables, and sometimes supplements in set ratios. Prey-model feeding mimics whole prey with roughly 80% muscle, 10% bone, and 10% organ, often without plant ingredients. Both require planning to meet AAFCO-style nutrient profiles.',
+  },
+  {
+    q: 'Can I feed raw chicken bones to my dog?',
+    a: 'Many raw feeders use raw, meaty bones that are soft enough to chew, but bones always carry choking, tooth fracture, and obstruction risks. Cooked bones are more brittle and should never be fed. Ask your veterinarian whether bone is appropriate for your dog’s size, chewing style, and dental health.',
+  },
+  {
+    q: 'Does the FDA approve commercial raw pet food?',
+    a: 'The FDA regulates pet food as food, not drugs. Manufacturers must produce safe, truthfully labeled products, but “FDA approved” is not a label phrase for pet diets. Look for a nutritional adequacy statement backed by formulation or feeding trials, and review FDA guidance on raw pet food and pathogen risks.',
+  },
+  {
+    q: 'How do I know my homemade raw diet is complete?',
+    a: 'Work with a board-certified veterinary nutritionist or use a recipe validated for your dog’s life stage. Whole meat alone is not balanced. The homemade dog food calculator can estimate calories and portions, but it does not replace a formulated recipe with correct vitamin, mineral, and fatty acid levels.',
+  },
+  {
+    q: 'Should puppies eat raw diets?',
+    a: 'Growing puppies need precise calcium, phosphorus, and calorie control. Imbalanced raw diets have been linked to growth and orthopedic problems, especially in large breeds. Most veterinarians recommend a complete commercial puppy food unless a nutritionist designs a raw plan specifically for growth.',
+  },
+];
+
+const sources = [
+  {
+    title: 'WSAVA Global Nutrition Guidelines',
+    url: 'https://wsava.org/global-guidelines/global-nutrition-guidelines/',
+    publisher: 'WSAVA',
+  },
+  {
+    title: 'FDA: Get the Facts! Raw Pet Food Diets Can Be Dangerous to You and Your Pet',
+    url: 'https://www.fda.gov/animal-veterinary/animal-health-literacy/get-facts-raw-pet-food-diets-can-be-dangerous-you-and-your-pet',
+    publisher: 'FDA',
+  },
+  {
+    title: 'AAFCO: Understanding Pet Food',
+    url: 'https://www.aafco.org/consumers/understanding-pet-food/',
+    publisher: 'AAFCO',
+  },
+  {
+    title: 'NRC Nutrient Requirements of Dogs and Cats',
+    url: 'https://nap.nationalacademies.org/catalog/10668/nutrient-requirements-of-dogs-and-cats',
+    publisher: 'National Academies Press',
+  },
+  {
+    title: 'AVMA: Raw or Undercooked Animal-Source Protein in Cat and Dog Diets',
+    url: 'https://www.avma.org/resources-tools/avma-policies/raw-or-undercooked-animal-source-protein-cat-and-dog-diets',
+    publisher: 'AVMA',
+  },
+];
+---
+
+<GuidePageShell
+  slug="raw-feeding-basics"
+  title="Raw Feeding Basics for Dogs"
+  description="What BARF and prey-model feeding mean, nutritional risks, and how to use portion calculators safely."
+  answer="Raw feeding means giving dogs uncooked muscle meat, bone, and organ instead of—or mixed with—commercial kibble or canned food. It can work when a veterinary nutritionist balances the diet and you manage food safety, but unbalanced raw meals and bacterial contamination are real risks. Treat raw feeding as a medical-nutrition project, not a casual switch."
+  takeaways={[
+    'Raw diets must be nutritionally complete for your dog’s life stage—not just meat on a plate.',
+    'Salmonella and other pathogens can affect pets and people; hygiene matters in the kitchen.',
+    'BARF and prey-model are frameworks; both need correct ratios of meat, bone, organ, and micronutrients.',
+    'FDA and AVMA highlight pathogen and balance risks; WSAVA recommends consulting a nutrition expert for homemade food.',
+    'Use calculators for calories and portions, then verify the recipe with a professional.',
+    'Puppies, pregnant dogs, and immunocompromised households need extra caution.',
+  ]}
+  faq={faq}
+  sources={sources}
+>
+  <h2>What people mean by “raw feeding”</h2>
+  <p>
+    Raw feeding usually describes diets built from uncooked animal ingredients: muscle meat, edible bone,
+    organ meat such as liver and kidney, and sometimes eggs, fish, or small amounts of vegetables and
+    oils. Advocates argue that dogs evolved eating whole prey and that lightly processed food better
+    matches canine anatomy. Critics, including many veterinary groups, point to documented nutrient
+    deficiencies in ad hoc raw recipes and to bacteria that survive on raw meat. The debate is not
+    about whether dogs can chew raw food—they clearly can—but whether a given household can consistently
+    deliver a safe, complete diet.
+  </p>
+  <p>
+    Two labels dominate online forums. BARF-style diets add plant matter and supplements to approximate
+    a balanced profile. Prey-model feeders aim for an 80-10-10 split of muscle, bone, and organ without
+    much else. Both approaches require math: calcium and phosphorus must stay in the right ratio,
+    especially for puppies, and vitamins such as D, E, and B complex do not appear in adequate amounts
+    in muscle meat alone. WSAVA’s Global Nutrition Guidelines stress that homemade diets, raw or cooked,
+    should be formulated by someone trained in veterinary nutrition, not copied from a blog post.
+  </p>
+
+  <h2>How raw compares to commercial food</h2>
+  <p>
+    Complete and balanced dry or wet foods sold in the United States carry an AAFCO nutritional
+    adequacy statement, meaning the recipe meets published minimums (and some maximums) for dogs at a
+    stated life stage, either through laboratory analysis and formulation or through feeding trials.
+    That does not guarantee every brand is ideal for every dog, but it does mean someone calculated
+    iodine, zinc, copper, and dozens of other nutrients you cannot see in the bowl. Raw feeding shifts
+    that responsibility to you or your nutritionist.
+  </p>
+  <p>
+    Some owners feed raw for perceived benefits: smaller stools, shinier coat, or relief from mild
+    food sensitivities. Research is mixed, and perceived benefits often track with higher protein and
+    fewer fillers rather than rawness itself. Conversely, studies and surveillance reports have found
+    Salmonella, Listeria, and E. coli on commercial raw products and in home kitchens that prepare raw
+    meals. The FDA’s consumer guidance on raw pet food describes those risks for both pets and
+    immunocompromised people in the home. Freezing does not sterilize meat; it only slows bacteria.
+  </p>
+
+  <h2>Food safety rules that actually matter</h2>
+  <p>
+    If you handle raw meat for your dog, treat the kitchen like a clinic. Use separate cutting boards
+    and utensils, wash hands before touching human food, and disinfect counters after prep. Store thawing
+    meat on the lowest refrigerator shelf so drips do not contaminate other items. Discard leftovers
+    that sit at room temperature for more than an hour. Children, elderly adults, and anyone with a
+    weakened immune system should avoid handling raw pet food altogether when possible.
+  </p>
+  <ul>
+    <li>Thaw in the refrigerator, not on the counter.</li>
+    <li>Feed in a washable bowl; pick it up after the meal instead of leaving raw residue out.</li>
+    <li>Do not rinse raw meat in the sink; splashing spreads bacteria.</li>
+    <li>Wash your dog’s face and paws if they dive into a messy raw meal.</li>
+  </ul>
+  <p>
+    Tell your veterinarian that you feed raw. If your dog develops vomiting or diarrhea, mention diet
+    history; clinics may use special handling for fecal samples from raw-fed dogs. Routine fecal testing
+    for parasites is sensible because raw wild game and some meats can harbor worms.
+  </p>
+
+  <h2>Building a balanced plate</h2>
+  <p>
+    A common beginner mistake is feeding mostly lean muscle meat. That diet is high in protein but low
+    in calcium unless edible bone or a calibrated supplement provides it. Organ meats supply vitamins A
+    and B, but liver in excess can deliver too much vitamin A over time. Fish or fish oil may be needed
+    for omega-3 fatty acids depending on the rest of the recipe. The National Research Council’s Nutrient
+    Requirements of Dogs and Cats lists the targets formulators use; hitting them by eye is difficult.
+  </p>
+  <p>
+    Start with calories, not just percentages. An inactive 20 kg dog might need roughly 800 to 1,000 kcal
+    per day; a working dog needs more. The <a href="/tools/dog-food-calculator/">dog food calculator</a>
+    estimates daily energy from weight and activity so you do not overfeed dense raw blends. Then map
+    those calories onto your recipe’s ingredients. The
+    <a href="/tools/homemade-dog-food-calculator/">homemade dog food calculator</a> helps translate
+    ingredient weights into portion sizes once you have a vet-approved formula— it is a portion tool, not
+    a substitute for formulation.
+  </p>
+
+  <h2>Bones, teeth, and choking</h2>
+  <p>
+    Raw feeders often use raw meaty bones for dental chewing and calcium. Size must match the dog: a
+    bone should be large enough that the dog gnaws rather than swallowing it whole. Never feed cooked
+    poultry or pork bones; heat makes them splinter. Even appropriate raw bones can crack teeth,
+    especially in aggressive chewers. If your dog guards food, resolve that behavior before introducing
+    high-value raw items. When in doubt, ask your vet whether ground bone in the mix is safer than whole
+    pieces for your individual dog.
+  </p>
+
+  <h2>When raw is a poor fit</h2>
+  <p>
+    Households with toddlers crawling on floors where raw juice dripped, or with family members on
+    chemotherapy, should think carefully about pathogen exposure. Dogs with pancreatitis, certain kidney
+    conditions, or on immunosuppressive drugs may need cooked or prescription diets instead. Large-breed
+    puppies are particularly vulnerable to calcium excess or deficiency; growth should be managed with
+    precise formulas, often a commercial large-breed puppy food, unless a board-certified nutritionist
+    designs otherwise. Pregnant and nursing females have elevated needs that are easy to miss on an
+    improvised raw menu.
+  </p>
+
+  <h2>Practical path if you still want to try</h2>
+  <p>
+    First, book a consultation with a veterinary nutritionist (many offer telemedicine) and bring your
+    dog’s weight, body condition score, and lab work if available. Second, choose either a commercial
+    raw product that bears a complete-and-balanced statement for your dog’s life stage, or a custom
+    recipe you follow exactly—no swapping proteins weekly without recalculating. Third, run a
+    three-month check-in: weigh the dog, review stool quality, and adjust calories using the calculators
+    linked above. Fourth, stay open to hybrid feeding; some owners feed raw once daily and kibble once,
+    which still demands balance across the day but may reduce prep load.
+  </p>
+
+  <h2>Bottom line</h2>
+  <p>
+    Raw feeding basics are really food-safety and nutrition basics. Dogs can thrive on well-designed raw
+    diets and on well-designed kibble; they can suffer on poorly planned versions of either. Read FDA
+    and WSAVA guidance with an open mind, insist on completeness the way AAFCO statements do for
+    commercial food, and use our tools for energy math while a professional handles the micronutrients.
+    That combination is slower than buying a bag of food, but it is the difference between a hobby and
+    a diet your dog can live on for years.
+  </p>
+</GuidePageShell>

@@ -1,0 +1,12 @@
+
+> pet-calculators@0.0.1 test
+> vitest run
+
+
+ RUN  v5.0.5 /workspace
+
+
+ Test Files  1 passed (1)
+      Tests  21 passed (21)
+   Start at  06:46:46
+   Duration  111ms (import 38%, transform 36%, tests 19%, worker 7%)

@@ -1,0 +1,157 @@
+---
+import ToolPageShell from '../../../components/ToolPageShell.astro';
+import CatFoodCalc from '../../../components/calculators/CatFoodCalc.astro';
+
+const faq = [
+  {
+    q: 'How many calories does a cat need per day?',
+    a: 'A typical neutered adult indoor cat needs roughly 1.2 × RER. For a 4.5 kg (10 lb) cat that is about 250 kcal per day. Kittens, active cats, and cats on a weight-loss plan differ, and individual cats can vary by 20 percent or more.',
+  },
+  {
+    q: 'How much wet or dry food is that?',
+    a: 'Divide daily calories by the food’s kcal per cup, per can, or per 100 g. Wet foods are often 70 to 100 kcal per 3 oz can; dry foods range from about 300 to 500 kcal per cup. Always use the label values for your food.',
+  },
+  {
+    q: 'Is wet food better than dry food for cats?',
+    a: 'Wet food adds water and is often lower in carbohydrate and calories per volume, which can help with hydration and weight control. Dry food is convenient and can be a complete diet. Both work if the food is complete and balanced and portions are controlled.',
+  },
+  {
+    q: 'How often should I feed my cat?',
+    a: 'Most adult cats do well with two to four small meals a day, though many veterinarians favor measured meals or puzzle feeders over unlimited free feeding in cats prone to weight gain. Kittens eat more frequently.',
+  },
+  {
+    q: 'My cat is overweight. How fast should it lose weight?',
+    a: 'Slowly. A target of roughly 0.5 to 2 percent of body weight per week is commonly cited. Rapid fasting in cats can cause hepatic lipidosis, a serious liver condition, so always plan weight loss with your vet.',
+  },
+  {
+    q: 'Are cats obligate carnivores?',
+    a: 'Yes. Cats have requirements that must be met by animal-sourced nutrients, including taurine and certain fatty acids and vitamins, and need higher dietary protein than dogs. Do not feed a dog food as a cat’s main diet.',
+  },
+];
+
+const sources = [
+  {
+    title: 'NRC Nutrient Requirements of Dogs and Cats',
+    url: 'https://nap.nationalacademies.org/catalog/10668/nutrient-requirements-of-dogs-and-cats',
+    publisher: 'National Academies Press',
+  },
+  {
+    title: 'WSAVA Global Nutrition Guidelines',
+    url: 'https://wsava.org/global-guidelines/global-nutrition-guidelines/',
+    publisher: 'WSAVA',
+  },
+  {
+    title: 'AAHA Nutrition and Weight Management Guidelines',
+    url: 'https://www.aaha.org/resources/2021-aaha-nutrition-and-weight-management-guidelines/',
+    publisher: 'AAHA',
+  },
+  {
+    title: 'AAFP/AAHA Feline Life Stage Guidelines',
+    url: 'https://www.aaha.org/resources/2021-aaha-aafp-feline-life-stage-guidelines/',
+    publisher: 'AAHA / AAFP',
+  },
+];
+---
+
+<ToolPageShell
+  slug="cat-food-calculator"
+  title="Cat Food Calculator: Daily Calories & Cups"
+  description="Free cat food calculator: estimate daily kcal and cups from weight, life stage, and goals such as weight loss. Based on RER and NRC factors."
+  answer="A cat food calculator estimates how many calories your cat needs each day from its weight and life stage, then converts that into cups or cans of your food. A neutered adult cat usually needs about 1.2 times its resting energy requirement, or roughly 20 kcal per pound of body weight."
+  takeaways={[
+    'Neutered adult cats need about 1.2 × RER; kittens about 2.5 ×.',
+    'Convert calories to cups using the kcal per cup printed on your food.',
+    'Measure meals; free feeding makes weight gain easy.',
+    'Weight loss should be gradual and planned with a vet.',
+    'Recheck weight and body condition monthly and adjust by about 10%.',
+  ]}
+  faq={faq}
+  sources={sources}
+>
+  <CatFoodCalc slot="calculator" />
+
+  <h2>How to use the cat food calculator</h2>
+  <ol>
+    <li>Weigh your cat. A bathroom scale works if you weigh yourself with and without the cat.</li>
+    <li>Choose the life stage or goal: kitten, neutered adult, intact adult, senior, weight loss, or weight gain.</li>
+    <li>Enter the kcal per cup from your food’s label. For canned food, use kcal per can and convert, or use grams.</li>
+    <li>Read the daily calorie target and the amount of food, then divide it into meals.</li>
+  </ol>
+
+  <h2>The formula</h2>
+  <p>
+    The calculation starts with Resting Energy Requirement, <code>RER = 70 × (weight in kg)^0.75</code>,
+    and multiplies it by a factor for life stage and body-condition goals. This tool uses commonly
+    taught factors based on NRC and veterinary nutrition education:
+  </p>
+  <table>
+    <thead>
+      <tr><th>Stage or goal</th><th>Multiplier on RER</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Kitten</td><td>2.5</td></tr>
+      <tr><td>Intact adult</td><td>1.4</td></tr>
+      <tr><td>Neutered adult</td><td>1.2</td></tr>
+      <tr><td>Weight loss</td><td>0.8</td></tr>
+      <tr><td>Weight gain</td><td>1.4</td></tr>
+      <tr><td>Senior</td><td>1.1</td></tr>
+    </tbody>
+  </table>
+  <p>
+    These multipliers apply to a healthy cat’s <em>ideal</em> weight for weight-loss calculations. If
+    your cat is overweight, using current weight will overshoot; ask your vet for a target weight.
+  </p>
+
+  <h2>Worked example</h2>
+  <p>
+    A neutered adult cat at 4.5 kg (about 10 lb): RER = 70 × 4.5^0.75 ≈ 216 kcal. At 1.2 × RER the
+    target is about <strong>259 kcal per day</strong>. With a dry food containing 380 kcal per cup,
+    that is roughly <strong>0.7 cups</strong> per day, or a little over a third of a cup at each of two
+    meals. If you swap in a wet food at 80 kcal per can, the same cat needs about three cans. Many
+    owners mix both; just count total calories.
+  </p>
+
+  <h2>Wet, dry, and mixed feeding</h2>
+  <p>
+    Neither format is inherently best. Wet food contributes water, which may help cats that drink
+    little, and many wet foods are lower in carbohydrate. Dry food is calorie-dense, convenient, and
+    easy to portion with a puzzle feeder. The important parts are that the food is labeled
+    <em>complete and balanced</em> for your cat’s life stage under an AAFCO or equivalent standard,
+    and that portions are measured. A kitchen gram scale is more accurate than a scoop; scoops can
+    vary by 20 percent or more depending on how they are filled.
+  </p>
+
+  <h2>Why cats need different food from dogs</h2>
+  <p>
+    Cats are obligate carnivores. They need taurine, arachidonic acid, preformed vitamin A, and more
+    dietary protein than dogs do. Feeding dog food as a primary diet can lead to deficiencies, with
+    taurine deficiency historically causing heart disease and blindness. Our
+    <a href="/tools/dog-food-calculator/">dog food calculator</a> uses different multipliers for that
+    reason, and the results are not interchangeable. For a broader overview see the
+    <a href="/guides/cat-feeding-guide/">cat feeding guide</a>.
+  </p>
+
+  <h2>Monitoring body condition</h2>
+  <p>
+    Weigh monthly and use a body condition score. An ideal cat has ribs that are easy to feel with a
+    light layer of fat, a visible waist from above, and a slight abdominal tuck. A saggy belly pad
+    is common in healthy cats and does not by itself mean overweight, but ribs you cannot feel do.
+    If weight shifts by more than 10 percent without explanation, or your cat eats much more or less
+    than usual, call your veterinarian: weight changes can be early signs of diabetes, hyperthyroidism,
+    kidney disease, or dental pain.
+  </p>
+
+  <h2>Common mistakes</h2>
+  <ul>
+    <li>Feeding by the bag chart without adjusting for neutering and activity level.</li>
+    <li>Forgetting calories from treats, toppers, and shared human food.</li>
+    <li>Putting an overweight cat on a crash diet.</li>
+    <li>Switching foods abruptly; transition over a week.</li>
+    <li>Assuming one cup always equals the same calories across brands.</li>
+  </ul>
+
+  <p>
+    You can also estimate your cat’s life stage with the <a href="/tools/cat-age-calculator/">cat age
+    calculator</a>, which helps decide whether kitten, adult, or senior formulas are appropriate.
+  </p>
+</ToolPageShell>

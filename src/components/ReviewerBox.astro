@@ -1,0 +1,12 @@
+---
+import { siteConfig } from '../config/site.ts';
+
+const reviewer = siteConfig.reviewerPlaceholder;
+---
+
+<aside class="reviewer-box" aria-label="Medical review status">
+  <p>
+    <strong>Reviewed by:</strong> {reviewer.name}, {reviewer.credentials}
+  </p>
+  <p>{reviewer.note}</p>
+</aside>

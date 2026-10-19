@@ -1,0 +1,147 @@
+---
+import ToolPageShell from '../../../components/ToolPageShell.astro';
+import WaterIntakeCalc from '../../../components/calculators/WaterIntakeCalc.astro';
+
+const faq = [
+  {
+    q: 'How much water should a dog drink per day?',
+    a: 'A common teaching range for healthy adult dogs is about 50 to 60 mL per kilogram of body weight per day, or roughly one ounce per pound. A 20 kg (44 lb) dog would drink about 1.0 to 1.2 liters, which is around four to five cups.',
+  },
+  {
+    q: 'Does dry food change how much a dog drinks?',
+    a: 'Yes. Dogs on dry kibble usually drink more than dogs on wet or fresh food, because kibble contains about 10 percent moisture while wet food is around 75 percent. The calculator’s range is for total intake from drinking and food moisture in typical home conditions.',
+  },
+  {
+    q: 'What is excessive thirst in dogs?',
+    a: 'Veterinarians often use more than about 100 mL per kg per day as a flag for polydipsia, although individual dogs vary. A sustained increase over several days is a reason to call your vet, even if the number is below that threshold.',
+  },
+  {
+    q: 'Why is my dog suddenly drinking much more?',
+    a: 'Causes include diabetes, kidney disease, Cushing’s disease, infections such as pyometra or urinary tract infections, liver disease, and some medications. Hot weather and exercise also matter. Sudden or sustained change deserves a vet visit.',
+  },
+  {
+    q: 'Should I restrict my dog’s water?',
+    a: 'Not unless your vet instructs you to. Dogs need constant access to fresh water. Short-term limits for specific medical situations or house training should be done only with veterinary advice.',
+  },
+  {
+    q: 'How do I know if my dog is dehydrated?',
+    a: 'Signs include dry or tacky gums, sunken eyes, lethargy, reduced skin elasticity, and thick saliva. Severe dehydration is an emergency. Call a vet if your dog is vomiting, has diarrhea, or refuses to drink.',
+  },
+];
+
+const sources = [
+  {
+    title: 'NRC Nutrient Requirements of Dogs and Cats (water requirements)',
+    url: 'https://nap.nationalacademies.org/catalog/10668/nutrient-requirements-of-dogs-and-cats',
+    publisher: 'National Academies Press',
+  },
+  {
+    title: 'Merck Veterinary Manual: Water requirements of small animals',
+    url: 'https://www.merckvetmanual.com/management-and-nutrition/nutrition-small-animals/nutrition-in-small-animals',
+    publisher: 'Merck Veterinary Manual',
+  },
+  {
+    title: 'AAHA Nutrition and Weight Management Guidelines',
+    url: 'https://www.aaha.org/resources/2021-aaha-nutrition-and-weight-management-guidelines/',
+    publisher: 'AAHA',
+  },
+];
+---
+
+<ToolPageShell
+  slug="dog-water-intake-calculator"
+  title="Dog Water Intake Calculator"
+  description="Estimate how much water your dog should drink per day by weight and activity. Sudden changes in thirst warrant a vet visit."
+  answer="A healthy adult dog typically drinks about 50 to 60 milliliters of water per kilogram of body weight per day, roughly one fluid ounce per pound. This calculator adjusts that range for activity, heat, and lactation. A sustained increase in thirst is a reason to call your veterinarian."
+  takeaways={[
+    'Typical range: about 50–60 mL per kg per day (about 1 oz per lb).',
+    'Heat, exercise, dry food, and lactation raise needs.',
+    'Sustained thirst above about 100 mL/kg/day warrants a vet visit.',
+    'Always leave fresh water available; do not restrict without vet advice.',
+    'Track changes in your own dog; the trend matters more than the average.',
+  ]}
+  faq={faq}
+  sources={sources}
+>
+  <WaterIntakeCalc slot="calculator" />
+
+  <h2>How to use the dog water intake calculator</h2>
+  <ol>
+    <li>Enter your dog’s weight in pounds or kilograms.</li>
+    <li>Choose the activity or condition: normal, active, hot climate, or lactating.</li>
+    <li>Read the daily range in milliliters, liters, and cups.</li>
+    <li>For one to two days, measure how much your dog actually drinks and compare it with the range.</li>
+  </ol>
+
+  <h2>The numbers behind the estimate</h2>
+  <p>
+    Water needs are often taught as a multiple of body weight. A rule of thumb for healthy adult
+    dogs is about 50 to 60 mL per kilogram per day, which is similar to one fluid ounce per pound.
+    This tool applies the following ranges:
+  </p>
+  <table>
+    <thead>
+      <tr><th>Condition</th><th>mL per kg per day</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Normal</td><td>50–60</td></tr>
+      <tr><td>Active</td><td>60–80</td></tr>
+      <tr><td>Hot climate</td><td>70–100</td></tr>
+      <tr><td>Lactating</td><td>80–120</td></tr>
+    </tbody>
+  </table>
+  <p>
+    These ranges are teaching estimates rather than precise requirements. The NRC notes that dogs
+    regulate water by thirst and that intake varies with diet, temperature, and activity. Cups here
+    are 240 mL.
+  </p>
+
+  <h2>Worked example</h2>
+  <p>
+    A 25 kg (55 lb) dog on a normal day: 25 × 50 = 1,250 mL and 25 × 60 = 1,500 mL, so the range is
+    <strong>1.25–1.5 liters</strong>, or about 5 to 6.25 cups. On a hot summer hike with more
+    activity, the range becomes 25 × 70 to 25 × 100, or <strong>1.75–2.5 liters</strong>. You can
+    measure actual intake by filling the bowl to a marked level in the morning and measuring what
+    remains 24 hours later, adding what was drunk elsewhere such as on walks.
+  </p>
+
+  <h2>What changes how much a dog drinks</h2>
+  <ul>
+    <li><strong>Diet:</strong> kibble is dry; dogs on wet, raw, or fresh diets get a lot of water from the food and drink less from the bowl.</li>
+    <li><strong>Weather and exercise:</strong> heat and panting increase water loss.</li>
+    <li><strong>Salt and treats:</strong> salty snacks make dogs thirsty.</li>
+    <li><strong>Life stage:</strong> puppies and nursing mothers need more per unit of body weight.</li>
+    <li><strong>Medications:</strong> steroids and diuretics increase thirst and urination.</li>
+  </ul>
+
+  <h2>When increased thirst is a medical sign</h2>
+  <p>
+    Excessive drinking (polydipsia) and urination (polyuria) are classic signs of diabetes mellitus,
+    chronic kidney disease, Cushing’s disease, liver disease, and infections such as pyometra in
+    unspayed females. Many veterinarians use roughly 100 mL per kg per day as a flag, but a steady
+    climb from your dog’s own normal is just as important. If your dog is waking you at night to
+    drink or having new accidents in the house, mention it to your vet and bring a record of
+    how much your dog drinks.
+  </p>
+
+  <h2>Keeping your dog hydrated</h2>
+  <p>
+    Offer fresh, clean water at all times and wash the bowl daily. Bring water on walks, and on hot
+    days avoid strenuous exercise in peak heat. Heatstroke is an emergency: heavy panting, drooling,
+    weakness, or collapse need immediate veterinary care. Dogs that refuse to drink, or that are
+    vomiting or have diarrhea, can dehydrate quickly. A dog’s water and calorie needs are related,
+    so also use the <a href="/tools/dog-food-calculator/">dog food calculator</a> to check feeding
+    and the <a href="/tools/dog-bmi-calculator/">body condition helper</a> to monitor weight.
+  </p>
+
+  <h2>Practical tips for measuring intake</h2>
+  <p>
+    Measuring is easier than it sounds. Use a measuring cup to fill the bowl each morning, note
+    the amount, and measure what remains the next day. In multi-pet homes, temporarily separate
+    your dog at mealtimes or use a microchip-activated bowl so the numbers mean something. Two
+    or three days of records are enough to establish a baseline. If you see a change of more than
+    about 25 percent that lasts several days, bring the log to your vet. Remember too that
+    a dog that eats wet food, fresh food, or lots of vegetables will look like it drinks very
+    little from the bowl, and that is normal.
+  </p>
+</ToolPageShell>

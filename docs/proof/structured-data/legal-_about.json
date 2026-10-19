@@ -1,0 +1,34 @@
+{
+  "route": "/about/",
+  "type": "legal",
+  "blocks": [
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "PetCalc Tools",
+      "url": "https://www.petcalctools.example/",
+      "logo": "https://www.petcalctools.example/favicon.svg",
+      "email": "hello@petcalctools.example"
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "PetCalc Tools",
+      "url": "https://www.petcalctools.example/",
+      "description": "Free pet calculators for dogs and cats — weight, food, age, and more.",
+      "inLanguage": "en-US"
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "About",
+          "item": "https://www.petcalctools.example/about/"
+        }
+      ]
+    }
+  ]
+}

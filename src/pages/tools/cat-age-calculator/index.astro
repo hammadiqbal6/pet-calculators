@@ -1,0 +1,146 @@
+---
+import ToolPageShell from '../../../components/ToolPageShell.astro';
+import CatAgeCalc from '../../../components/calculators/CatAgeCalc.astro';
+
+const faq = [
+  {
+    q: 'How old is a 1-year-old cat in human years?',
+    a: 'About 15 human years. Cats mature rapidly: a six-month-old kitten is roughly comparable to a 10-year-old child, and a two-year-old cat to a person in their mid-20s.',
+  },
+  {
+    q: 'Is there a “cat years” formula?',
+    a: 'Veterinary education charts use 15 human years for the first year, 9 for the second, and about 4 for each year after that. It is an approximation for communication, not a biological law.',
+  },
+  {
+    q: 'What are the feline life stages?',
+    a: 'The AAFP/AAHA Feline Life Stage Guidelines define kitten (birth to 1 year), young adult (1–6), mature adult (7–10), senior (11–14 in this tool), and geriatric (15+). Exact labels vary slightly between sources.',
+  },
+  {
+    q: 'When should my cat start senior health screening?',
+    a: 'Many veterinarians recommend exams at least twice a year from around age 10, with bloodwork, blood pressure, and weight monitoring. Cats hide illness well, so regular checks catch kidney disease, hyperthyroidism, and dental disease early.',
+  },
+  {
+    q: 'Do indoor cats live longer than outdoor cats?',
+    a: 'On average, yes. Indoor cats avoid traffic, fights, and many infectious diseases, and often live well into their mid-to-late teens. The calculator does not adjust for lifestyle; it only maps age to life stage.',
+  },
+  {
+    q: 'How can I tell my cat’s age if it is a rescue?',
+    a: 'A vet can estimate age from teeth, eyes, coat, and joint condition. Estimates are more reliable for kittens and young adults than for older cats.',
+  },
+];
+
+const sources = [
+  {
+    title: 'AAFP/AAHA Feline Life Stage Guidelines',
+    url: 'https://www.aaha.org/resources/2021-aaha-aafp-feline-life-stage-guidelines/',
+    publisher: 'AAHA / AAFP',
+  },
+  {
+    title: 'AAFP Senior Care Guidelines',
+    url: 'https://catvets.com/guidelines/practice-guidelines/senior-care-guidelines',
+    publisher: 'American Association of Feline Practitioners',
+  },
+  {
+    title: 'Cornell Feline Health Center: Caring for a senior cat',
+    url: 'https://www.vet.cornell.edu/departments-centers-and-institutes/cornell-feline-health-center',
+    publisher: 'Cornell University',
+  },
+];
+---
+
+<ToolPageShell
+  slug="cat-age-calculator"
+  title="Cat Age Calculator: Human Years & Stage"
+  description="Convert your cat’s age to human years and see its AAFP/AAHA-style life stage, from kitten to geriatric. Free and private."
+  answer="A cat age calculator converts your cat’s age into approximate human years and a veterinary life stage. A cat reaches about 15 human years at one, 24 at two, and then gains roughly four human years for every calendar year, following the life-stage framework used by AAFP and AAHA."
+  takeaways={[
+    'Year one equals about 15 human years; year two adds about 9 more.',
+    'After two years, each cat year is roughly four human years.',
+    'Life stage, not the human number, should guide vet visits and diet.',
+    'Cats hide illness, so senior screening matters from about 10 years.',
+    'Treat conversions as communication tools, not medical measurements.',
+  ]}
+  faq={faq}
+  sources={sources}
+>
+  <CatAgeCalc slot="calculator" />
+
+  <h2>How to use the cat age calculator</h2>
+  <ol>
+    <li>Enter your cat’s age in years. Use decimals for kittens (0.5 for six months).</li>
+    <li>Read the approximate human-year equivalent.</li>
+    <li>Check the life stage label and the care notes that go with it.</li>
+    <li>If your cat is a rescue of unknown age, ask your vet for an age estimate first.</li>
+  </ol>
+
+  <h2>How cat years convert to human years</h2>
+  <p>
+    The conversion used here follows the most common veterinary education chart. The first year of a
+    cat’s life is worth about 15 human years because kittens reach adult size and sexual maturity
+    within the first year. The second year adds about nine. From the third year on, aging slows to
+    roughly four human years per calendar year. Using that rule:
+  </p>
+  <table>
+    <thead>
+      <tr><th>Cat age</th><th>Human equivalent</th><th>Life stage (tool)</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>6 months</td><td>~7.5 years</td><td>Kitten</td></tr>
+      <tr><td>1 year</td><td>15</td><td>Prime / adult</td></tr>
+      <tr><td>2 years</td><td>24</td><td>Prime / adult</td></tr>
+      <tr><td>5 years</td><td>36</td><td>Prime / adult</td></tr>
+      <tr><td>8 years</td><td>48</td><td>Mature</td></tr>
+      <tr><td>12 years</td><td>64</td><td>Senior</td></tr>
+      <tr><td>16 years</td><td>80</td><td>Geriatric</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Feline life stages</h2>
+  <p>
+    The AAFP and AAHA Feline Life Stage Guidelines group cats into kitten, young adult, mature adult,
+    senior, and end-of-life stages. This tool labels them in plain language as kitten, junior, prime
+    adult, mature, senior, and geriatric, with boundaries at about 6 months, 1 year, 7 years, 11
+    years, and 15 years. The purpose of the stages is to set expectations about nutrition, preventive
+    care, and what changes to watch for. Boundaries are not hard lines: some cats are still athletic
+    at 14, while others develop disease at 9.
+  </p>
+
+  <h2>What care looks like at each stage</h2>
+  <ul>
+    <li><strong>Kitten:</strong> vaccination series, deworming, spay or neuter planning, kitten food, and socialization.</li>
+    <li><strong>Junior and prime adult:</strong> annual exams, dental checks, weight management, and enrichment. Neutered adults are prone to weight gain; use the <a href="/tools/cat-food-calculator/">cat food calculator</a> to set a calorie target.</li>
+    <li><strong>Mature:</strong> start watching for subtle changes such as drinking more, sleeping differently, or changes in litter box habits.</li>
+    <li><strong>Senior:</strong> exams twice a year, bloodwork, thyroid and kidney screening, blood pressure, and a pain check for arthritis.</li>
+    <li><strong>Geriatric:</strong> comfort and quality of life, soft bedding, accessible litter boxes, and appetite support.</li>
+  </ul>
+
+  <h2>Worked example</h2>
+  <p>
+    A 10-year-old cat: 24 + (10 − 2) × 4 = <strong>56 human years</strong>. That places the cat in
+    the mature stage, about one year before the tool’s senior boundary. It is a good time to book a
+    baseline senior workup, since early kidney disease or hyperthyroidism is easier to manage when
+    found early.
+  </p>
+
+  <h2>Limits of any age conversion</h2>
+  <p>
+    Cats vary less in size than dogs, but genetics, diet, indoor or outdoor lifestyle, and dental and
+    kidney health all affect how long and how well a cat lives. A well-kept indoor cat of 18 is not
+    rare. Because the conversion is just a communication shortcut, it is best used to set
+    expectations for care rather than to predict lifespan. If you are comparing species, try the
+    <a href="/tools/dog-age-calculator/">dog age calculator</a> and read about the
+    <a href="/guides/dog-years-myth/">dog years myth</a> to see why a single multiplier doesn’t work
+    for either animal.
+  </p>
+
+  <h2>Signs your cat is entering its senior years</h2>
+  <p>
+    Age is only a guide; behavior tells you more. Watch for weight loss despite a good appetite
+    (a classic sign of hyperthyroidism), increased drinking and urination (kidney disease or
+    diabetes), bad breath and drooling (dental disease), stiffness when jumping, hiding, or
+    changes in litter box habits. Each of these is easier and cheaper to manage when caught
+    early, which is why many vets recommend a baseline blood panel and blood pressure
+    check around age seven to ten, even in a cat that looks perfectly well. Keep a note of
+    your cat’s weight at each visit; a drop of even half a pound matters in a small animal.
+  </p>
+</ToolPageShell>

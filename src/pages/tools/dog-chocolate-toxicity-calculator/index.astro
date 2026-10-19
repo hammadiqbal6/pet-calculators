@@ -1,0 +1,153 @@
+---
+import ToolPageShell from '../../../components/ToolPageShell.astro';
+import ChocolateToxicityCalc from '../../../components/calculators/ChocolateToxicityCalc.astro';
+
+const faq = [
+  {
+    q: 'My dog ate chocolate. What should I do right now?',
+    a: 'Do not wait for symptoms. Call your veterinarian, an emergency clinic, the ASPCA Animal Poison Control Center at (888) 426-4435, or Pet Poison Helpline at (855) 764-7661 immediately. Consultation fees may apply. Have your dog’s weight, the type and amount of chocolate, and the time of ingestion ready.',
+  },
+  {
+    q: 'Should I make my dog vomit at home?',
+    a: 'Only if a veterinarian or poison control specialist tells you to. Inducing vomiting incorrectly can cause aspiration or other harm, and it is not appropriate in some situations. Never give salt or other home remedies.',
+  },
+  {
+    q: 'Why is chocolate toxic to dogs?',
+    a: 'Chocolate contains methylxanthines, mainly theobromine and caffeine. Dogs metabolize theobromine slowly, so it builds up and can affect the heart, nervous system, and kidneys.',
+  },
+  {
+    q: 'Which chocolate is the most dangerous?',
+    a: 'Baking (unsweetened) chocolate, cocoa powder, and dark chocolate contain the most theobromine per ounce. Milk chocolate has less but can still be dangerous for small dogs or large amounts. White chocolate has very little theobromine but is fatty and sugary.',
+  },
+  {
+    q: 'What are the symptoms of chocolate poisoning?',
+    a: 'Vomiting, diarrhea, restlessness, increased thirst, panting, a fast or irregular heartbeat, tremors, and seizures. Signs usually start within 6 to 12 hours but can be delayed, and effects can last 24 hours or more.',
+  },
+  {
+    q: 'Is a low result from this calculator safe?',
+    a: 'Not necessarily. Theobromine content varies between products, and some dogs are more sensitive, especially those with heart disease. Other ingredients such as xylitol, raisins, or macadamia nuts can be dangerous too. When in doubt, call a vet or poison control.',
+  },
+];
+
+const sources = [
+  {
+    title: 'ASPCA Animal Poison Control: People Foods to Avoid Feeding Your Pets (Chocolate)',
+    url: 'https://www.aspca.org/pet-care/animal-poison-control/people-foods-avoid-feeding-your-pets',
+    publisher: 'ASPCA',
+  },
+  {
+    title: 'Pet Poison Helpline: Chocolate Poisoning in Dogs',
+    url: 'https://www.petpoisonhelpline.com/poison/chocolate/',
+    publisher: 'Pet Poison Helpline',
+  },
+  {
+    title: 'Merck Veterinary Manual: Chocolate Poisoning in Small Animals',
+    url: 'https://www.merckvetmanual.com/toxicology/food-hazards/chocolate-poisoning-in-small-animals',
+    publisher: 'Merck Veterinary Manual',
+  },
+  {
+    title: 'AVMA: Pet poisoning and household hazards',
+    url: 'https://www.avma.org/resources-tools/pet-owners/petcare/poisoning-pets',
+    publisher: 'AVMA',
+  },
+];
+---
+
+<ToolPageShell
+  slug="dog-chocolate-toxicity-calculator"
+  title="Dog Chocolate Toxicity Calculator"
+  description="Estimate theobromine exposure from chocolate type and amount vs. dog weight. If your dog ate chocolate, call a vet or poison hotline now."
+  answer="If your dog ate chocolate, call your veterinarian, an emergency clinic, the ASPCA Animal Poison Control Center at (888) 426-4435, or Pet Poison Helpline at (855) 764-7661 now. This calculator estimates theobromine dose by chocolate type, amount, and weight, but it cannot replace professional advice."
+  takeaways={[
+    'Emergency first: call a vet or poison control before using any calculator.',
+    'Dark and baking chocolate are far more dangerous than milk or white chocolate.',
+    'Toxic risk depends on dose per kilogram, so small dogs are at higher risk.',
+    'Signs may start 6–12 hours later; do not wait for symptoms.',
+    'A low estimate is not a guarantee of safety.',
+  ]}
+  faq={faq}
+  sources={sources}
+  adSlotId="tool-after-results-safety"
+>
+  <ChocolateToxicityCalc slot="calculator" />
+
+  <h2>What to do first</h2>
+  <ol>
+    <li>Remove any remaining chocolate and wrappers from your dog’s reach.</li>
+    <li>Call your veterinarian, an emergency clinic, or a poison hotline immediately. Do not wait for symptoms.</li>
+    <li>Gather your dog’s weight, the type and amount of chocolate eaten, and when it happened.</li>
+    <li>Follow the professional’s instructions. Do not induce vomiting unless told to.</li>
+    <li>Use this calculator only as a rough supplement while you are on the phone or traveling to the clinic.</li>
+  </ol>
+
+  <h2>Why chocolate is toxic to dogs</h2>
+  <p>
+    Chocolate contains methylxanthines, mostly theobromine and a smaller amount of caffeine. Humans
+    clear theobromine quickly, but dogs eliminate it slowly, so it accumulates and acts on the heart
+    and nervous system. The result can range from an upset stomach to tremors, abnormal heart rhythm,
+    seizures, and in severe cases death. The risk depends on <em>dose per kilogram</em>, which is why
+    the same chocolate bar is a minor event for a 40 kg dog and an emergency for a 3 kg dog.
+  </p>
+
+  <h2>Formula: how the calculator estimates risk</h2>
+  <p>
+    The tool multiplies grams of chocolate by an approximate theobromine content, then divides by your
+    dog’s weight to get milligrams per kilogram. It uses approximate values of about 0.01 mg per gram
+    for white chocolate, 2 for milk, 5.5 for dark, and 14 for baking chocolate. Those are mid-range
+    figures. Real products vary widely with cacao percentage. The result is then matched to commonly
+    cited veterinary risk bands:
+  </p>
+  <table>
+    <thead>
+      <tr><th>Theobromine dose</th><th>What may happen</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Under 20 mg/kg</td><td>Often mild or no signs; monitor and call if symptoms appear.</td></tr>
+      <tr><td>20–40 mg/kg</td><td>Vomiting, restlessness, increased heart rate possible.</td></tr>
+      <tr><td>40–60 mg/kg</td><td>Moderate to severe signs, including cardiac effects.</td></tr>
+      <tr><td>Over 60 mg/kg</td><td>Seizures and life-threatening signs possible; emergency.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Worked example</h2>
+  <p>
+    A 10 kg (22 lb) dog eats 100 g of milk chocolate (about a large bar). Theobromine ≈ 100 × 2 =
+    200 mg, so the dose is 20 mg/kg, right at the edge of the mild-to-moderate range. The same dog
+    eating 100 g of dark chocolate gets 550 mg, or 55 mg/kg, in the moderate-to-severe range and a
+    clear emergency. A 40 kg dog eating the same 100 g of milk chocolate receives just 5 mg/kg, which
+    is likely a mild event, though it is still sensible to call.
+  </p>
+
+  <h2>Symptoms to watch for</h2>
+  <ul>
+    <li>Vomiting or diarrhea, often within a few hours.</li>
+    <li>Restlessness, hyperactivity, excessive panting, or increased thirst and urination.</li>
+    <li>Rapid, irregular, or racing heartbeat.</li>
+    <li>Muscle tremors, stiffness, or seizures.</li>
+    <li>Collapse, which is a life-threatening emergency.</li>
+  </ul>
+  <p>
+    Symptoms often start six to twelve hours after ingestion and can last a day or longer, because
+    theobromine is cleared slowly. Dogs with heart disease are at greater risk at lower doses.
+  </p>
+
+  <h2>Beyond theobromine: other risks in chocolate products</h2>
+  <p>
+    Chocolate products can contain other hazards. Sugar-free sweets may contain xylitol, which can
+    cause dangerous low blood sugar and liver failure. Raisins, macadamia nuts, coffee beans, and
+    large amounts of fat can also cause problems, including pancreatitis. Tell the poison hotline
+    exactly what was in the product. Our <a href="/guides/chocolate-and-dogs-safety/">chocolate and
+    dogs safety guide</a> covers prevention and what to keep in your home emergency plan.
+  </p>
+
+  <h2>Limits of this calculator</h2>
+  <p>
+    The tool is a simplified education aid. It does not know the exact product, how much cacao it
+    contains, whether your dog vomited, your dog’s health history, or when ingestion occurred. A
+    low estimate does not mean no treatment is needed, and a high estimate does not predict the
+    outcome. Professionals can use treatment such as activated charcoal, IV fluids, and heart
+    monitoring, and timing matters. See also the <a href="/tools/dog-water-intake-calculator/">water
+    intake calculator</a> for hydration context and the <a href="/tools/dog-bmi-calculator/">body
+    condition helper</a> for general health tracking.
+  </p>
+</ToolPageShell>

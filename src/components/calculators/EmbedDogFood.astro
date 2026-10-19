@@ -1,0 +1,53 @@
+---
+import { siteConfig, absoluteUrl } from '../../config/site';
+const toolUrl = absoluteUrl('/tools/dog-food-calculator/');
+---
+
+<div class="embed-calc" style="font: inherit; max-width: 28rem;">
+  <form class="calc-form embed-dog-food" id="embed-dog-food" novalidate>
+    <div class="calc-grid">
+      <label class="field">
+        Weight (lb)
+        <input type="number" name="weight" inputmode="decimal" min="0.5" step="0.1" value="45" />
+      </label>
+      <label class="field">
+        kcal / cup
+        <input type="number" name="kcalPerCup" inputmode="decimal" min="50" step="1" value="350" />
+      </label>
+    </div>
+    <div class="results" id="embed-dog-food-results" aria-live="polite">
+      <p class="big" data-embed-headline>Calculating…</p>
+    </div>
+  </form>
+  <p style="margin: 0.5rem 0 0; font-size: 0.8rem; color: var(--ink-muted);">
+    <a href={toolUrl}>Full {siteConfig.brandName} dog food calculator</a>
+  </p>
+</div>
+
+<script>
+  import { calculateDogMER, cupsFromKcal } from '../../lib/formulas/energy';
+  import { lbToKg, round } from '../../lib/units';
+  import { bindFormInputs, getFieldValue, parseNum } from './calc-utils';
+
+  const form = document.getElementById('embed-dog-food') as HTMLFormElement | null;
+  if (form) {
+    const headline = form.querySelector('[data-embed-headline]') as HTMLElement;
+
+    function compute() {
+      const lb = parseNum(getFieldValue(form!, 'weight'));
+      const kcalPerCup = parseNum(getFieldValue(form!, 'kcalPerCup'));
+      if (lb == null || kcalPerCup == null || kcalPerCup <= 0) return;
+
+      try {
+        const mer = calculateDogMER(lbToKg(lb), 'adult_neutered');
+        const cups = cupsFromKcal(mer, kcalPerCup);
+        headline.textContent = `${Math.round(mer)} kcal · ${round(cups, 1)} cups/day`;
+      } catch {
+        headline.textContent = 'Enter valid values';
+      }
+    }
+
+    bindFormInputs(form, ['weight', 'kcalPerCup'], compute);
+    compute();
+  }
+</script>

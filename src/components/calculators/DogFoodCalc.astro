@@ -1,0 +1,111 @@
+---
+import type { DogLifeStage } from '../../lib/formulas/energy';
+
+const stages: { id: DogLifeStage; label: string }[] = [
+  { id: 'adult_neutered', label: 'Adult (neutered / spayed)' },
+  { id: 'adult_intact', label: 'Adult (intact)' },
+  { id: 'active', label: 'Active / sporting' },
+  { id: 'working', label: 'Working dog' },
+  { id: 'senior', label: 'Senior' },
+  { id: 'weight_loss', label: 'Weight loss (vet-supervised)' },
+  { id: 'weight_gain', label: 'Weight gain' },
+];
+---
+
+<form class="calc-form dog-food-calc" id="dog-food-calc" novalidate>
+  <div class="calc-grid cols-2">
+    <label class="field">
+      Dog weight
+      <span class="unit-toggle" data-weight-toggle role="group" aria-label="Weight unit">
+        <button type="button" data-unit="lb" aria-pressed="true">lb</button>
+        <button type="button" data-unit="kg" aria-pressed="false">kg</button>
+      </span>
+      <input type="number" name="weight" inputmode="decimal" min="0.5" step="0.1" value="45" required />
+    </label>
+    <label class="field">
+      Life stage / activity
+      <select name="stage">
+        {stages.map((s) => (
+          <option value={s.id} selected={s.id === 'adult_neutered'}>
+            {s.label}
+          </option>
+        ))}
+      </select>
+    </label>
+    <label class="field">
+      Food energy density
+      <span class="hint">kcal per cup (from label)</span>
+      <input type="number" name="kcalPerCup" inputmode="decimal" min="50" step="1" value="350" required />
+    </label>
+  </div>
+
+  <div class="results" id="dog-food-results" aria-live="polite" hidden>
+    <p class="big" data-result-mer></p>
+    <dl>
+      <dt>RER (resting energy)</dt>
+      <dd data-result-rer></dd>
+      <dt>Daily cups (approx.)</dt>
+      <dd data-result-cups></dd>
+      <dt>Per meal (2 meals/day)</dt>
+      <dd data-result-meal></dd>
+    </dl>
+  </div>
+</form>
+
+<script>
+  import { calculateDogMER, calculateRER, cupsFromKcal } from '../../lib/formulas/energy';
+  import type { DogLifeStage } from '../../lib/formulas/energy';
+  import { round } from '../../lib/units';
+  import {
+    applyQueryToForm,
+    bindFormInputs,
+    getFieldValue,
+    showResults,
+    syncFormToQuery,
+    weightKgFromForm,
+    wireWeightUnitToggle,
+    type WeightUnit,
+  } from './calc-utils';
+
+  const form = document.getElementById('dog-food-calc') as HTMLFormElement | null;
+  if (form) {
+    const keys = ['weight', 'stage', 'kcalPerCup'];
+    applyQueryToForm(form, keys, { weight: '45', stage: 'adult_neutered', kcalPerCup: '350' });
+
+    let unit: WeightUnit = 'lb';
+    wireWeightUnitToggle(form, '[data-weight-toggle]', 'lb', (u) => {
+      unit = u;
+      compute();
+    });
+
+    const panel = form.querySelector('#dog-food-results') as HTMLElement;
+
+    function compute() {
+      syncFormToQuery(form, [...keys, 'unit']);
+      const weightKg = weightKgFromForm(form, 'weight', unit);
+      const stage = getFieldValue(form, 'stage') as DogLifeStage;
+      const kcalPerCup = Number(getFieldValue(form, 'kcalPerCup'));
+
+      if (weightKg == null || !(kcalPerCup > 0)) {
+        showResults(panel, false);
+        return;
+      }
+
+      try {
+        const rer = calculateRER(weightKg);
+        const mer = calculateDogMER(weightKg, stage);
+        const cups = cupsFromKcal(mer, kcalPerCup);
+        showResults(panel, true);
+        form.querySelector('[data-result-mer]')!.textContent = `${Math.round(mer)} kcal / day (MER)`;
+        form.querySelector('[data-result-rer]')!.textContent = `${Math.round(rer)} kcal / day`;
+        form.querySelector('[data-result-cups]')!.textContent = `${round(cups, 2)} cups`;
+        form.querySelector('[data-result-meal]')!.textContent = `${round(cups / 2, 2)} cups`;
+      } catch {
+        showResults(panel, false);
+      }
+    }
+
+    bindFormInputs(form, keys, compute);
+    compute();
+  }
+</script>

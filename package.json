@@ -1,0 +1,35 @@
+{
+  "name": "pet-calculators",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.22.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "test": "vitest run",
+    "check:links": "node scripts/audit/links.mjs",
+    "audit:seo": "node scripts/audit/seo.mjs",
+    "audit:adsense": "node scripts/audit/adsense.mjs",
+    "audit:budgets": "node scripts/audit/budgets.mjs",
+    "audit": "npm run build && npm run test && npm run audit:seo && npm run audit:adsense && npm run audit:budgets && npm run check:links",
+    "lhci": "lhci autorun",
+    "proof": "node scripts/proof/generate.mjs"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "astro": "^7.4.0"
+  },
+  "devDependencies": {
+    "@lhci/cli": "^0.15.1",
+    "cheerio": "^1.2.0",
+    "jsdom": "^30.1.3",
+    "lighthouse": "^13.5.0",
+    "linkedom": "^0.18.13",
+    "playwright": "^1.49.1",
+    "vitest": "^5.0.5"
+  }
+}

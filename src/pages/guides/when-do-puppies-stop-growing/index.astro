@@ -1,0 +1,158 @@
+---
+import GuidePageShell from '../../../components/GuidePageShell.astro';
+
+const faq = [
+  {
+    q: 'At what age is a puppy fully grown?',
+    a: 'Toy and small breeds finish around 9 to 12 months, medium breeds around 12 to 14 months, large breeds around 15 to 18 months, and giant breeds often 18 to 24 months. Filling out with muscle can continue for another year.',
+  },
+  {
+    q: 'Do paws predict adult size?',
+    a: 'Big paws can hint that a puppy has more growing to do, but it is an unreliable predictor, especially in mixed breeds. Parent size and your vet’s growth chart are better guides.',
+  },
+  {
+    q: 'When should I switch from puppy food to adult food?',
+    a: 'Roughly when growth plates close and growth slows: about 9 to 12 months for small and medium breeds and 15 to 18 months for large breeds. Ask your vet, and transition gradually over seven to ten days.',
+  },
+  {
+    q: 'Does neutering change how big my dog gets?',
+    a: 'Early neutering can delay growth plate closure, which may lead to slightly taller dogs with different proportions, and the effect varies by breed and sex. Discuss timing with your vet.',
+  },
+  {
+    q: 'Can I predict my puppy’s adult weight?',
+    a: 'Yes, roughly. A simple method is current weight divided by age in weeks times 52 for young puppies, and growth-curve estimates for older ones. Our puppy weight calculator provides ranges for breed and size class.',
+  },
+];
+
+const sources = [
+  {
+    title: 'AAHA Canine Life Stage Guidelines',
+    url: 'https://www.aaha.org/resources/canine-life-stage-guidelines/',
+    publisher: 'AAHA',
+  },
+  {
+    title: 'WSAVA Global Nutrition Guidelines',
+    url: 'https://wsava.org/global-guidelines/global-nutrition-guidelines/',
+    publisher: 'WSAVA',
+  },
+  {
+    title: 'NRC Nutrient Requirements of Dogs and Cats',
+    url: 'https://nap.nationalacademies.org/catalog/10668/nutrient-requirements-of-dogs-and-cats',
+    publisher: 'National Academies Press',
+  },
+  {
+    title: 'Hawthorne et al. (2004). Body-weight changes during growth in puppies of different breeds. Journal of Nutrition 134(8)',
+    url: 'https://pubmed.ncbi.nlm.nih.gov/?term=Body-weight+changes+during+growth+in+puppies+of+different+breeds',
+    publisher: 'Journal of Nutrition',
+  },
+];
+---
+
+<GuidePageShell
+  slug="when-do-puppies-stop-growing"
+  title="When Do Puppies Stop Growing? By Breed Size"
+  description="Growth timelines by breed size, what affects adult weight, and when to switch from puppy to adult food."
+  answer="Most puppies stop growing taller between 9 and 18 months depending on breed size: toy breeds finish earliest, around 9 to 10 months, while giant breeds can keep growing for 18 to 24 months. Weight and muscle often keep filling out for months after height stops."
+  takeaways={[
+    'Toy and small breeds reach adult size at about 9–12 months.',
+    'Large and giant breeds can take 15–24 months.',
+    'Height finishes before weight and muscle do.',
+    'Feed to keep growth steady and lean, particularly in large breeds.',
+    'Switch to adult food only when growth is largely complete, and do it gradually.',
+  ]}
+  faq={faq}
+  sources={sources}
+>
+  <h2>Short answer: it depends on size</h2>
+  <p>
+    A Chihuahua and a Great Dane are both puppies at eight weeks, but they follow very different
+    growth schedules. Small dogs pack their growth into the first year. Giant breeds grow quickly
+    for the first six months, then slow but continue for another year or more. Below is a
+    practical guide to when each size class usually reaches adult height and weight.
+  </p>
+  <table>
+    <thead>
+      <tr><th>Size class</th><th>Adult weight</th><th>Height growth ends</th><th>Fully filled out</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Toy</td><td>Under 12 lb (5.5 kg)</td><td>6–9 months</td><td>9–12 months</td></tr>
+      <tr><td>Small</td><td>12–26 lb (5.5–12 kg)</td><td>8–10 months</td><td>12 months</td></tr>
+      <tr><td>Medium</td><td>26–60 lb (12–27 kg)</td><td>10–12 months</td><td>12–18 months</td></tr>
+      <tr><td>Large</td><td>60–100 lb (27–45 kg)</td><td>12–15 months</td><td>18–24 months</td></tr>
+      <tr><td>Giant</td><td>100+ lb (45+ kg)</td><td>15–18 months</td><td>24 months or more</td></tr>
+    </tbody>
+  </table>
+  <p>
+    These ranges are typical, not guarantees. Breed lines, sex, and nutrition all shift the timeline,
+    and mixed-breed dogs can fall between categories.
+  </p>
+
+  <h2>What is happening inside a growing puppy</h2>
+  <p>
+    Dogs grow taller because bones lengthen at areas of cartilage near their ends, called growth
+    plates. When a dog reaches skeletal maturity, those plates close and long bones stop getting
+    longer. Muscle, chest depth, and fat then continue to change, which is why a 12-month-old
+    Labrador can look lanky compared with the same dog at two years. Because growth plates are soft
+    and vulnerable until they close, large and giant puppies are advised to avoid repetitive
+    high-impact exercise such as long runs on pavement or jumping from heights until they mature.
+    Normal play and short walks are fine.
+  </p>
+
+  <h2>Factors that affect final size</h2>
+  <ul>
+    <li><strong>Genetics:</strong> the strongest factor. Parent size is a good clue for mixes and purebreds alike.</li>
+    <li><strong>Sex:</strong> males are often a little larger than females within a breed.</li>
+    <li><strong>Nutrition:</strong> too little food stunts growth; too much accelerates it and increases skeletal risk in big breeds.</li>
+    <li><strong>Neuter timing:</strong> early gonadectomy can delay growth plate closure in some dogs, and veterinary opinion on ideal timing is evolving by breed and size.</li>
+    <li><strong>Health:</strong> parasites, illness, and hormonal conditions can slow growth.</li>
+  </ul>
+
+  <h2>How to estimate adult weight</h2>
+  <p>
+    For young puppies a simple educational estimate divides the current weight by age in weeks and
+    multiplies by 52. For example, a 12-week-old weighing 18 lb would be expected to reach about
+    78 lb. For older puppies, vets compare against breed growth curves instead. The
+    <a href="/tools/puppy-weight-calculator/">puppy weight calculator</a> combines both methods and
+    shows a range with a chart, which is easier to interpret than any single number. Expect real
+    results to differ by 10 to 20 percent, and recheck monthly.
+  </p>
+
+  <h2>Feeding through the growth stages</h2>
+  <p>
+    Puppy diets are higher in calories, protein, calcium, and phosphorus than adult diets, and
+    large-breed puppy formulas are designed with controlled calcium and energy levels to support
+    steady skeletal development. Feeding an adult food too early can leave a puppy short of nutrients, while
+    keeping a small-breed dog on puppy food too long can lead to weight gain. As a guide, small and
+    medium breeds usually move to adult food at about 9 to 12 months, and large and giant breeds at
+    about 15 to 18 months. Use the <a href="/tools/puppy-food-calculator/">puppy food calculator</a> to
+    set calorie targets while growing, and the <a href="/guides/how-much-to-feed-a-puppy/">puppy
+    feeding guide</a> for meal schedules. Transition to adult food over seven to ten days by gradually
+    increasing the share of the new food.
+  </p>
+
+  <h2>Signs growth is slowing</h2>
+  <p>
+    Weight gain slows from weekly jumps to small monthly changes. Legs and torso begin to look
+    proportionate, and the “gangly” teenage stage ends. Appetite often drops slightly as energy needs
+    per kilogram fall. This is the cue to re-run your feeding calculation: the amount your puppy needed
+    at 16 weeks is almost always too much at 10 months. Keep a record of weight every two to four
+    weeks so you can see the curve flatten.
+  </p>
+
+  <h2>When to talk to your vet</h2>
+  <p>
+    Ask your vet if your puppy seems far outside the expected size range, if growth stalls for
+    several weeks, if you notice limping, bowed legs, or swollen joints, or if the belly looks
+    bloated despite poor weight gain, which can indicate worms. Vets can also advise on the best
+    time for spay or neuter in your puppy’s breed and size. Your puppy’s age in human terms is another
+    useful reference point; the <a href="/tools/dog-age-calculator/">dog age calculator</a> shows
+    life stages by size, helping you plan for adulthood and senior care.
+  </p>
+
+  <h2>Bottom line</h2>
+  <p>
+    Plan for adult size using breed and parental information, expect height to finish before weight,
+    and keep your puppy lean and active. Steady, moderate growth is healthier than fast growth, especially
+    for large breeds, and regular vet weigh-ins catch problems early.
+  </p>
+</GuidePageShell>

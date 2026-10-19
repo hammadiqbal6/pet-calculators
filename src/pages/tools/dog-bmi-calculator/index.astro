@@ -1,0 +1,145 @@
+---
+import ToolPageShell from '../../../components/ToolPageShell.astro';
+import DogBmiCalc from '../../../components/calculators/DogBmiCalc.astro';
+
+const faq = [
+  {
+    q: 'Is there a real BMI for dogs?',
+    a: 'Not in the way humans have one. Human BMI is validated against health outcomes; dogs vary enormously in body shape, so there is no single validated canine BMI. Veterinarians use the 9-point Body Condition Score (BCS) instead, which this tool treats as the primary guide.',
+  },
+  {
+    q: 'What is a good body condition score for a dog?',
+    a: 'On the WSAVA 9-point scale, 4 to 5 is ideal. A score of 6 is slightly overweight, 7 is overweight, and 8 to 9 is obese. Scores of 3 or below suggest a thin dog.',
+  },
+  {
+    q: 'How do I check my dog’s body condition at home?',
+    a: 'Feel the ribs with flat fingers: they should be easy to feel under a thin fat layer. Look from above for a waist behind the ribs, and from the side for an abdominal tuck. Hard-to-feel ribs and no waist suggest excess weight.',
+  },
+  {
+    q: 'What is the “BMI-like index” in this tool?',
+    a: 'It is weight in kilograms divided by height at the withers in meters squared. The tool maps it to a rough BCS suggestion for education. Because dogs differ in build, it can mislead for deep-chested, short-legged, or heavily muscled breeds.',
+  },
+  {
+    q: 'Why does obesity matter in dogs?',
+    a: 'Excess weight is associated with arthritis, diabetes, breathing problems, and shorter lifespan. A long-term study of Labrador Retrievers found that dogs kept lean lived about 1.8 years longer on median than their overweight littermates.',
+  },
+  {
+    q: 'My dog is overweight. What should I do next?',
+    a: 'Have your vet confirm the score and rule out medical causes. Then calculate a calorie target with the dog food calculator, measure meals, count treats, and recheck every two to four weeks.',
+  },
+];
+
+const sources = [
+  {
+    title: 'WSAVA Body Condition Score Chart (Dogs)',
+    url: 'https://wsava.org/global-guidelines/global-nutrition-guidelines/',
+    publisher: 'WSAVA',
+  },
+  {
+    title: 'AAHA Nutrition and Weight Management Guidelines',
+    url: 'https://www.aaha.org/resources/2021-aaha-nutrition-and-weight-management-guidelines/',
+    publisher: 'AAHA',
+  },
+  {
+    title: 'Kealy et al. (2002), Effects of diet restriction on life span and age-related changes in dogs. JAVMA 220(9)',
+    url: 'https://pubmed.ncbi.nlm.nih.gov/11999840/',
+    publisher: 'JAVMA',
+  },
+  {
+    title: 'Association for Pet Obesity Prevention',
+    url: 'https://www.petobesityprevention.org/',
+    publisher: 'APOP',
+  },
+];
+---
+
+<ToolPageShell
+  slug="dog-bmi-calculator"
+  title="Dog BMI & Body Condition Score Calculator"
+  description="Screen your dog’s weight with a BMI-style index and the 1–9 WSAVA body condition score. Educational helper, not a diagnosis."
+  answer="Dogs do not have a validated BMI like people do, so veterinarians use the 9-point Body Condition Score (BCS) instead, where 4 to 5 is ideal. This tool pairs a BMI-style weight-to-height index with the WSAVA BCS description for education only; your vet’s hands-on exam is what counts."
+  takeaways={[
+    'Body Condition Score (1–9) is the clinical standard; 4–5 is ideal.',
+    'The BMI-like index is educational and can be misleading across breeds.',
+    'Feel the ribs and check for a waist; those tell you more than a scale.',
+    'Lean dogs live longer and develop arthritis later.',
+    'Confirm any weight concern with your veterinarian.',
+  ]}
+  faq={faq}
+  sources={sources}
+>
+  <DogBmiCalc slot="calculator" />
+
+  <h2>How to use the dog BMI and body condition helper</h2>
+  <ol>
+    <li>Weigh your dog and enter the weight in pounds or kilograms.</li>
+    <li>Measure height at the withers (the top of the shoulders) while your dog stands square.</li>
+    <li>Review the BMI-style index and the suggested score, then choose the BCS description that best matches your dog’s body.</li>
+    <li>Read the guidance for that score and book a vet visit if you see 3 or below, or 7 or above.</li>
+  </ol>
+
+  <h2>The Body Condition Score scale</h2>
+  <p>
+    The WSAVA 9-point scale is the one most clinics use. Each score reflects how easily you can feel
+    ribs and see the waist:
+  </p>
+  <table>
+    <thead>
+      <tr><th>Score</th><th>Description</th><th>What you notice</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1–3</td><td>Too thin</td><td>Ribs, spine, and hips visible or very easy to feel.</td></tr>
+      <tr><td>4–5</td><td>Ideal</td><td>Ribs felt easily with slight fat cover; clear waist and tuck.</td></tr>
+      <tr><td>6–7</td><td>Overweight</td><td>Ribs felt with difficulty; waist faint or absent.</td></tr>
+      <tr><td>8–9</td><td>Obese</td><td>Ribs not palpable under heavy fat; belly sags, fat deposits over spine and tail base.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>What the BMI-like index measures</h2>
+  <p>
+    The index shown by the tool is <code>weight (kg) ÷ height at withers (m)²</code>. It borrows the
+    arithmetic of human BMI. In people the formula was validated against disease outcomes in large
+    populations. For dogs, no equivalent exists, and body shape varies far more: a Greyhound, a
+    Basset Hound, a Bulldog, and a Border Collie of the same weight and shoulder height can have
+    quite different healthy body compositions. So the index here is a rough screening aid used to
+    suggest a starting score, and you should override it with what you see and feel.
+  </p>
+
+  <h2>Worked example</h2>
+  <p>
+    A dog weighing 10 kg with a withers height of 56 cm: 10 ÷ 0.56² ≈ 31.9, which the tool’s rough
+    mapping would suggest is around a 6. A different 10 kg dog that stands 40 cm tall gives 62.5,
+    which would map to the top of the scale. Both could be perfectly healthy. This is exactly why the
+    index alone can mislead, and why the tool asks you to choose a BCS description yourself. If the
+    ribs are easy to feel and a waist is visible, the BCS is around 5 regardless of the index. If the
+    ribs are hard to find and the waist is gone, the true score is likely 7 and a plan is needed.
+    The index is most useful for tracking the <em>same</em> dog over time.
+  </p>
+
+  <h2>Why a healthy weight matters</h2>
+  <p>
+    Overweight dogs are at higher risk of osteoarthritis, diabetes, high blood pressure, breathing
+    problems, and some cancers. In a landmark 14-year Labrador Retriever study, dogs fed about 25
+    percent less than their littermates stayed leaner, lived roughly 1.8 years longer on median, and
+    developed chronic illness later. Even a modest reduction of 10 percent of body weight in an
+    overweight dog can improve mobility.
+  </p>
+
+  <h2>What to do after you get a score</h2>
+  <ul>
+    <li><strong>Ideal (4–5):</strong> keep measuring meals and treats, and recheck monthly.</li>
+    <li><strong>Overweight (6–7):</strong> calculate a calorie target with the <a href="/tools/dog-food-calculator/">dog food calculator</a>, cut treats, and add walks.</li>
+    <li><strong>Obese (8–9):</strong> see a vet for a supervised weight-loss plan and screening for medical causes.</li>
+    <li><strong>Thin (1–3):</strong> see a vet; parasites, dental pain, and disease can all cause weight loss.</li>
+  </ul>
+
+  <h2>Limits and cautions</h2>
+  <p>
+    Puppies and pregnant or lactating dogs have different body-condition needs, so this tool is not
+    suited to them; for growing puppies see the <a href="/tools/puppy-weight-calculator/">puppy
+    weight calculator</a>. Swelling, fluid, tumors, and heavy muscle can all change weight without
+    changing fat. Water balance also matters in sick dogs; the
+    <a href="/tools/dog-water-intake-calculator/">water intake calculator</a> can help you notice
+    changes in drinking. Always use clinical judgment from your veterinarian over any online score.
+  </p>
+</ToolPageShell>

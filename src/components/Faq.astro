@@ -1,0 +1,34 @@
+---
+export interface FaqItem {
+  q: string;
+  a: string;
+}
+
+export interface Props {
+  items: FaqItem[];
+  heading?: string;
+}
+
+const { items, heading = 'Frequently asked questions' } = Astro.props;
+---
+
+{
+  items.length > 0 && (
+    <section class="faq prose" aria-labelledby="faq-heading">
+      <h2 id="faq-heading">{heading}</h2>
+      {items.map((item) => (
+        <details>
+          <summary>{item.q}</summary>
+          <p>{item.a}</p>
+        </details>
+      ))}
+    </section>
+  )
+}
+
+<style>
+  .faq details p {
+    margin: 0.65rem 0 0;
+    color: var(--ink-muted);
+  }
+</style>

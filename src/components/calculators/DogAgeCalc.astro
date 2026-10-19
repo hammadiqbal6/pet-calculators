@@ -1,0 +1,95 @@
+---
+import type { SizeClass } from '../../data/breeds';
+
+const sizes: { id: SizeClass; label: string }[] = [
+  { id: 'toy', label: 'Toy' },
+  { id: 'small', label: 'Small' },
+  { id: 'medium', label: 'Medium' },
+  { id: 'large', label: 'Large' },
+  { id: 'giant', label: 'Giant' },
+];
+---
+
+<form class="calc-form dog-age-calc" id="dog-age-calc" novalidate>
+  <div class="calc-grid cols-2">
+    <label class="field">
+      Dog age (years)
+      <span class="hint">Decimals OK (e.g. 1.5)</span>
+      <input type="number" name="ageYears" inputmode="decimal" min="0" max="30" step="0.1" value="5" required />
+    </label>
+    <label class="field">
+      Breed size
+      <select name="size">
+        {sizes.map((s) => (
+          <option value={s.id} selected={s.id === 'medium'}>
+            {s.label}
+          </option>
+        ))}
+      </select>
+    </label>
+    <label class="field">
+      Conversion method
+      <select name="method">
+        <option value="size-piecewise" selected>Size-aware (recommended)</option>
+        <option value="log-curve">Log curve (illustrative)</option>
+      </select>
+    </label>
+  </div>
+
+  <div class="results" id="dog-age-results" aria-live="polite" hidden>
+    <p class="big" data-result-human></p>
+    <dl>
+      <dt>Life stage</dt>
+      <dd data-result-stage></dd>
+      <dt>Notes</dt>
+      <dd data-result-notes></dd>
+    </dl>
+  </div>
+</form>
+
+<script>
+  import { dogToHumanYears } from '../../lib/formulas/dogAge';
+  import type { SizeClass } from '../../data/breeds';
+  import { round } from '../../lib/units';
+  import {
+    applyQueryToForm,
+    bindFormInputs,
+    getFieldValue,
+    parseNum,
+    showResults,
+    syncFormToQuery,
+  } from './calc-utils';
+
+  const form = document.getElementById('dog-age-calc') as HTMLFormElement | null;
+  if (form) {
+    const keys = ['ageYears', 'size', 'method'];
+    applyQueryToForm(form, keys, { ageYears: '5', size: 'medium', method: 'size-piecewise' });
+
+    const panel = form.querySelector('#dog-age-results') as HTMLElement;
+
+    function compute() {
+      syncFormToQuery(form, keys);
+      const ageYears = parseNum(getFieldValue(form, 'ageYears'));
+      const size = getFieldValue(form, 'size') as SizeClass;
+      const method = getFieldValue(form, 'method') as 'size-piecewise' | 'log-curve';
+
+      if (ageYears == null || ageYears < 0) {
+        showResults(panel, false);
+        return;
+      }
+
+      try {
+        const r = dogToHumanYears(ageYears, size, method);
+        showResults(panel, true);
+        form.querySelector('[data-result-human]')!.textContent = `≈ ${round(r.humanYears, 1)} human years`;
+        form.querySelector('[data-result-stage]')!.textContent = r.lifeStage;
+        form.querySelector('[data-result-notes]')!.textContent = r.notes;
+      } catch {
+        showResults(panel, false);
+      }
+    }
+
+    bindFormInputs(form, keys, compute);
+    compute();
+  }
+</script>

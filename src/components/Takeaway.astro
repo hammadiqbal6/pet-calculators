@@ -1,0 +1,37 @@
+---
+export interface Props {
+  items: string[];
+  heading?: string;
+}
+
+const { items, heading = 'Key takeaways' } = Astro.props;
+---
+
+{
+  items.length > 0 && (
+    <aside class="takeaway" aria-labelledby="takeaway-heading">
+      <h2 id="takeaway-heading">{heading}</h2>
+      <ul>
+        {items.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+    </aside>
+  )
+}
+
+<style>
+  .takeaway h2 {
+    margin: 0 0 0.65rem;
+    font-size: 1.05rem;
+  }
+
+  .takeaway ul {
+    margin: 0;
+    padding-left: 1.25rem;
+  }
+
+  .takeaway li {
+    margin: 0.35rem 0;
+  }
+</style>

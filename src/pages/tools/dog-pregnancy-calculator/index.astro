@@ -1,0 +1,143 @@
+---
+import ToolPageShell from '../../../components/ToolPageShell.astro';
+import DogPregnancyCalc from '../../../components/calculators/DogPregnancyCalc.astro';
+
+const faq = [
+  {
+    q: 'How long is a dog pregnant?',
+    a: 'About 63 days from ovulation, with a normal range of roughly 58 to 68 days when counted from the date of breeding, because sperm can survive for several days and the egg needs time to mature after ovulation.',
+  },
+  {
+    q: 'Should I count from the breeding date or the ovulation date?',
+    a: 'Ovulation is more precise. If your vet confirmed ovulation with progesterone testing, choose that option for a tighter window. Counting from breeding gives a wider window because ovulation timing is uncertain.',
+  },
+  {
+    q: 'When can a vet confirm that my dog is pregnant?',
+    a: 'Ultrasound can detect pregnancy from about day 25 to 28. Abdominal palpation is sometimes possible around day 28 to 30, and X-rays at about day 45 or later can count puppies and check skeletal development.',
+  },
+  {
+    q: 'What are the signs that labor is approaching?',
+    a: 'A drop in rectal temperature to below about 99°F (37.2°C) typically precedes labor by 8 to 24 hours. Nesting, restlessness, loss of appetite, and panting are other signs. Call your vet if your dog is straining for more than 30 to 60 minutes without producing a puppy.',
+  },
+  {
+    q: 'When should I call the veterinarian during whelping?',
+    a: 'Call right away for green or bloody discharge before the first puppy, more than two hours between puppies with active contractions, weak or absent contractions, or if your dog is past about day 65 from ovulation. Emergency c-sections save lives.',
+  },
+  {
+    q: 'Does this calculator work for cats?',
+    a: 'No. This tool is built specifically for dogs and their breeding physiology. Cats ovulate in response to mating and have their own timeline, so ask your vet about feline pregnancy.',
+  },
+];
+
+const sources = [
+  {
+    title: 'Concannon PW. Reproductive cycles of the domestic bitch. Animal Reproduction Science 2011;124:200–210',
+    url: 'https://pubmed.ncbi.nlm.nih.gov/21055888/',
+    publisher: 'Animal Reproduction Science',
+  },
+  {
+    title: 'Merck Veterinary Manual: Pregnancy diagnosis and normal gestation in dogs',
+    url: 'https://www.merckvetmanual.com/dog-owners/reproduction-and-breeding-in-dogs',
+    publisher: 'Merck Veterinary Manual',
+  },
+  {
+    title: 'AKC Canine Health Foundation / AKC: Dog pregnancy and whelping resources',
+    url: 'https://www.akc.org/expert-advice/health/dog-pregnancy-week-by-week/',
+    publisher: 'American Kennel Club',
+  },
+];
+---
+
+<ToolPageShell
+  slug="dog-pregnancy-calculator"
+  title="Dog Pregnancy Calculator: Due Date"
+  description="Estimate your dog’s whelping due date and window from breeding or ovulation date. Typical gestation is about 63 days."
+  answer="A dog pregnancy calculator estimates the whelping date by adding about 63 days to the ovulation date, or to the breeding date with a wider window. Most litters arrive between day 58 and 68 from breeding. Ultrasound with your veterinarian confirms pregnancy and helps narrow the date."
+  takeaways={[
+    'Average gestation is about 63 days from ovulation.',
+    'From breeding, whelping may occur anywhere from day 58 to 68.',
+    'Ovulation timing (progesterone testing) gives a tighter estimate.',
+    'Ultrasound can confirm pregnancy around day 25–28; X-ray counts puppies later.',
+    'Call a vet immediately for prolonged labor, green discharge, or a dog past her window.',
+  ]}
+  faq={faq}
+  sources={sources}
+>
+  <DogPregnancyCalc slot="calculator" />
+
+  <h2>How to use the dog due date calculator</h2>
+  <ol>
+    <li>Choose whether your start date is a breeding date or a confirmed ovulation date.</li>
+    <li>Enter the date. If there were several matings, use the first, or ideally the ovulation date from your vet.</li>
+    <li>Read the estimated due date and the surrounding whelping window.</li>
+    <li>Share the dates with your vet and plan ultrasound, X-ray, and a whelping area.</li>
+  </ol>
+
+  <h2>How gestation is calculated</h2>
+  <p>
+    The standard figure is about 63 days from ovulation. That is the number that reproductive
+    veterinarians use, because ovulation is the biological starting point. Breeding date is less
+    exact. Female dogs ovulate over a span of a couple of days and the eggs need about two to three
+    days to mature before they can be fertilized, while sperm may survive for several days in the
+    reproductive tract. As a result, counting from the breeding date has a wide spread of about 58 to
+    68 days.
+  </p>
+  <p>
+    This calculator adds 63 days to the date you supply. When you choose breeding, it shows a window
+    of plus or minus five days; when you choose ovulation, a tighter window of plus or minus two
+    days. It does not replace progesterone testing, ultrasound measurements, or your veterinarian’s
+    judgment.
+  </p>
+
+  <h2>Timeline of a typical dog pregnancy</h2>
+  <table>
+    <thead>
+      <tr><th>Approximate day</th><th>What is happening</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1–15</td><td>Fertilization and early embryo development; usually no visible signs.</td></tr>
+      <tr><td>16–25</td><td>Implantation; some dogs have mild appetite or behavior changes.</td></tr>
+      <tr><td>25–30</td><td>Ultrasound can confirm pregnancy and detect heartbeats.</td></tr>
+      <tr><td>30–45</td><td>Weight gain begins; slightly enlarged abdomen and nipples.</td></tr>
+      <tr><td>45–55</td><td>X-ray can count puppies; increase food under vet guidance.</td></tr>
+      <tr><td>55–63</td><td>Nesting, restlessness; temperature drop 8–24 hours before labor.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Worked example</h2>
+  <p>
+    A bitch is bred on March 1 and ovulation is confirmed by progesterone testing on the same
+    day. Using ovulation as the start date, the due date is 63 days later, on <strong>May 3</strong>,
+    with a likely window of May 1 to May 5. If the owner did not test and only knows breeding
+    happened on March 1, the window widens to about April 28 to May 8, with May 3 as the
+    midpoint. Because the second range is wider, many breeders ask their vet for an X-ray around day
+    55 to confirm litter size before the due date arrives.
+  </p>
+
+  <h2>Preparing for whelping</h2>
+  <ul>
+    <li>Set up a quiet whelping box about two weeks before the due date, and let her get used to it.</li>
+    <li>Take her rectal temperature twice daily from about day 58; a drop below 99°F (37.2°C) suggests labor within a day.</li>
+    <li>Keep your vet’s number and an emergency clinic’s number available, including after-hours service.</li>
+    <li>Feed a high-quality diet suited to pregnancy; see the <a href="/tools/puppy-food-calculator/">puppy food calculator</a> for later puppy feeding.</li>
+    <li>Prepare clean towels, a heating pad, a scale, and a record sheet for each puppy’s birth time and weight.</li>
+  </ul>
+
+  <h2>When to call the vet</h2>
+  <p>
+    Contact a veterinarian right away if there is green or bloody discharge before the first puppy,
+    strong contractions for 30 to 60 minutes with no puppy, more than two to four hours between
+    puppies when more are expected, a very weak or absent contraction pattern, or your dog is
+    past about day 65 from ovulation. Dogs can lose puppies quickly in prolonged labor, and an
+    emergency c-section can save the litter and the mother.
+  </p>
+
+  <h2>After the litter arrives</h2>
+  <p>
+    Newborn puppies should gain weight steadily from day one. You can track growth over the first
+    weeks and months with the <a href="/tools/puppy-weight-calculator/">puppy weight calculator</a> and
+    learn about long-term aging with the <a href="/tools/dog-age-calculator/">dog age calculator</a>.
+    Breeding should always be planned with veterinary guidance, including health screening for the
+    parents.
+  </p>
+</ToolPageShell>

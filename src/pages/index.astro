@@ -1,0 +1,95 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { siteConfig } from '../config/site.ts';
+import { tools } from '../data/tools.ts';
+import { guides } from '../data/guides.ts';
+
+const title = 'Free Pet Calculators for Dogs & Cats';
+const description =
+  'Free dog and cat calculators for puppy weight, food calories (RER/MER), age by size, chocolate toxicity, water intake, and more. Private, no signup.';
+---
+
+<BaseLayout title={title} description={description} canonicalPath="/">
+  <section class="hero">
+    <p class="brand-hero">{siteConfig.brandName}</p>
+    <h1>{siteConfig.siteName}</h1>
+    <p class="lead">
+      Free pet calculators that run in your browser. Predict adult puppy weight, estimate dog and cat
+      feeding calories, convert pet years with modern methods, and check chocolate risk—with
+      breed-aware options and cited veterinary nutrition sources.
+    </p>
+    <div class="btn-row">
+      <a class="btn btn-primary" href="/tools/puppy-weight-calculator/">Puppy weight calculator</a>
+      <a class="btn btn-secondary" href="/tools/">Browse all tools</a>
+    </div>
+  </section>
+
+  <section class="prose" style="margin-bottom: 1.5rem">
+    <h2>What is the best free pet calculator?</h2>
+    <p class="answer-first">
+      The right calculator depends on the question. To feed a dog, use the
+      <a href="/tools/dog-food-calculator/">dog food calculator</a>. To predict a puppy's adult size, use the
+      <a href="/tools/puppy-weight-calculator/">puppy weight calculator</a>. For cats, use the
+      <a href="/tools/cat-food-calculator/">cat food calculator</a>. Each shows its formula and sources, and none needs an account.
+    </p>
+    <h2>What you can calculate</h2>
+    <p>
+      {siteConfig.siteName} is a free toolkit for everyday dog and cat questions: how big a puppy may
+      get, how many calories to feed, how old a pet is in human years, and whether chocolate exposure
+      looks concerning. Every tool keeps data on your device, supports lb and kg, and links to the
+      formulas and sources behind the numbers.
+    </p>
+  </section>
+
+  <section aria-labelledby="tools-heading">
+    <h2 id="tools-heading">All calculators</h2>
+    <div class="card-grid cols-3" style="margin-top: 1rem">
+      {
+        tools.map((t) => (
+          <a class="tool-card" href={`/tools/${t.slug}/`}>
+            <h3>{t.shortTitle}</h3>
+            <p>{t.description}</p>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <section aria-labelledby="hubs-heading" style="margin-top: 2rem">
+    <h2 id="hubs-heading">Browse by pet</h2>
+    <div class="card-grid" style="margin-top: 1rem">
+      <a class="tool-card" href="/dogs/">
+        <h3>Dog calculators</h3>
+        <p>Weight, food, age, pregnancy, toxicity, water, and body condition tools for dogs.</p>
+      </a>
+      <a class="tool-card" href="/cats/">
+        <h3>Cat calculators</h3>
+        <p>Cat age and feeding calculators with life-stage guidance.</p>
+      </a>
+    </div>
+  </section>
+
+  <section aria-labelledby="guides-heading" style="margin-top: 2rem">
+    <h2 id="guides-heading">Guides</h2>
+    <div class="card-grid" style="margin-top: 1rem">
+      {
+        guides.map((g) => (
+          <a class="tool-card" href={`/guides/${g.slug}/`}>
+            <h3>{g.title}</h3>
+            <p>{g.description}</p>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .brand-hero {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    font-weight: 800;
+    color: var(--brand);
+    margin: 0 0 0.35rem;
+    letter-spacing: -0.02em;
+  }
+</style>

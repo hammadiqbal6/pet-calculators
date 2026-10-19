@@ -1,0 +1,45 @@
+---
+import '../styles/global.css';
+import { siteConfig, absoluteUrl } from '../config/site.ts';
+
+export interface Props {
+  title: string;
+  toolSlug: string;
+  toolName: string;
+}
+
+const { title, toolSlug, toolName } = Astro.props;
+const toolPath = `/tools/${toolSlug}/`;
+const description = `Embeddable ${toolName} from ${siteConfig.siteName}. Runs in the browser; free with attribution link.`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} | {siteConfig.siteName}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex, follow" />
+    <link rel="canonical" href={absoluteUrl(toolPath)} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <style is:global>
+      body {
+        background: #fff;
+        min-height: 0;
+        padding: 0.75rem;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1 class="visually-hidden">{title}</h1>
+      <slot />
+      <p style="margin: 0.75rem 0 0; font-size: 0.8rem; color: var(--ink-muted);">
+        Calculator by <a href={absoluteUrl(toolPath)} target="_blank" rel="noopener">{siteConfig.siteName}</a>
+        &middot; <a href={absoluteUrl(toolPath)} target="_blank" rel="noopener">Open the full {toolName}</a>
+        &middot; Educational only, not veterinary advice.
+      </p>
+    </main>
+  </body>
+</html>

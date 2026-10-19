@@ -1,0 +1,99 @@
+---
+import type { WaterActivity } from '../../lib/formulas/water';
+
+const activities: { id: WaterActivity; label: string }[] = [
+  { id: 'normal', label: 'Normal activity' },
+  { id: 'active', label: 'Active / exercise' },
+  { id: 'hot_climate', label: 'Hot weather' },
+  { id: 'lactating', label: 'Lactating / nursing' },
+];
+---
+
+<form class="calc-form water-intake-calc" id="water-intake-calc" novalidate>
+  <div class="calc-grid cols-2">
+    <label class="field">
+      Dog weight
+      <span class="unit-toggle" data-weight-toggle role="group" aria-label="Weight unit">
+        <button type="button" data-unit="lb" aria-pressed="true">lb</button>
+        <button type="button" data-unit="kg" aria-pressed="false">kg</button>
+      </span>
+      <input type="number" name="weight" inputmode="decimal" min="0.5" step="0.1" value="45" required />
+    </label>
+    <label class="field">
+      Activity / environment
+      <select name="activity">
+        {activities.map((a) => (
+          <option value={a.id} selected={a.id === 'normal'}>
+            {a.label}
+          </option>
+        ))}
+      </select>
+    </label>
+  </div>
+
+  <div class="results" id="water-intake-results" aria-live="polite" hidden>
+    <p class="big" data-result-range></p>
+    <dl>
+      <dt>Milliliters per day</dt>
+      <dd data-result-ml></dd>
+      <dt>Cups per day (240 ml cup)</dt>
+      <dd data-result-cups></dd>
+    </dl>
+  </div>
+</form>
+
+<script>
+  import { estimateWaterIntake } from '../../lib/formulas/water';
+  import type { WaterActivity } from '../../lib/formulas/water';
+  import { round } from '../../lib/units';
+  import {
+    applyQueryToForm,
+    bindFormInputs,
+    getFieldValue,
+    showResults,
+    syncFormToQuery,
+    weightKgFromForm,
+    wireWeightUnitToggle,
+    type WeightUnit,
+  } from './calc-utils';
+
+  const form = document.getElementById('water-intake-calc') as HTMLFormElement | null;
+  if (form) {
+    const keys = ['weight', 'activity'];
+    applyQueryToForm(form, keys, { weight: '45', activity: 'normal' });
+
+    let unit: WeightUnit = 'lb';
+    wireWeightUnitToggle(form, '[data-weight-toggle]', 'lb', (u) => {
+      unit = u;
+      compute();
+    });
+
+    const panel = form.querySelector('#water-intake-results') as HTMLElement;
+
+    function compute() {
+      syncFormToQuery(form!, [...keys, 'unit']);
+      const weightKg = weightKgFromForm(form!, 'weight', unit);
+      const activity = getFieldValue(form!, 'activity') as WaterActivity;
+
+      if (weightKg == null) {
+        showResults(panel, false);
+        return;
+      }
+
+      try {
+        const r = estimateWaterIntake(weightKg, activity);
+        showResults(panel, true);
+        form.querySelector('[data-result-range]')!.textContent = 'Estimated daily water need';
+        form.querySelector('[data-result-ml]')!.textContent =
+          `${Math.round(r.lowMl)} – ${Math.round(r.highMl)} ml`;
+        form.querySelector('[data-result-cups]')!.textContent =
+          `${round(r.lowCups, 1)} – ${round(r.highCups, 1)} cups`;
+      } catch {
+        showResults(panel, false);
+      }
+    }
+
+    bindFormInputs(form, keys, compute);
+    compute();
+  }
+</script>

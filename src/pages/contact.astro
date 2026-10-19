@@ -1,0 +1,61 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { siteConfig } from '../config/site.ts';
+
+const description =
+  'Contact PetCalc Tools by email for corrections, partnership questions, press requests, or feedback on a calculator. We read every message.';
+const subject = encodeURIComponent('PetCalc Tools feedback');
+---
+
+<BaseLayout
+  title="Contact PetCalc Tools – Questions & Feedback"
+  description={description}
+  canonicalPath="/contact/"
+  breadcrumbs={[{ name: 'Contact', path: '/contact/' }]}
+>
+  <header class="hero">
+    <h1>Contact us</h1>
+    <p class="lead">
+      The fastest way to reach the {siteConfig.siteName} team is email. We read every message and reply to corrections
+      and bug reports first.
+    </p>
+    <div class="btn-row">
+      <a class="btn btn-primary" href={`mailto:${siteConfig.contactEmail}?subject=${subject}`}>
+        Email {siteConfig.contactEmail}
+      </a>
+    </div>
+  </header>
+
+  <div class="prose">
+    <h2>Emergency? Do not email us</h2>
+    <p>
+      We cannot respond in time to a pet emergency. If your animal ate something toxic, is struggling to breathe, is
+      having a seizure, or is in obvious distress, call your veterinarian or the nearest emergency clinic now. In the
+      United States you can also reach the ASPCA Animal Poison Control Center at (888) 426-4435 or Pet Poison Helpline at
+      (855) 764-7661. Both services may charge a consultation fee.
+    </p>
+
+    <h2>What to email us about</h2>
+    <ul>
+      <li><strong>Corrections.</strong> Include the page address, the number you think is wrong, and a link to the source you are comparing against.</li>
+      <li><strong>Bugs.</strong> Tell us your device, browser, the values you entered, and what you expected to see.</li>
+      <li><strong>Veterinary reviewers.</strong> Licensed veterinarians and credentialed nutritionists who would like to review a page are welcome to introduce themselves.</li>
+      <li><strong>Embedding and partnerships.</strong> The puppy weight and dog food calculators have free embeddable versions. Ask us if you need another.</li>
+      <li><strong>Privacy requests.</strong> See the <a href="/privacy/">privacy policy</a> for what we collect and how to opt out.</li>
+    </ul>
+
+    <h2>What we cannot do</h2>
+    <p>
+      We are not a veterinary practice. We cannot diagnose, recommend a treatment, interpret lab work, or tell you what
+      is wrong with your pet by email. We also cannot recommend a specific brand of food or a custom diet plan. For
+      those, book an appointment with your veterinarian or a board-certified veterinary nutritionist.
+    </p>
+
+    <h2>Response time</h2>
+    <p>
+      We aim to reply within a few business days. Messages about errors in medical or safety content are handled
+      first. For general feedback you may not get a personal answer, but every idea is read and weighed against the
+      <a href="/methodology/">methodology</a> when we plan updates.
+    </p>
+  </div>
+</BaseLayout>

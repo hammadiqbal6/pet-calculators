@@ -1,0 +1,326 @@
+---
+import '../styles/global.css';
+import { siteConfig, absoluteUrl } from '../config/site.ts';
+import { tools } from '../data/tools.ts';
+import { guides } from '../data/guides.ts';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+
+export interface Props {
+  title: string;
+  description?: string;
+  canonicalPath?: string;
+  ogType?: string;
+  jsonLd?: Record<string, unknown>[];
+  breadcrumbs?: { name: string; path: string }[];
+  lastUpdated?: string;
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description = siteConfig.tagline,
+  canonicalPath,
+  ogType = 'website',
+  jsonLd = [],
+  breadcrumbs,
+  lastUpdated = siteConfig.buildDate,
+  noindex = false,
+} = Astro.props;
+
+function trailSlash(path: string): string {
+  if (!path || path === '/') return '/';
+  return path.endsWith('/') ? path : `${path}/`;
+}
+
+const pathname = trailSlash(Astro.url.pathname);
+const canonical = absoluteUrl(trailSlash(canonicalPath ?? Astro.url.pathname));
+const pageTitle = title.includes(siteConfig.siteName)
+  ? title
+  : `${title} | ${siteConfig.siteName}`;
+
+const navLinks = [
+  { href: '/tools/', label: 'Tools' },
+  { href: '/dogs/', label: 'Dogs' },
+  { href: '/cats/', label: 'Cats' },
+  { href: '/guides/', label: 'Guides' },
+  { href: '/about/', label: 'About' },
+] as const;
+
+const footerLegal = [
+  { href: '/about/', label: 'About' },
+  { href: '/authors/', label: 'Authors' },
+  { href: '/methodology/', label: 'Methodology' },
+  { href: '/contact/', label: 'Contact' },
+  { href: '/privacy/', label: 'Privacy' },
+  { href: '/terms/', label: 'Terms' },
+] as const;
+
+const adsEnabled = Boolean(siteConfig.adsensePublisherId);
+
+const defaultJsonLd: Record<string, unknown>[] = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: siteConfig.siteName,
+    url: absoluteUrl('/'),
+    logo: absoluteUrl('/favicon.svg'),
+    email: siteConfig.contactEmail,
+    ...(siteConfig.sameAs.length ? { sameAs: siteConfig.sameAs } : {}),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: siteConfig.siteName,
+    url: absoluteUrl('/'),
+    description: siteConfig.tagline,
+    inLanguage: 'en-US',
+  },
+];
+
+const breadcrumbJsonLd =
+  breadcrumbs && breadcrumbs.length
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: breadcrumbs.map((crumb, index) => ({
+          '@type': 'ListItem',
+          position: index + 1,
+          name: crumb.name,
+          item: absoluteUrl(trailSlash(crumb.path)),
+        })),
+      }
+    : null;
+
+const allJsonLd = [
+  ...defaultJsonLd,
+  ...(breadcrumbJsonLd ? [breadcrumbJsonLd] : []),
+  ...jsonLd,
+];
+
+function isCurrent(href: string): boolean {
+  const target = trailSlash(href);
+  if (target === '/') return pathname === '/';
+  return pathname === target || pathname.startsWith(target);
+}
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta
+      name="robots"
+      content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'}
+    />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    {siteConfig.googleSiteVerification && (
+      <meta name="google-site-verification" content={siteConfig.googleSiteVerification} />
+    )}
+    {siteConfig.bingSiteVerification && (
+      <meta name="msvalidate.01" content={siteConfig.bingSiteVerification} />
+    )}
+
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={siteConfig.siteName} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={siteConfig.locale.replace('_', '-')} />
+    <meta property="og:image" content={absoluteUrl('/og-default.svg')} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={absoluteUrl('/og-default.svg')} />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    {siteConfig.twitterHandle && (
+      <meta name="twitter:site" content={`@${siteConfig.twitterHandle}`} />
+    )}
+
+    {siteConfig.ga4MeasurementId && (
+      <>
+        <script
+          async
+          src={`https://www.googletagmanager.com/gtag/js?id=${siteConfig.ga4MeasurementId}`}
+        />
+        <script is:inline define:vars={{ gaId: siteConfig.ga4MeasurementId }}>
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', gaId, { anonymize_ip: true });
+        </script>
+      </>
+    )}
+
+    {adsEnabled && (
+      <script
+        async
+        src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${siteConfig.adsensePublisherId}`}
+        crossorigin="anonymous"
+      />
+    )}
+
+    {allJsonLd.map((block, i) => (
+      <script type="application/ld+json" set:html={JSON.stringify(block)} />
+    ))}
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="/">
+          <span class="brand-mark" aria-hidden="true">🐾</span>
+          <span>{siteConfig.brandName}</span>
+        </a>
+        <button
+          type="button"
+          class="nav-toggle"
+          data-nav-toggle
+          aria-expanded="false"
+          aria-controls="site-nav"
+        >
+          <span class="visually-hidden">Menu</span>
+          <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path
+              fill="currentColor"
+              d="M4 7h16v2H4V7zm0 5h16v2H4v-2zm0 5h16v2H4v-2z"></path>
+          </svg>
+        </button>
+      </div>
+      <nav id="site-nav" class="site-nav" data-site-nav aria-label="Primary">
+        {
+          navLinks.map((link) => (
+            <a href={link.href} aria-current={isCurrent(link.href) ? 'page' : undefined}>
+              {link.label}
+            </a>
+          ))
+        }
+      </nav>
+    </header>
+
+    <main id="main-content" class="main">
+      {breadcrumbs && breadcrumbs.length > 0 && <Breadcrumbs items={breadcrumbs} />}
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div>
+          <p>
+            <strong>{siteConfig.siteName}</strong> — {siteConfig.tagline}
+          </p>
+          <p class="meta-row">
+            <span>Last updated: {lastUpdated}</span>
+          </p>
+        </div>
+        <div>
+          <h2>Calculators</h2>
+          <ul>
+            {
+              tools.map((tool) => (
+                <li>
+                  <a href={`/tools/${tool.slug}/`}>{tool.shortTitle}</a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+        <div>
+          <h2>Guides</h2>
+          <ul>
+            {
+              guides.map((guide) => (
+                <li>
+                  <a href={`/guides/${guide.slug}/`}>{guide.title}</a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+        <div>
+          <h2>Legal &amp; info</h2>
+          <ul>
+            {
+              footerLegal.map((link) => (
+                <li>
+                  <a href={link.href}>{link.label}</a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+      <p class="footer-copy meta-row">
+        <span>&copy; {new Date().getFullYear()} {siteConfig.siteName}</span>
+      </p>
+    </footer>
+
+    <div class="cookie-banner" data-cookie-banner role="dialog" aria-label="Cookie notice">
+      <div class="inner">
+        <p>
+          We use essential cookies and optional analytics to improve our free calculators. See our{' '}
+          <a href="/privacy/" style="color: #fff;">Privacy Policy</a>.
+        </p>
+        <button type="button" data-cookie-accept>Accept</button>
+      </div>
+    </div>
+
+    <script is:inline>
+      (function () {
+        var toggle = document.querySelector('[data-nav-toggle]');
+        var nav = document.querySelector('[data-site-nav]');
+        if (toggle && nav) {
+          toggle.addEventListener('click', function () {
+            var open = nav.classList.toggle('open');
+            toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+          });
+        }
+
+        var storageKey = 'petcalc-cookie-notice';
+        var banner = document.querySelector('[data-cookie-banner]');
+        var accept = document.querySelector('[data-cookie-accept]');
+        if (banner && !localStorage.getItem(storageKey)) {
+          banner.classList.add('show');
+        }
+        if (accept && banner) {
+          accept.addEventListener('click', function () {
+            try {
+              localStorage.setItem(storageKey, 'accepted');
+            } catch (e) {}
+            banner.classList.remove('show');
+          });
+        }
+      })();
+    </script>
+  </body>
+</html>
+
+<style>
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .footer-copy {
+    max-width: var(--max);
+    margin: 1.25rem auto 0;
+    padding: 0 1rem;
+  }
+</style>

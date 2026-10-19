@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { guides } from '../../data/guides.ts';
+
+const title = 'Pet Care Guides';
+const description =
+  'Guides on puppy growth, feeding amounts, dog years myths, raw feeding basics, cat feeding, and chocolate safety—interlinked with free calculators.';
+const breadcrumbs = [
+  { name: 'Guides', path: '/guides/' },
+];
+---
+
+<BaseLayout title={title} description={description} canonicalPath="/guides/" breadcrumbs={breadcrumbs}>
+  <h1>Pet care guides</h1>
+  <p class="answer-first">
+    These articles answer common follow-up questions around our calculators: growth timelines,
+    feeding practice, age myths, raw diets, and chocolate safety. Each guide cites authoritative
+    sources and links back to the matching tool.
+  </p>
+  <div class="card-grid">
+    {
+      guides.map((g) => (
+        <a class="tool-card" href={`/guides/${g.slug}/`}>
+          <h2>{g.title}</h2>
+          <p>{g.description}</p>
+        </a>
+      ))
+    }
+  </div>
+</BaseLayout>

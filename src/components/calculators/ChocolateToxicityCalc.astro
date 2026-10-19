@@ -1,0 +1,183 @@
+---
+import type { ChocolateType } from '../../lib/formulas/chocolate';
+
+const types: { id: ChocolateType; label: string }[] = [
+  { id: 'white', label: 'White chocolate' },
+  { id: 'milk', label: 'Milk chocolate' },
+  { id: 'dark', label: 'Dark chocolate' },
+  { id: 'baking', label: 'Baking / unsweetened' },
+];
+---
+
+<form class="calc-form chocolate-toxicity-calc" id="chocolate-toxicity-calc" novalidate>
+  <div
+    class="disclaimer"
+    style="margin-top: 0; background: var(--danger-bg); border-color: #e8b4b4; color: var(--danger); font-weight: 600;"
+    role="note"
+  >
+    If your dog ate chocolate, contact a veterinarian or pet poison hotline immediately — do not wait for symptoms.
+  </div>
+
+  <div class="calc-grid cols-2" style="margin-top: 0.85rem;">
+    <label class="field">
+      Dog weight
+      <span class="unit-toggle" data-weight-toggle role="group" aria-label="Weight unit">
+        <button type="button" data-unit="lb" aria-pressed="true">lb</button>
+        <button type="button" data-unit="kg" aria-pressed="false">kg</button>
+      </span>
+      <input type="number" name="weight" inputmode="decimal" min="0.5" step="0.1" value="30" required />
+    </label>
+    <label class="field">
+      Chocolate type
+      <select name="type">
+        {types.map((t) => (
+          <option value={t.id} selected={t.id === 'milk'}>
+            {t.label}
+          </option>
+        ))}
+      </select>
+    </label>
+    <label class="field">
+      Amount eaten
+      <span class="unit-toggle" data-amount-toggle role="group" aria-label="Chocolate amount unit">
+        <button type="button" data-unit="oz" aria-pressed="true">oz</button>
+        <button type="button" data-unit="g" aria-pressed="false">g</button>
+      </span>
+      <input type="number" name="amount" inputmode="decimal" min="0" step="0.1" value="2" required />
+    </label>
+  </div>
+
+  <div class="results" id="chocolate-toxicity-results" aria-live="polite" hidden>
+    <p class="big" data-result-band></p>
+    <dl>
+      <dt>Theobromine estimate</dt>
+      <dd data-result-mg></dd>
+      <dt>Dose</dt>
+      <dd data-result-dose></dd>
+      <dt>Guidance</dt>
+      <dd data-result-message></dd>
+    </dl>
+    <p
+      data-result-emergency
+      hidden
+      style="margin: 0.75rem 0 0; padding: 0.75rem; border-radius: 8px; background: var(--danger-bg); color: var(--danger); font-weight: 700;"
+    >
+      Emergency: seek veterinary care now. Call your emergency clinic or a pet poison control hotline.
+    </p>
+  </div>
+</form>
+
+<script>
+  import { assessChocolateToxicity } from '../../lib/formulas/chocolate';
+  import type { ChocolateType } from '../../lib/formulas/chocolate';
+  import { ozToG, round } from '../../lib/units';
+  import {
+    applyQueryToForm,
+    bindFormInputs,
+    getFieldValue,
+    parseNum,
+    showResults,
+    syncFormToQuery,
+    weightKgFromForm,
+    wireWeightUnitToggle,
+    writeQuery,
+    type WeightUnit,
+  } from './calc-utils';
+
+  type AmountUnit = 'oz' | 'g';
+
+  function wireAmountToggle(
+    root: ParentNode,
+    selector: string,
+    initial: AmountUnit,
+    onChange: (unit: AmountUnit) => void,
+  ): () => AmountUnit {
+    const group = root.querySelector<HTMLElement>(selector);
+    let unit: AmountUnit = initial;
+    const fromQuery = new URLSearchParams(window.location.search).get('aunit');
+    if (fromQuery === 'oz' || fromQuery === 'g') unit = fromQuery;
+
+    const sync = () => {
+      group?.querySelectorAll<HTMLButtonElement>('button[data-unit]').forEach((btn) => {
+        btn.setAttribute('aria-pressed', String(btn.dataset.unit === unit));
+      });
+    };
+    sync();
+    queueMicrotask(() => onChange(unit));
+
+    group?.addEventListener('click', (e) => {
+      const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('button[data-unit]');
+      if (!btn?.dataset.unit) return;
+      const next = btn.dataset.unit as AmountUnit;
+      if (next === unit) return;
+      unit = next;
+      sync();
+      writeQuery({ aunit: unit });
+      onChange(unit);
+    });
+
+    return () => unit;
+  }
+
+  const form = document.getElementById('chocolate-toxicity-calc') as HTMLFormElement | null;
+  if (form) {
+    const keys = ['weight', 'type', 'amount'];
+    applyQueryToForm(form, keys, { weight: '30', type: 'milk', amount: '2' });
+
+    let wUnit: WeightUnit = 'lb';
+    let aUnit: AmountUnit = 'oz';
+
+    wireWeightUnitToggle(form, '[data-weight-toggle]', 'lb', (u) => {
+      wUnit = u;
+      compute();
+    });
+    const getAmountUnit = wireAmountToggle(form, '[data-amount-toggle]', 'oz', (u) => {
+      aUnit = u;
+      compute();
+    });
+
+    const panel = form.querySelector('#chocolate-toxicity-results') as HTMLElement;
+    const emergency = form.querySelector('[data-result-emergency]') as HTMLElement;
+
+    function compute() {
+      aUnit = getAmountUnit();
+      syncFormToQuery(form!, [...keys, 'unit']);
+      writeQuery({ aunit: aUnit });
+      const weightKg = weightKgFromForm(form!, 'weight', wUnit);
+      const type = getFieldValue(form!, 'type') as ChocolateType;
+      const amount = parseNum(getFieldValue(form!, 'amount'));
+
+      if (weightKg == null || amount == null || amount < 0) {
+        showResults(panel, false);
+        return;
+      }
+
+      const grams = aUnit === 'g' ? amount : ozToG(amount);
+
+      try {
+        const r = assessChocolateToxicity(weightKg, grams, type);
+        showResults(panel, true);
+
+        const bandLabels = { low: 'Lower estimated risk', mild: 'Mild–moderate risk', moderate: 'Moderate–severe risk', high: 'High risk' };
+        form.querySelector('[data-result-band]')!.textContent = bandLabels[r.band];
+        form.querySelector('[data-result-mg]')!.textContent = `${round(r.theobromineMg, 1)} mg theobromine`;
+        form.querySelector('[data-result-dose]')!.textContent = `${round(r.doseMgPerKg, 1)} mg/kg`;
+        form.querySelector('[data-result-message]')!.textContent = r.message;
+
+        const isEmergency = r.band === 'moderate' || r.band === 'high';
+        if (isEmergency) emergency.removeAttribute('hidden');
+        else emergency.setAttribute('hidden', '');
+
+        if (panel) {
+          panel.style.background = isEmergency ? 'var(--danger-bg)' : '';
+          panel.style.borderColor = isEmergency ? '#e8b4b4' : '';
+        }
+      } catch {
+        showResults(panel, false);
+      }
+    }
+
+    bindFormInputs(form, keys, compute);
+    compute();
+  }
+</script>

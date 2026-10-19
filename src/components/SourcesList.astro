@@ -1,0 +1,49 @@
+---
+export type SourceItem = {
+  title: string;
+  url?: string;
+  publisher?: string;
+  accessed?: string;
+};
+
+export interface Props {
+  items: SourceItem[];
+  heading?: string;
+}
+
+const { items, heading = 'Sources & references' } = Astro.props;
+---
+
+{
+  items.length > 0 && (
+    <section class="sources prose" aria-labelledby="sources-heading">
+      <h2 id="sources-heading">{heading}</h2>
+      <ol>
+        {items.map((source) => (
+          <li>
+            {source.url ? (
+              <a href={source.url} rel="noopener noreferrer">
+                {source.title}
+              </a>
+            ) : (
+              <span>{source.title}</span>
+            )}
+            {source.publisher && <span> — {source.publisher}</span>}
+            {source.accessed && <span> (accessed {source.accessed})</span>}
+          </li>
+        ))}
+      </ol>
+    </section>
+  )
+}
+
+<style>
+  .sources ol {
+    margin: 0;
+    padding-left: 1.25rem;
+  }
+
+  .sources li {
+    margin: 0.5rem 0;
+  }
+</style>

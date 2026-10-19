@@ -1,0 +1,14 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "trailingSlash": true,
+  "redirects": [
+    {
+      "source": "/:path(.*)",
+      "has": [{ "type": "host", "value": "petcalctools.example" }],
+      "destination": "https://www.petcalctools.example/:path",
+      "permanent": true
+    },
+    { "source": "/tools/dog-years-calculator", "destination": "/tools/dog-age-calculator/", "permanent": true },
+    { "source": "/tools/puppy-growth-calculator", "destination": "/tools/puppy-weight-calculator/", "permanent": true }
+  ]
+}

@@ -1,0 +1,39 @@
+
+> pet-calculators@0.0.1 audit:seo
+> node scripts/audit/seo.mjs
+
+
+== seo ==
+  info  31 HTML pages in dist/, siteUrl = https://www.petcalctools.example
+  info  sitemap lists 28 URLs
+  warn  [placeholder-domain] siteUrl "https://www.petcalctools.example" is a placeholder; canonicals and sitemap point to it (blocks launch; error when AUDIT_PROD=1)
+         at src/config/site.ts
+  warn  [og-image-format] og:image is an SVG; Facebook, LinkedIn and X do not render SVG previews (use PNG/JPG/WebP)
+         at /, /about/, /authors/, /cats/, /contact/, /dogs/ (+22 more)
+  warn  [indexnow-placeholder] indexNowKey is still the placeholder; generate a key and add public/{key}.txt (blocks launch; error when AUDIT_PROD=1)
+         at src/config/site.ts
+  -> 0 error(s), 30 warning(s) - ok
+
+--- audit:adsense ---
+
+> pet-calculators@0.0.1 audit:adsense
+> node scripts/audit/adsense.mjs
+
+
+== adsense ==
+  info  ads disabled (adsensePublisherId empty): checking readiness only
+  info  ads.txt not required yet; add public/ads.txt right after AdSense approval
+  info  cookie notice is not a TCF CMP; add a certified CMP before enabling ads (docs/ADSENSE.md)
+  warn  [reviewer-placeholder] visible reviewer placeholder text; add a real credentialed reviewer or remove the claim (blocks launch; error when AUDIT_PROD=1)
+         at /authors/, /guides/cat-feeding-guide/, /guides/chocolate-and-dogs-safety/, /guides/dog-years-myth/, /guides/how-much-to-feed-a-puppy/, /guides/raw-feeding-basics/ (+12 more)
+  -> 0 error(s), 18 warning(s) - ok
+
+--- check:links ---
+
+> pet-calculators@0.0.1 check:links
+> node scripts/audit/links.mjs
+
+
+== links ==
+  info  31 pages scanned, 43 unique external links (use --external to verify)
+  -> 0 error(s), 0 warning(s) - ok
