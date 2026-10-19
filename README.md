@@ -135,13 +135,13 @@ Use `AUDIT_PROD=1 npm run audit` before production deploy to fail on placeholder
 
 All owner-specific values live in **`src/config/site.ts`** (not scattered in pages).
 
-| Field | Purpose |
+| Field / env | Purpose |
 |---|---|
 | `siteName`, `brandName`, `tagline` | UI and schema branding |
-| `siteUrl` | Canonical origin (`https://…`, no trailing slash) |
+| `PUBLIC_SITE_URL` → `siteUrl` | Canonical origin (`https://…`, no trailing slash); required in production |
 | `contactEmail` | Contact page `mailto:` and Organization schema |
 | `buildDate` | `lastmod`, “Last updated”, JSON-LD `dateModified` |
-| `ga4MeasurementId` | Google Analytics 4 (`G-…`); empty = disabled |
+| `PUBLIC_GA4_MEASUREMENT_ID` → `ga4MeasurementId` | Google Analytics 4 (`G-…`); empty = no analytics code |
 | `googleSiteVerification` | GSC HTML tag content; empty = disabled |
 | `bingSiteVerification` | Bing Webmaster meta tag; empty = disabled |
 | `adsensePublisherId` | `ca-pub-…`; empty = ads disabled |
@@ -152,7 +152,7 @@ All owner-specific values live in **`src/config/site.ts`** (not scattered in pag
 | `reviewerPlaceholder` | Reviewer box until a credentialed DVM is named |
 | `locale`, `twitterHandle` | OG locale / Twitter card |
 
-There are **no required environment variables** for build or runtime (static site).
+See **`.env.example`** for build env vars. Deploy target: Cloudflare Worker `pet-calculators` (`wrangler.jsonc`).
 
 ---
 

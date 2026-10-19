@@ -48,11 +48,19 @@ export function readSiteConfig() {
     const m = src.match(new RegExp(`${key}:\\s*['"\`]([^'"\`]*)['"\`]`));
     return m ? m[1] : '';
   };
+  // Mirror src/config/site.ts: PUBLIC_* env wins, then FALLBACK_SITE_URL literal.
+  const envSiteUrl = (process.env.PUBLIC_SITE_URL || '').trim().replace(/\/$/, '');
+  const fallbackMatch = src.match(/FALLBACK_SITE_URL\s*=\s*['"`]([^'"`]*)['"`]/);
+  const fallbackSiteUrl = (fallbackMatch?.[1] || 'https://www.petcalctools.example').replace(
+    /\/$/,
+    '',
+  );
+  const envGa4 = (process.env.PUBLIC_GA4_MEASUREMENT_ID || '').trim();
   return {
-    siteUrl: pick('siteUrl').replace(/\/$/, ''),
+    siteUrl: envSiteUrl || fallbackSiteUrl,
     adsensePublisherId: pick('adsensePublisherId'),
     indexNowKey: pick('indexNowKey'),
-    ga4MeasurementId: pick('ga4MeasurementId'),
+    ga4MeasurementId: envGa4,
     buildDate: pick('buildDate'),
   };
 }
