@@ -83,7 +83,7 @@ export const siteConfig = {
   /** Enable AdSense Auto ads when publisher ID is set */
   adsenseAutoAds: false,
   /** IndexNow key (also place matching file at /public/{key}.txt). Google does not use IndexNow. */
-  indexNowKey: 'petcalc-indexnow-key-replace-me',
+  indexNowKey: '6a232080046a9576fef903fc8f5b8279',
   /** Social / entity sameAs URLs for Organization schema (real profiles only) */
   sameAs: [] as string[],
   /** Default author shown in bylines */

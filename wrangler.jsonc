@@ -1,6 +1,7 @@
 /**
  * Pure static-assets Worker (no Astro Cloudflare adapter, no KV/Images bindings).
- * Workers Builds: branch main, root /, build `npm run build`, deploy `npx wrangler deploy`.
+ * Workers Builds: branch main, root /, build `npm run build`,
+ * deploy `npx wrangler deploy && node scripts/indexnow.mjs` (or `npm run deploy:indexnow`).
  */
 {
   "$schema": "node_modules/wrangler/config-schema.json",

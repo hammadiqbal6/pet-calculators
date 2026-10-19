@@ -18,7 +18,7 @@ Work top to bottom. Items marked **(gate)** must pass before you request indexin
 - [x] `contactEmail` is a real, monitored mailbox. **(gate)** Default `hammadiqbal117@gmail.com` (override with `PUBLIC_CONTACT_EMAIL`). The Contact page, footer, privacy/terms, and Organization schema use it.
 - [ ] `defaultAuthor` and `reviewerPlaceholder` are replaced with real named people with real credentials, or the reviewer claim is removed. **(gate)** Never ship `[Veterinary reviewer name]`; `npm run audit:adsense` warns, and `AUDIT_PROD=1` fails the build.
 - [ ] `buildDate` updated on every content release (drives `lastmod`, "Last updated" and `dateModified`).
-- [ ] `indexNowKey` replaced with a random 32-character hex key and the matching file `public/<key>.txt` (contents: the key) exists. The repo ships `public/petcalc-indexnow-key-replace-me.txt`; rename it and update `site.ts` together.
+- [x] `indexNowKey` set and matching `public/<key>.txt` (contents: the key) committed. Ping after deploy with `npm run indexnow` (section 3).
 - [ ] `googleSiteVerification` and `bingSiteVerification` filled only if you verify with meta tags (DNS verification is preferred, see 2.1).
 - [ ] `ga4MeasurementId` set (section 4) or deliberately empty.
 - [ ] `adsensePublisherId` stays **empty** until AdSense approval ([ADSENSE.md](./ADSENSE.md)).
@@ -70,24 +70,17 @@ Work top to bottom. Items marked **(gate)** must pass before you request indexin
 
 - Verify at Bing Webmaster Tools by importing the Search Console property (fastest), then submit `sitemap-index.xml`.
 - **IndexNow** reaches Bing, Yandex, Seznam, Naver, Yep and others; **Google does not participate** (SEO-PLAYBOOK section 2). Bing's index feeds several AI assistants, so keep it current.
-- Key: set `indexNowKey` in `src/config/site.ts` and create `public/<key>.txt` containing exactly the key.
-- Ping after each deploy that adds or materially updates pages:
+- Key: `indexNowKey` in `src/config/site.ts` and `public/<key>.txt` (contents: exactly the key). Keys are public by design.
+- **Post-deploy ping** (do not run inside `npm run build` — the key file must already be live):
 
 ```bash
-curl -s -X POST https://api.indexnow.org/indexnow \
-  -H 'Content-Type: application/json; charset=utf-8' \
-  -d '{
-    "host": "www.example-final-domain.com",
-    "key": "<indexNowKey>",
-    "keyLocation": "https://www.example-final-domain.com/<indexNowKey>.txt",
-    "urlList": [
-      "https://www.example-final-domain.com/guides/how-to-switch-dog-food/",
-      "https://www.example-final-domain.com/guides/"
-    ]
-  }'
+# After a successful deploy of dist/ (includes /<key>.txt):
+npm run indexnow
+# or: node scripts/indexnow.mjs
+# Dry-run (no POST): node scripts/indexnow.mjs --dry-run
 ```
 
-  Up to 10,000 URLs per request. Cloudflare also offers a native IndexNow integration. Only submit URLs that changed.
+  `scripts/indexnow.mjs` reads `dist/sitemap-index.xml` (and child sitemaps), POSTs every `<loc>` in batches of up to 10,000 to `https://api.indexnow.org/indexnow`, and logs the HTTP status. It always exits 0 so a ping failure never breaks deploy. Env: `PUBLIC_SITE_URL` (host / `keyLocation`), optional `INDEXNOW_KEY` override, `INDEXNOW_DISABLE=1` to skip. Workers Builds deploy command: `npx wrangler deploy && node scripts/indexnow.mjs` (same as `npm run deploy:indexnow`).
 
 ## 4. GA4 (analytics)
 
