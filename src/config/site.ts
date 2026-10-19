@@ -1,7 +1,7 @@
 /**
  * Single source of truth for brand, domain, analytics, and AdSense placeholders.
- * Canonical URL and GA4 come from build-time PUBLIC_* env vars (see `.env.example`).
- * Do not scatter domain strings across pages — use `absoluteUrl()`.
+ * Canonical URL, GA4, and GSC verification come from build-time PUBLIC_* env vars
+ * (see `.env.example`). Do not scatter domain strings across pages — use `absoluteUrl()`.
  */
 
 /** Used when `PUBLIC_SITE_URL` is unset (local builds / audits). */
@@ -32,6 +32,10 @@ function resolveGa4MeasurementId(): string {
   return publicEnv('PUBLIC_GA4_MEASUREMENT_ID');
 }
 
+function resolveGoogleSiteVerification(): string {
+  return publicEnv('PUBLIC_GSC_VERIFICATION');
+}
+
 export const siteConfig = {
   /** Public site name shown in UI, titles, and Organization schema */
   siteName: 'PetCalc Tools',
@@ -53,8 +57,11 @@ export const siteConfig = {
    * Empty string disables all analytics script tags.
    */
   ga4MeasurementId: resolveGa4MeasurementId(),
-  /** Optional Google Search Console HTML tag content. Leave empty to disable. */
-  googleSiteVerification: '',
+  /**
+   * Google Search Console HTML-tag verification content from `PUBLIC_GSC_VERIFICATION`.
+   * Empty string omits the meta tag. Prefer DNS verification when possible.
+   */
+  googleSiteVerification: resolveGoogleSiteVerification(),
   /** Bing Webmaster Tools verification. Leave empty to disable. */
   bingSiteVerification: '',
   /**

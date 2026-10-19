@@ -142,7 +142,7 @@ All owner-specific values live in **`src/config/site.ts`** (not scattered in pag
 | `contactEmail` | Contact page `mailto:` and Organization schema |
 | `buildDate` | `lastmod`, “Last updated”, JSON-LD `dateModified` |
 | `PUBLIC_GA4_MEASUREMENT_ID` → `ga4MeasurementId` | Google Analytics 4 (`G-…`); empty = no analytics code |
-| `googleSiteVerification` | GSC HTML tag content; empty = disabled |
+| `PUBLIC_GSC_VERIFICATION` → `googleSiteVerification` | GSC HTML-tag `content` value; empty = no meta tag |
 | `bingSiteVerification` | Bing Webmaster meta tag; empty = disabled |
 | `adsensePublisherId` | `ca-pub-…`; empty = ads disabled |
 | `adsenseAutoAds` | Enable Auto ads when publisher ID is set |
