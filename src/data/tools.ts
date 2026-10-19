@@ -37,7 +37,7 @@ export const tools: ToolMeta[] = [
     description:
       'Calculate puppy feeding amounts by current weight and expected adult size using RER and growth multipliers.',
     category: 'dog',
-    keywords: ['puppy food calculator', 'how much to feed a puppy', 'puppy calorie calculator'],
+    keywords: ['puppy food calculator', 'puppy calorie calculator', 'puppy feeding calculator by weight'],
     related: ['dog-food-calculator', 'puppy-weight-calculator', 'homemade-dog-food-calculator'],
   },
   {
