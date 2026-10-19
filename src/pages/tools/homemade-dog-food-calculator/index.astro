@@ -1,0 +1,156 @@
+---
+import ToolPageShell from '../../../components/ToolPageShell.astro';
+import HomemadeFoodCalc from '../../../components/calculators/HomemadeFoodCalc.astro';
+
+const faq = [
+  {
+    q: 'How much homemade food should I feed my dog per day?',
+    a: 'A common rule of thumb for adult maintenance is about 2 to 3 percent of body weight per day as fed, with puppies and very active dogs higher and overweight dogs lower. This calculator turns that range into grams and ounces. It sets portion size only; it does not make a recipe nutritionally complete.',
+  },
+  {
+    q: 'Is a homemade or raw diet nutritionally complete?',
+    a: 'Only if the recipe is formulated to be. Published analyses of online and cookbook recipes have repeatedly found missing or unbalanced nutrients, especially calcium, vitamins, and essential fatty acids. WSAVA recommends recipes formulated by a board-certified veterinary nutritionist.',
+  },
+  {
+    q: 'Does the 2 to 3 percent rule apply to puppies?',
+    a: 'Puppies often eat a higher percentage of body weight, roughly 2.5 to 5 percent depending on age, but growing dogs are also the most vulnerable to calcium and phosphorus errors. Do not feed a homemade puppy diet without a vet-nutritionist formulation.',
+  },
+  {
+    q: 'Is raw feeding safe?',
+    a: 'Raw meat can carry Salmonella, Listeria, and other pathogens that affect dogs and the people handling the food. Several veterinary organizations discourage raw-meat diets for this reason. If you choose raw, use strict kitchen hygiene and avoid it in homes with infants, elderly, or immunocompromised members.',
+  },
+  {
+    q: 'How do I convert percent of body weight to cups?',
+    a: 'Cups vary too much by ingredient to convert reliably. Weigh the food with a kitchen scale in grams or ounces; that is why the calculator reports weight. Calories are a better target, which is where our dog food calculator helps.',
+  },
+  {
+    q: 'What if my dog is gaining or losing weight?',
+    a: 'Adjust the daily amount by about 10 percent and check again in two weeks. For weight loss, work with your veterinarian, because calorie-restricted homemade diets can leave nutrient gaps unless the recipe was designed for it.',
+  },
+];
+
+const sources = [
+  {
+    title: 'WSAVA Global Nutrition Guidelines',
+    url: 'https://wsava.org/global-guidelines/global-nutrition-guidelines/',
+    publisher: 'WSAVA',
+  },
+  {
+    title: 'NRC Nutrient Requirements of Dogs and Cats',
+    url: 'https://nap.nationalacademies.org/catalog/10668/nutrient-requirements-of-dogs-and-cats',
+    publisher: 'National Academies Press',
+  },
+  {
+    title: 'Raw Pet Food Diets and Public Health (FDA)',
+    url: 'https://www.fda.gov/animal-veterinary/animal-health-literacy/get-facts-about-raw-pet-food-diets',
+    publisher: 'U.S. FDA',
+  },
+  {
+    title: 'AVMA Policy on Raw or Undercooked Animal-Source Protein in Cat and Dog Diets',
+    url: 'https://www.avma.org/resources-tools/avma-policies/raw-or-undercooked-animal-source-protein-cat-and-dog-diets',
+    publisher: 'AVMA',
+  },
+];
+---
+
+<ToolPageShell
+  slug="homemade-dog-food-calculator"
+  title="Homemade & Raw Dog Food Calculator"
+  description="Estimate daily homemade or raw dog food portions from body weight (about 2–3%). Educational only; balance recipes with a vet nutritionist."
+  answer="A homemade or raw dog food calculator estimates how much food to prepare per day, usually 2 to 3 percent of body weight for adult maintenance. It sizes the portion only. Whether the recipe is complete and balanced is a separate question that a veterinary nutritionist should answer."
+  takeaways={[
+    'Adult maintenance is typically 2–3% of body weight per day, as fed.',
+    'Portion size is not the same as nutritional completeness.',
+    'Use a recipe formulated by a board-certified veterinary nutritionist.',
+    'Raw diets carry food-safety risks for dogs and the people in the home.',
+    'Weigh food with a scale and adjust by body condition every two weeks.',
+  ]}
+  faq={faq}
+  sources={sources}
+>
+  <HomemadeFoodCalc slot="calculator" />
+
+  <h2>How to use the homemade dog food calculator</h2>
+  <ol>
+    <li>Enter your dog’s current healthy weight in pounds or kilograms.</li>
+    <li>Pick the goal: maintenance, puppy, active, or weight loss.</li>
+    <li>Read the daily range in grams and ounces of total food.</li>
+    <li>Split the amount into two meals for adults, or three to four for young puppies.</li>
+    <li>Weigh the dog and check body condition after two weeks, then adjust.</li>
+  </ol>
+
+  <h2>The rule of thumb behind the numbers</h2>
+  <p>
+    Home-prepared and raw diets are usually described as a percentage of body weight because the food
+    has no label calorie count. The common ranges used by this tool are:
+  </p>
+  <table>
+    <thead>
+      <tr><th>Goal</th><th>Percent of body weight per day</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Adult maintenance</td><td>2–3%</td></tr>
+      <tr><td>Active or working</td><td>3–4%</td></tr>
+      <tr><td>Puppy (varies by age)</td><td>2.5–5%</td></tr>
+      <tr><td>Weight loss (vet supervised)</td><td>1.5–2%</td></tr>
+    </tbody>
+  </table>
+  <p>
+    These are practical teaching ranges, not laboratory values. Energy density varies enormously: a
+    lean chicken and rice mixture might provide around 1.5 kcal per gram, while a fatty raw mix could
+    be well above 2. That is why two dogs eating the same 2.5 percent can gain or lose weight
+    differently.
+  </p>
+
+  <h2>Worked example</h2>
+  <p>
+    A 20 kg (44 lb) adult dog in maintenance mode: 2 percent is 400 g and 3 percent is 600 g, so the
+    daily range is <strong>400–600 g (14–21 oz)</strong>. Start in the middle at about 500 g, split
+    into two 250 g meals. If after two weeks the dog has lost weight and ribs are very prominent,
+    move toward 550 g; if the waist is disappearing, move toward 450 g.
+  </p>
+
+  <h2>Portion size is not a balanced diet</h2>
+  <p>
+    The hardest part of homemade feeding is not the amount but the composition. Dogs need specific
+    amounts of calcium, phosphorus, zinc, iodine, vitamins A, D, and E, and essential fatty acids. A
+    recipe made only of muscle meat and vegetables is typically very low in calcium and high in
+    phosphorus. Studies that analyzed popular homemade recipes found most were deficient in one or
+    more essential nutrients. Dogs on incomplete diets may look fine for months before problems such
+    as bone disease or skin and coat changes appear.
+  </p>
+  <p>
+    WSAVA’s nutrition guidelines suggest asking whether the person writing the recipe has formal
+    nutrition training, and recommend a board-certified veterinary nutritionist (ACVN or ECVCN) when
+    feeding homemade diets. Many offer remote consultations and will build a recipe around your dog’s
+    health history and ingredient preferences.
+  </p>
+
+  <h2>Food safety with raw ingredients</h2>
+  <p>
+    The FDA and AVMA both highlight pathogen risk in raw animal-source protein. Salmonella and
+    Listeria can be shed by dogs that look healthy, and the bacteria spread to bowls, counters, and
+    hands. If you feed raw: keep it frozen until needed, thaw in the refrigerator, wash hands and
+    surfaces with hot soapy water, discard leftovers promptly, and be cautious around young children
+    or anyone with a weakened immune system. Cooked homemade diets avoid most of this risk but still
+    need to be balanced.
+  </p>
+
+  <h2>Common mistakes</h2>
+  <ul>
+    <li>Treating a portion calculator as proof the recipe is complete.</li>
+    <li>Leaving out a calcium source, or adding bones without guidance.</li>
+    <li>Using cups instead of weighing food.</li>
+    <li>Adding toxic ingredients such as onions, grapes, raisins, or macadamia nuts.</li>
+    <li>Switching to a new recipe overnight instead of transitioning over a week or more.</li>
+  </ul>
+
+  <h2>Next steps</h2>
+  <p>
+    If you want calorie-based targets, use the <a href="/tools/dog-food-calculator/">dog food
+    calculator</a>. Puppies should be fed using the <a href="/tools/puppy-food-calculator/">puppy
+    food calculator</a>, and ideally a commercial complete-and-balanced growth diet or a
+    nutritionist-built recipe. Read our <a href="/guides/raw-feeding-basics/">raw feeding basics</a>
+    guide for a deeper look at benefits claimed, risks, and how to evaluate a recipe.
+  </p>
+</ToolPageShell>

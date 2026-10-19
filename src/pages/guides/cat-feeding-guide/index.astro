@@ -1,0 +1,191 @@
+---
+import GuidePageShell from '../../../components/GuidePageShell.astro';
+
+const faq = [
+  {
+    q: 'How many calories does an average indoor cat need per day?',
+    a: 'Many spayed or neutered indoor cats need about 180 to 250 kcal daily, depending on weight and activity, but individual variation is wide. A 4 kg (9 lb) cat with low activity might target near 200 kcal; an active or underweight cat may need more. Use the cat food calculator as a starting point, then adjust by body condition.',
+  },
+  {
+    q: 'Is wet food better than dry food for cats?',
+    a: 'Wet food adds moisture, which helps cats that drink little water and may support urinary health. Dry food is convenient and can support dental chewing in some cats. Many veterinarians suggest including wet food or ensuring ample water intake. Either can be complete if the label says it meets AAFCO standards for the cat’s life stage.',
+  },
+  {
+    q: 'Why do vets say cats are obligate carnivores?',
+    a: 'Cats require nutrients found primarily in animal tissues, such as preformed vitamin A, arachidonic acid, and taurine. They are not designed to thrive on high-carbohydrate plant-based diets. Commercial cat foods are formulated to supply these nutrients; homemade diets need professional formulation.',
+  },
+  {
+    q: 'How often should I feed my cat?',
+    a: 'Most adult cats do well with two measured meals per day, or more small meals if you use automatic feeders. Free-feeding dry food contributes to obesity in many indoor cats. Kittens need three to four meals until about six months of age.',
+  },
+  {
+    q: 'My cat is overweight. How much should I cut back?',
+    a: 'Aim for gradual loss: about 0.5 to 1 percent of body weight per week under veterinary supervision. That often means feeding 70 to 80 percent of maintenance calories, not half portions overnight. Weigh monthly and adjust; sudden crash dieting can cause hepatic lipidosis in cats.',
+  },
+  {
+    q: 'Do senior cats need different food?',
+    a: 'Senior formulas often have adjusted protein and phosphorus for kidney health, but healthy older cats may stay on adult food. AAFP and AAHA feline life stage guidelines suggest focusing on muscle mass, hydration, and disease screening rather than age alone. Your vet may recommend a therapeutic diet if kidney or thyroid disease is present.',
+  },
+];
+
+const sources = [
+  {
+    title: 'WSAVA Global Nutrition Guidelines',
+    url: 'https://wsava.org/global-guidelines/global-nutrition-guidelines/',
+    publisher: 'WSAVA',
+  },
+  {
+    title: 'AAFCO: Understanding Pet Food',
+    url: 'https://www.aafco.org/consumers/understanding-pet-food/',
+    publisher: 'AAFCO',
+  },
+  {
+    title: 'AAFP–AAHA Feline Life Stage Guidelines',
+    url: 'https://catvets.com/guidelines/practice-guidelines/life-stage-guidelines',
+    publisher: 'AAFP',
+  },
+  {
+    title: 'FDA: Pet Food Labels — General Information',
+    url: 'https://www.fda.gov/animal-veterinary/animal-health-literacy/pet-food-labels-general',
+    publisher: 'FDA',
+  },
+  {
+    title: 'NRC Nutrient Requirements of Dogs and Cats',
+    url: 'https://nap.nationalacademies.org/catalog/10668/nutrient-requirements-of-dogs-and-cats',
+    publisher: 'National Academies Press',
+  },
+];
+---
+
+<GuidePageShell
+  slug="cat-feeding-guide"
+  title="Cat Feeding Guide: Calories & Wet vs Dry"
+  description="How much to feed cats by life stage, why protein matters, and how to use a cat food calculator."
+  answer="Feed cats measured meals based on calories and body condition, not an overflowing bowl. Most indoor adults need roughly 180 to 250 kcal per day split into two meals, with wet food or ample water to support hydration. Choose food with an AAFCO complete-and-balanced statement for the correct life stage, then adjust portions every few weeks using weight and rib feel."
+  takeaways={[
+    'Calories and body condition matter more than brand hype or bowl size.',
+    'Cats need animal-source nutrients; complete commercial diets are formulated accordingly.',
+    'Wet food boosts moisture; dry food is fine when water intake is adequate.',
+    'Indoor neutered cats gain weight easily—measure food and limit treats to about 10% of calories.',
+    'Kittens, nursing queens, and seniors have different targets; life stage labels exist for a reason.',
+    'Use the cat food calculator for a starting kcal target, then confirm with your veterinarian.',
+  ]}
+  faq={faq}
+  sources={sources}
+>
+  <h2>Start with calories, not cups</h2>
+  <p>
+    Cat food labels list kilocalories per cup or per can, often as “ME” (metabolizable energy). Two
+    brands can differ by 100 kcal per cup, so switching foods without recalculating is a common reason
+    cats gain or lose weight unexpectedly. Veterinary nutrition starts from Resting Energy Requirement:
+    about 70 × (weight in kg) to the power of 0.75. Multiplying RER by 1.0 to 1.2 often estimates
+    maintenance for a lean indoor cat; overweight cats may need less under vet guidance; kittens and
+    active outdoor cats need more.
+  </p>
+  <p>
+    Enter your cat’s weight and lifestyle into the
+    <a href="/tools/cat-food-calculator/">cat food calculator</a> to see a daily kcal range and sample
+    portions for typical wet and dry products. Treat that number as a hypothesis: you prove or disprove
+    it with a scale and your hands on the ribs over the next two to four weeks.
+  </p>
+
+  <h2>Reading labels the AAFCO and FDA way</h2>
+  <p>
+    Look for a nutritional adequacy statement such as “complete and balanced for adult maintenance” or
+    “for growth and reproduction.” AAFCO sets the nutrient profiles behind those claims; FDA enforces
+    truthful labeling and safe manufacturing. Marketing phrases like “premium,” “human grade,” or
+    “grain free” do not by themselves tell you whether taurine, arachidonic acid, or vitamin D levels
+    are correct. If you feed a homemade or raw diet, WSAVA guidelines recommend working with a
+    veterinary nutritionist because cats fail quickly on imbalanced recipes.
+  </p>
+  <p>
+    Life stage matters. Kitten food is denser in calories and nutrients; adult food is wrong for a
+    growing kitten, and kitten food fed long term to a lazy adult can cause obesity. The
+    <a href="/tools/cat-age-calculator/">cat age calculator</a> maps calendar age to life stages used in
+    AAFP–AAHA guidelines, which helps you choose checkup frequency and feeding goals, not just food bag
+    labels.
+  </p>
+
+  <h2>Wet versus dry: hydration and convenience</h2>
+  <p>
+    Cats evolved as desert hunters and have a weak thirst drive compared with dogs. Many drink too
+    little when fed only dry food, which concentrates urine and may contribute to urinary tract issues
+    in susceptible cats. Wet food is mostly water by weight, so each meal adds fluid without relying on
+    the water bowl. If you prefer dry kibble for cost or convenience, place multiple fresh water
+    stations, consider a fountain, and monitor urine clumps in the litter box for sudden changes.
+  </p>
+  <p>
+    Neither texture wins on nutrition alone; a complete dry food beats an incomplete wet food and vice
+    versa. Some owners mix wet and dry; subtract calories from both so the total still matches the
+    target. Dental claims for dry food are modest—regular veterinary dental care still matters.
+  </p>
+
+  <h2>Meal schedules and free-feeding</h2>
+  <p>
+    Free-feeding dry food works for a few naturally lean cats, but most indoor cats overeat when the
+    bowl is always full. Measured meals make appetite changes visible: a cat that normally finishes
+    breakfast but leaves half may be ill. Kittens under six months usually need three to four meals per
+    day to avoid energy dips. Adults often do well with morning and evening meals; late-night snacks
+    should count toward the daily kcal budget, not sit outside it.
+  </p>
+
+  <h2>Body condition scoring at home</h2>
+  <p>
+    You should feel ribs with light pressure, see a waist behind the ribs when viewed from above, and
+    notice a slight abdominal tuck from the side. Fat pads on the chest and a swinging belly often mean
+    it is time to trim portions by 10 percent and recheck in two weeks. Obesity raises diabetes and
+    arthritis risk in cats; weight loss must be gradual because rapid fasting can trigger hepatic
+    lipidosis, a serious liver condition. Monthly weigh-ins on a baby scale or at the clinic keep
+    progress honest.
+  </p>
+
+  <h2>Treats, toppers, and “just a bite” culture</h2>
+  <p>
+    Treats should stay near 10 percent of daily calories. That includes dental sticks, squeeze treats,
+    and the crust of your sandwich. If training requires many rewards, use tiny pieces of the cat’s
+    regular kibble or a low-calorie option and reduce meal size accordingly. Rich human foods—tuna packed
+    for people, cream, deli meat—can unbalance the diet or upset the stomach. Onions, garlic, grapes,
+    raisins, alcohol, and xylitol sweetener are dangerous for cats as well as dogs.
+  </p>
+
+  <h2>Life stages in practice</h2>
+  <p>
+    <strong>Kittens</strong> need growth formulas until about 12 months, though large breeds like Maine
+    Coons may benefit from kitten food longer while they fill out. <strong>Adult cats</strong> from
+    about 1 to 6 or 7 years should stay lean to protect joints and metabolism.
+    <strong>Mature and senior cats</strong> may need more protein to preserve muscle, not less, unless
+    a veterinarian prescribes a phosphorus-restricted renal diet. Screen older cats for hyperthyroidism,
+    kidney disease, and diabetes; all three change appetite and weight abruptly.
+  </p>
+  <p>
+    Pregnant and nursing queens need kitten food and free access to calories until kittens wean; this
+    is one of the few times unlimited feeding is appropriate, and even then obesity before pregnancy
+    should be corrected first under vet advice.
+  </p>
+
+  <h2>Multi-cat households</h2>
+  <p>
+    Cats differ in metabolism. Feeding one communal bowl lets the food-motivated cat become round while
+    the shy cat stays thin. Separate feeding stations, microchip-activated feeders, or timed meals in
+    closed rooms let each cat eat its prescription or calorie target. Overweight cats should not be
+    starved while others graze; separate rooms for weight-loss plans are kinder and safer.
+  </p>
+
+  <h2>When to call the veterinarian</h2>
+  <p>
+    Sudden hunger with weight loss, drinking more water, vomiting, or refusing food for more than 24
+    hours warrants an appointment. Cats hide illness; a half-pound drop in a 10 lb cat is significant.
+    Bring your calorie math and brand name to the visit so the team can adjust therapeutics without
+    guessing. WSAVA nutrition guidelines emphasize that therapeutic diets for kidney, urinary, or
+    allergy disease should be chosen with professional diagnosis, not internet speculation.
+  </p>
+
+  <h2>Bottom line</h2>
+  <p>
+    Good cat feeding is boring in the best way: a complete food, a measured kcal target, hydration,
+    and regular body checks. Use AAFCO statements and FDA label literacy to pick the product, use our
+    calculator to set portions, and use your vet to interpret weight trends and lab work. Cats live long
+    when they stay lean, hydrated, and fed a diet that respects their carnivore chemistry—not when they
+    inherit the largest bowl in the pantry.
+  </p>
+</GuidePageShell>

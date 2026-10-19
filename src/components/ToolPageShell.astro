@@ -1,0 +1,99 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Takeaway from './Takeaway.astro';
+import Faq from './Faq.astro';
+import Disclaimer from './Disclaimer.astro';
+import ReviewerBox from './ReviewerBox.astro';
+import AuthorMeta from './AuthorMeta.astro';
+import SourcesList from './SourcesList.astro';
+import RelatedTools from './RelatedTools.astro';
+import AdSlot from './AdSlot.astro';
+import type { FaqItem } from './Faq.astro';
+import type { SourceItem } from './SourcesList.astro';
+import { siteConfig, absoluteUrl } from '../config/site.ts';
+import { getTool } from '../data/tools.ts';
+
+export interface Props {
+  slug: string;
+  /** SEO title, primary keyword first, under 60 characters including site name */
+  title: string;
+  /** Meta description under 155 characters */
+  description: string;
+  /** Answer-first paragraph, 40-60 words */
+  answer: string;
+  takeaways: string[];
+  faq: FaqItem[];
+  sources: SourceItem[];
+  adSlotId?: string;
+}
+
+const { slug, title, description, answer, takeaways, faq, sources, adSlotId = 'tool-after-results' } =
+  Astro.props;
+const tool = getTool(slug);
+if (!tool) throw new Error(`Unknown tool slug: ${slug}`);
+
+const lastUpdated = siteConfig.buildDate;
+const path = `/tools/${slug}/`;
+
+const jsonLd: Record<string, unknown>[] = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: tool.title,
+    description,
+    url: absoluteUrl(path),
+    applicationCategory: 'HealthApplication',
+    operatingSystem: 'Any',
+    browserRequirements: 'Requires JavaScript',
+    inLanguage: 'en-US',
+    isAccessibleForFree: true,
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    dateModified: lastUpdated,
+    publisher: { '@type': 'Organization', name: siteConfig.siteName, url: absoluteUrl('/') },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.a },
+    })),
+  },
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonicalPath={path}
+  lastUpdated={lastUpdated}
+  jsonLd={jsonLd}
+  breadcrumbs={[
+    { name: 'Tools', path: '/tools/' },
+    { name: tool.title, path },
+  ]}
+>
+  <article>
+    <section class="tool-shell" aria-labelledby="tool-title">
+      <h1 id="tool-title">{tool.title}</h1>
+      <p class="answer-first">{answer}</p>
+      <slot name="calculator" />
+    </section>
+
+    <AdSlot slotId={adSlotId} />
+
+    <Takeaway items={takeaways} />
+
+    <div class="prose">
+      <slot />
+    </div>
+
+    <Faq items={faq} />
+    <Disclaimer />
+    <ReviewerBox />
+    <AuthorMeta lastUpdated={lastUpdated} />
+    <SourcesList items={sources} />
+    <RelatedTools currentSlug={slug} />
+  </article>
+</BaseLayout>

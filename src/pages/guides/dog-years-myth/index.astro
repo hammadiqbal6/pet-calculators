@@ -1,0 +1,165 @@
+---
+import GuidePageShell from '../../../components/GuidePageShell.astro';
+
+const faq = [
+  {
+    q: 'Where did the 7:1 dog years rule come from?',
+    a: 'It is a simple rule of thumb that spread in the mid-20th century, loosely tied to human lifespans of about 70 years and dog lifespans of about 10. It was never based on biology and has been repeatedly criticized by veterinarians and researchers.',
+  },
+  {
+    q: 'What is the best way to convert dog years to human years?',
+    a: 'There is no single accepted formula. Veterinary groups use life stages by size instead. Researchers have proposed a logarithmic formula based on DNA methylation in Labradors. Both are approximations that are more realistic than 7:1.',
+  },
+  {
+    q: 'Do small dogs really live longer than large dogs?',
+    a: 'Yes, on average. Toy and small breeds often live 12 to 16 years, while giant breeds commonly live 7 to 10. The reasons are still being studied.',
+  },
+  {
+    q: 'How old is a 2-year-old dog in human years?',
+    a: 'Roughly 24, according to the common life-stage chart: about 15 for year one and 9 more for year two. The 7:1 rule would say 14.',
+  },
+  {
+    q: 'Is the logarithmic formula accurate for all breeds?',
+    a: 'No. It came from a study of Labrador Retrievers and humans, and the authors noted that differences between breeds would matter. It is a useful illustration of non-linear aging, not a standard.',
+  },
+];
+
+const sources = [
+  {
+    title: 'AAHA Canine Life Stage Guidelines',
+    url: 'https://www.aaha.org/resources/canine-life-stage-guidelines/',
+    publisher: 'AAHA',
+  },
+  {
+    title: 'Wang T. et al. (2020). Quantitative translation of dog-to-human aging by conserved remodeling of the DNA methylome. Cell Systems 11(2)',
+    url: 'https://doi.org/10.1016/j.cels.2020.06.006',
+    publisher: 'Cell Systems',
+  },
+  {
+    title: 'Urfer SR. et al. (2019). Effect of body size on life expectancy in dogs. Scientific Reports / GeroScience literature on dog size and lifespan',
+    url: 'https://pubmed.ncbi.nlm.nih.gov/?term=body+size+lifespan+dogs',
+    publisher: 'PubMed',
+  },
+  {
+    title: 'AVMA: Senior pet care',
+    url: 'https://www.avma.org/resources-tools/pet-owners/petcare/senior-pet-care',
+    publisher: 'AVMA',
+  },
+];
+---
+
+<GuidePageShell
+  slug="dog-years-myth"
+  title="The Dog Years Myth: Why 7:1 Is Wrong"
+  description="Why the “one dog year equals seven human years” rule fails, and what modern research and life-stage charts suggest instead."
+  answer="The idea that one dog year equals seven human years is a myth. Dogs mature far faster in their first two years, reaching roughly 24 human-equivalent years by age two, and then age at a pace that depends on size. Life stages are a better guide than any single multiplier."
+  takeaways={[
+    'The 7:1 rule has no biological basis.',
+    'Year one is roughly 15 human years, year two adds about 9.',
+    'Larger dogs age faster after maturity and have shorter lifespans.',
+    'Epigenetic research suggests aging is non-linear, which a log curve illustrates.',
+    'Use life stages to plan vet care, not a single conversion number.',
+  ]}
+  faq={faq}
+  sources={sources}
+>
+  <h2>Where the 7:1 rule came from</h2>
+  <p>
+    Nobody knows who first said “one dog year equals seven human years,” but the rule is easy to
+    explain. If humans live about 70 years and dogs about 10, you divide and get seven. It is neat,
+    memorable, and wrong, because dogs do not age at a steady rate. A one-year-old dog can have
+    puppies of its own and has reached near-adult size, which no seven-year-old child could do.
+    By the time a dog is two, it is socially and physically mature, which looks much more like a
+    young adult.
+  </p>
+
+  <h2>What the veterinary life-stage approach says</h2>
+  <p>
+    Veterinary groups avoid single multipliers. The AAHA Canine Life Stage Guidelines
+    define puppy, young adult, mature adult, senior, and end-of-life stages, with the start of the
+    senior stage depending on breed size. A commonly used teaching chart that fits the framework
+    gives about 15 human years for the first dog year, nine more for the second, and four to seven
+    for each year after that depending on size.
+  </p>
+  <table>
+    <thead>
+      <tr><th>Dog age</th><th>Small dog (human yrs)</th><th>Medium (human yrs)</th><th>Large (human yrs)</th><th>7:1 rule</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>15</td><td>15</td><td>15</td><td>7</td></tr>
+      <tr><td>2</td><td>24</td><td>24</td><td>24</td><td>14</td></tr>
+      <tr><td>5</td><td>36</td><td>39</td><td>42</td><td>35</td></tr>
+      <tr><td>10</td><td>56</td><td>64</td><td>72</td><td>70</td></tr>
+      <tr><td>14</td><td>72</td><td>84</td><td>96</td><td>98</td></tr>
+    </tbody>
+  </table>
+  <p>
+    Notice how the 7:1 rule undershoots young dogs and overshoots old ones, and ignores size entirely.
+    The <a href="/tools/dog-age-calculator/">dog age calculator</a> applies this size-aware model,
+    including giant breeds, and shows the AAHA-style life stage.
+  </p>
+
+  <h2>The epigenetic clock study</h2>
+  <p>
+    In 2020, researchers at the University of California San Diego compared how DNA methylation
+    patterns, a chemical marker that changes predictably with age, shifted in Labrador Retrievers and
+    humans. They found that dog and human aging track each other on a curve that rises quickly early and flattens
+    later. The result was popularized as <code>human age ≈ 16 × ln(dog age) + 31</code>. By that formula
+    a 1-year-old dog is about 31 in human terms, a 4-year-old about 53, and a 10-year-old about
+    68.
+  </p>
+  <p>
+    This is interesting science, but it should be kept in perspective. The study used one breed,
+    Labradors, and a modest number of dogs. It does not account for size, and the authors did not
+    present it as a clinical tool. In our calculator, the log curve is offered only as an
+    illustrative comparison, and we say so on the page.
+  </p>
+
+  <h2>Why size changes the math</h2>
+  <p>
+    A Great Dane may be old at 7, while a Chihuahua may be hale at 14. Large breeds grow quickly,
+    and on average they die younger than small breeds, the reverse of the pattern between species,
+    where larger mammals tend to live longer. Research on why is ongoing, with hypotheses that include
+    faster growth, cellular aging, and breed-specific disease. For practical purposes, the point is
+    that the same calendar age means different things in different dogs. A 9-year-old Great Dane is a
+    senior or geriatric patient, while a 9-year-old Dachshund may be a mature adult.
+  </p>
+
+  <h2>What to do with the number</h2>
+  <p>
+    The best use of a dog-to-human age conversion is as a prompt for care, not as a precise measure.
+    If your 8-year-old Labrador is, in effect, in her late 50s, ask whether your care routine looks like it
+    would for a person at that age:
+  </p>
+  <ul>
+    <li>Annual or twice-yearly exams with a weight check and dental review.</li>
+    <li>Baseline bloodwork and urinalysis to catch kidney, liver, and thyroid changes.</li>
+    <li>Joint health: weight control, low-impact exercise, and pain screening.</li>
+    <li>Diet suited to life stage; use the <a href="/tools/dog-food-calculator/">dog food calculator</a> to adjust calories for lower activity.</li>
+    <li>Mental stimulation to support cognition.</li>
+  </ul>
+
+  <h2>What about cats?</h2>
+  <p>
+    Cats follow a similar pattern, with about 15 human years in year one and nine in year two, then
+    about four per year. Because cats vary less in size, there is less spread between individuals.
+    You can see the conversion with the <a href="/tools/cat-age-calculator/">cat age calculator</a>,
+    which also lists the feline life stages recognized by AAFP and AAHA.
+  </p>
+
+  <h2>Why the myth persists</h2>
+  <p>
+    Simple rules spread because they are easy to remember and they give owners a feeling of
+    connection to their pets. There is nothing wrong with enjoying a quick conversion, as long as it
+    does not stand in for veterinary judgment. When someone tells you that your dog is “49 in dog
+    years,” a good response is to ask which stage of life your dog is in and what that means for care.
+    That question leads to more useful decisions than the number does.
+  </p>
+
+  <h2>Bottom line</h2>
+  <p>
+    Drop the multiply-by-seven rule. Think in terms of life stages, remember that size matters, and
+    treat any formula, including the popular logarithmic one, as an approximation. Your dog’s behavior,
+    mobility, and exam findings tell you far more than a conversion chart ever can.
+  </p>
+</GuidePageShell>

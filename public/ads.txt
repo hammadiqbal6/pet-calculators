@@ -1,0 +1,6 @@
+# ads.txt template for PetCalc Tools
+# Replace pub-0000000000000000 with your AdSense publisher ID (without the "ca-" prefix)
+# after your AdSense account is approved, then delete this comment block.
+# Format: <ad system domain>, <publisher ID>, <relationship>, <certification authority ID>
+#
+# google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0

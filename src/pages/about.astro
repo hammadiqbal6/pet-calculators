@@ -1,0 +1,92 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { siteConfig } from '../config/site.ts';
+import { tools } from '../data/tools.ts';
+import { guides } from '../data/guides.ts';
+
+const description =
+  'PetCalc Tools builds free dog and cat calculators with cited formulas, lb and kg support, and clear limits. Learn who we are and how we work.';
+---
+
+<BaseLayout
+  title="About PetCalc Tools – Free Pet Calculators"
+  description={description}
+  canonicalPath="/about/"
+  breadcrumbs={[{ name: 'About', path: '/about/' }]}
+>
+  <header class="hero">
+    <h1>About {siteConfig.siteName}</h1>
+    <p class="lead">
+      {siteConfig.siteName} is a free set of dog and cat calculators for everyday decisions: how much to feed, how big a
+      puppy will grow, how old a pet is in human terms, and when a situation needs a veterinarian right away.
+    </p>
+  </header>
+
+  <div class="prose">
+    <h2>What we do</h2>
+    <p>
+      Most pet owners meet the same handful of questions over and over. How many cups should my dog eat? Is this puppy
+      going to be forty pounds or eighty? How worried should I be about the chocolate that disappeared from the
+      counter? Search results for these questions tend to be a pile of ads wrapped around a rough rule of thumb.
+      We built {siteConfig.siteName} to give you a direct answer first, then show the formula behind it so you can judge
+      it for yourself.
+    </p>
+    <p>
+      Every calculator runs in your browser. You do not need an account, and the numbers you type are not sent to a
+      server by the calculator itself. Weights work in pounds or kilograms, results are shown in both, and every tool
+      page explains the method, a worked example, common mistakes, and the sources behind the numbers.
+    </p>
+
+    <h2>What is here</h2>
+    <p>
+      There are {tools.length} calculators and {guides.length} long-form guides at launch. Dog tools cover puppy
+      weight, dog and puppy food, homemade and raw portions, age, body condition, pregnancy due dates, chocolate
+      toxicity, and water intake. Cat tools cover age and food. Browse the <a href="/tools/">full calculator list</a>,
+      the <a href="/dogs/">dog hub</a>, the <a href="/cats/">cat hub</a>, or the <a href="/guides/">guides</a>.
+    </p>
+
+    <h2>How we keep content reliable</h2>
+    <ul>
+      <li>
+        <strong>Published formulas.</strong> Energy needs use resting energy requirement and life-stage multipliers
+        taught in veterinary nutrition and described in the National Research Council's Nutrient Requirements of Dogs
+        and Cats and the WSAVA Global Nutrition Guidelines.
+      </li>
+      <li>
+        <strong>Life stages from professional bodies.</strong> Age and life-stage content follows AAHA and AAFP
+        guidance, and toxicity content follows ASPCA Animal Poison Control and the MSD Veterinary Manual.
+      </li>
+      <li>
+        <strong>Plain limits.</strong> Each page says what the tool cannot do. Calculators estimate; they do not
+        diagnose, and they never replace an exam.
+      </li>
+      <li>
+        <strong>Dated pages.</strong> Every page shows when it was last updated. See our
+        <a href="/methodology/">methodology</a> for the exact equations and editorial rules.
+      </li>
+    </ul>
+
+    <h2>Veterinary review</h2>
+    <p>
+      We are working toward independent review of every page by a licensed veterinarian or board-certified
+      nutritionist. Until a named reviewer is credited on a page, treat the content as general education that cites
+      published guidelines, and use your own veterinarian as the final authority for your animal. Reviewer status is shown
+      on each tool and guide page.
+    </p>
+
+    <h2>How the site is funded</h2>
+    <p>
+      The calculators are free. The site may show advertising through Google AdSense once an account is approved, and
+      ads are always labelled and kept below the calculator so they never sit between you and your result. We do not sell
+      pet food, supplements, or insurance, and we do not accept payment to change a calculation. Details of cookies and
+      advertising are in the <a href="/privacy/">privacy policy</a>.
+    </p>
+
+    <h2>Corrections and feedback</h2>
+    <p>
+      If you spot an error, a broken link, or a number that does not match a source, please tell us through the
+      <a href="/contact/">contact page</a>. Corrections are reviewed against the cited guideline and published with a new
+      update date. You can meet the editorial team on the <a href="/authors/">authors page</a>.
+    </p>
+  </div>
+</BaseLayout>

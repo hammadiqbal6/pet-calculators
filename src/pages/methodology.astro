@@ -1,0 +1,235 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SourcesList from '../components/SourcesList.astro';
+import { siteConfig } from '../config/site.ts';
+import { SRC } from '../data/sources.ts';
+import { DOG_MER_FACTORS, CAT_MER_FACTORS } from '../lib/formulas/energy.ts';
+import { THEOBROMINE_MG_PER_G } from '../lib/formulas/chocolate.ts';
+
+const description =
+  'How PetCalc Tools calculators work: RER and MER energy formulas, growth curves, age conversion, toxicity bands, and our editorial and review process.';
+
+const dogStageLabels: Record<string, string> = {
+  puppy_0_4: 'Puppy under 4 months',
+  puppy_4_adult: 'Puppy 4 months to adult size',
+  adult_intact: 'Adult, intact',
+  adult_neutered: 'Adult, neutered or spayed',
+  weight_loss: 'Weight loss (veterinary supervised)',
+  weight_gain: 'Weight gain',
+  active: 'Active or sporting',
+  working: 'Working dog',
+  senior: 'Senior',
+};
+
+const catStageLabels: Record<string, string> = {
+  kitten: 'Kitten',
+  adult_intact: 'Adult, intact',
+  adult_neutered: 'Adult, neutered or spayed',
+  weight_loss: 'Weight loss (veterinary supervised)',
+  weight_gain: 'Weight gain',
+  senior: 'Senior',
+};
+
+const chocolateLabels: Record<string, string> = {
+  white: 'White chocolate',
+  milk: 'Milk chocolate',
+  dark: 'Dark chocolate',
+  baking: 'Baking or unsweetened chocolate',
+};
+
+const sources = [
+  SRC.nrc,
+  SRC.wsavaNutrition,
+  SRC.wsavaBcs,
+  SRC.aafco,
+  SRC.aahaCanineLife,
+  SRC.aahaNutrition,
+  SRC.aahaFeline,
+  SRC.aspcaPoison,
+  SRC.petPoisonChocolate,
+  SRC.msdChocolate,
+  SRC.msdDogReproduction,
+  SRC.wangDogAging,
+];
+---
+
+<BaseLayout
+  title="Methodology: How Our Calculators Work"
+  description={description}
+  canonicalPath="/methodology/"
+  breadcrumbs={[{ name: 'Methodology', path: '/methodology/' }]}
+>
+  <header class="hero">
+    <h1>Methodology</h1>
+    <p class="lead">
+      Every calculator on {siteConfig.siteName} uses a published or widely taught formula, computed in metric units and
+      converted for display. This page lists each equation, the constants behind it, and the editorial rules we follow.
+    </p>
+    <p class="meta-row"><span>Last updated: {siteConfig.buildDate}</span></p>
+  </header>
+
+  <div class="prose">
+    <h2>Editorial principles</h2>
+    <ul>
+      <li><strong>Answer first.</strong> Each page opens with a plain-language answer, then shows the work.</li>
+      <li><strong>Cite primary guidance.</strong> We prefer guidelines from WSAVA, AAHA, AAFP, AAFCO, the National Research Council, the ASPCA, and the MSD Veterinary Manual over blogs and forums.</li>
+      <li><strong>Show limits.</strong> Estimates are presented as ranges where the science supports a range, and every page carries a disclaimer.</li>
+      <li><strong>No paid placement.</strong> Brands cannot pay for a calculation, a ranking, or a recommendation.</li>
+      <li><strong>Dated and corrected.</strong> Pages show a last-updated date. Errors are fixed against the source, and the date changes.</li>
+      <li><strong>Review.</strong> Pages are written for independent veterinary review. Reviewer status is shown on each page and on the <a href="/authors/">authors page</a>.</li>
+    </ul>
+
+    <h2>Units</h2>
+    <p>
+      All internal math uses kilograms, grams, millilitres, and kilocalories. Pounds are converted with 1 lb = 0.45359237
+      kg, ounces with 1 oz = 28.3495 g, and results are displayed in the unit you choose with the other unit in
+      parentheses. Rounding happens only at display time.
+    </p>
+
+    <h2>Energy needs: RER and MER</h2>
+    <p>
+      The dog and cat food, puppy food, and related tools start with resting energy requirement (RER), the energy a
+      healthy animal uses at rest in a thermoneutral environment:
+    </p>
+    <p><strong>RER (kcal/day) = 70 × (body weight in kg)<sup>0.75</sup></strong></p>
+    <p>
+      Maintenance energy requirement (MER) multiplies RER by a factor for life stage and activity. Factors are
+      taught in veterinary nutrition and align with ranges in the NRC Nutrient Requirements of Dogs and Cats and the WSAVA
+      Global Nutrition Guidelines. They are starting points, because individual animals vary by 20 percent or more.
+    </p>
+
+    <h3>Dog factors</h3>
+    <table>
+      <thead><tr><th>Life stage</th><th>MER factor</th></tr></thead>
+      <tbody>
+        {
+          Object.entries(DOG_MER_FACTORS).map(([key, factor]) => (
+            <tr>
+              <td>{dogStageLabels[key] ?? key}</td>
+              <td>{factor.toFixed(1)} × RER</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+
+    <h3>Cat factors</h3>
+    <table>
+      <thead><tr><th>Life stage</th><th>MER factor</th></tr></thead>
+      <tbody>
+        {
+          Object.entries(CAT_MER_FACTORS).map(([key, factor]) => (
+            <tr>
+              <td>{catStageLabels[key] ?? key}</td>
+              <td>{factor.toFixed(1)} × RER</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+    <p>
+      Cups per day are daily kilocalories divided by the kilocalories per cup printed on the food label (or by the
+      kcal per 100 g, scaled, for grams). Always use the label value for your specific food, because dry foods range from
+      roughly 280 to over 500 kcal per cup.
+    </p>
+
+    <h2>Puppy weight prediction</h2>
+    <p>For puppies up to 16 weeks old the early-puppy rule is used:</p>
+    <p><strong>Estimated adult weight = (current weight ÷ age in weeks) × 52</strong></p>
+    <p>
+      For older puppies, current weight is divided by the share of adult weight typically reached at that age, from a
+      curve of the form 1 − e<sup>−3.2 × (age ÷ maturity age)</sup>, where maturity age comes from the breed or size
+      class (10 months for toy breeds, up to 24 months for giant breeds). The raw estimate is blended 65:35 with the midpoint of the
+      breed or size adult range, and the displayed range is widened to at least 12 percent of the estimate. Breed ranges are
+      averages for mixed sexes; individuals differ.
+    </p>
+
+    <h2>Dog age in human years</h2>
+    <p>
+      The old rule of seven human years per dog year is not used. The size-aware model counts the first year as 15 human
+      years and the second as 9 more, then adds 4 (toy and small), 5 (medium), 6 (large), or 7 (giant) human years per
+      dog year. Life stage labels follow the age bands in the AAHA Canine Life Stage Guidelines, with the senior threshold
+      earlier for larger dogs (6 years for giant breeds up to 10 for small ones). An optional logarithmic curve,
+      human age ≈ 16 × ln(dog age) + 31, is shown for comparison and is inspired by DNA methylation research (Wang et al., 2020). It is
+      illustrative, not a clinical standard.
+    </p>
+
+    <h2>Cat age in human years</h2>
+    <p>
+      Cats use 15 human years for the first year, 9 more for the second, and 4 for each year after. Life stages are
+      kitten (under 6 months), junior (to 1 year), prime or adult (to 7), mature (to 11), senior (to 15), and
+      geriatric (15 and over), based on the AAHA/AAFP Feline Life Stage Guidelines.
+    </p>
+
+    <h2>Homemade and raw portions</h2>
+    <p>
+      Portion ranges are shown as a percentage of body weight per day, as fed: 2 to 3 percent for adult maintenance,
+      2.5 to 5 percent for puppies, 3 to 4 percent for active dogs, and 1.5 to 2 percent for supervised weight loss.
+      These are rules of thumb used in practice, not a recipe. Complete and balanced homemade diets require formulation by a
+      veterinary nutritionist, as the WSAVA guidelines stress.
+    </p>
+
+    <h2>Dog body condition</h2>
+    <p>
+      The body condition helper divides weight in kilograms by height at the withers in metres squared, which is a
+      BMI-style index. Dogs do not have a validated BMI, so the index is a rough screen. The hands-on 1 to 9 body condition
+      score from the WSAVA Global Nutrition Committee is the clinical standard, and it takes precedence when the two disagree.
+    </p>
+
+    <h2>Pregnancy due date</h2>
+    <p>
+      The due date is 63 days after the start date entered. Gestation is about 63 days from ovulation, so an ovulation
+      date gives a window of plus or minus 2 days, and a mating date gives a wider window of plus or minus 5 days, because
+      mating can occur several days before or after ovulation. Progesterone testing and ultrasound by a veterinarian
+      are more accurate.
+    </p>
+
+    <h2>Chocolate toxicity</h2>
+    <p>
+      Theobromine content per gram of chocolate is approximated from published ranges, multiplied by the amount
+      eaten, and divided by the dog's body weight to give a dose in mg per kg.
+    </p>
+    <table>
+      <thead><tr><th>Chocolate type</th><th>Theobromine (mg per gram)</th></tr></thead>
+      <tbody>
+        {
+          Object.entries(THEOBROMINE_MG_PER_G).map(([key, mg]) => (
+            <tr>
+              <td>{chocolateLabels[key] ?? key}</td>
+              <td>{mg}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+    <p>
+      Doses under 20 mg/kg fall in the lower band, 20 to 40 mg/kg in the mild band, 40 to 60 mg/kg in the moderate band,
+      and above 60 mg/kg in the high band. Real products vary widely, so the tool is a triage aid. Contact a veterinarian or poison
+      hotline whenever a dog has eaten chocolate, especially dark chocolate, baking chocolate, or a small dog.
+    </p>
+
+    <h2>Daily water intake</h2>
+    <p>
+      Healthy adult dogs typically drink about 50 to 60 ml per kg per day. The calculator raises the range to 60 to 80 for
+      active dogs, 70 to 100 in hot weather, and 80 to 120 ml per kg for nursing dogs. One cup is counted as 240 ml. Wet
+      diets supply part of the water, so dogs on them may drink less. Sudden changes are a reason to call a vet.
+    </p>
+
+    <h2>Known limitations</h2>
+    <ul>
+      <li>Calculators estimate population averages, not an individual animal's needs.</li>
+      <li>They do not account for disease, medication, pregnancy (except where stated), or breed-specific metabolism.</li>
+      <li>Food labels and chocolate products vary, and the tool cannot read your specific label.</li>
+      <li>Nothing here diagnoses a condition or replaces a veterinary exam.</li>
+    </ul>
+
+    <h2>Reporting an error</h2>
+    <p>
+      If you believe a formula or constant is wrong, send the page and a source through the
+      <a href="/contact/">contact page</a>. We review reports against the cited guideline and update the page date when a
+      change is made.
+    </p>
+  </div>
+
+  <SourcesList items={sources} heading="Sources used across the site" />
+</BaseLayout>

@@ -1,0 +1,165 @@
+---
+import ToolPageShell from '../../../components/ToolPageShell.astro';
+import DogFoodCalc from '../../../components/calculators/DogFoodCalc.astro';
+import { SRC } from '../../../data/sources.ts';
+
+const faq = [
+  {
+    q: "What is RER for dogs?",
+    a: "Resting energy requirement is the energy a healthy dog uses at rest. The standard formula is 70 times body weight in kilograms raised to the 0.75 power. A 10 kg (22 lb) dog has an RER of about 394 kcal per day, before any allowance for activity or life stage.",
+  },
+  {
+    q: "What is MER and which factor should I pick?",
+    a: "Maintenance energy requirement is RER multiplied by a factor. Neutered adults are commonly fed at 1.6 times RER, intact adults at 1.8, active dogs at 2.0, and working dogs at 2.5. Seniors often need about 1.4. These are starting points that you adjust by watching weight and body condition.",
+  },
+  {
+    q: "Why does the feeding chart on the bag say something different?",
+    a: "Bag charts are written for an average dog and are often generous so that a hard-working or thin dog does not go hungry. Many pet owners find that a neutered, indoor dog gains weight on the full chart. Use the calculator as a cross-check and trust your dog's body condition over any chart.",
+  },
+  {
+    q: "How do I convert calories to cups?",
+    a: "Find the kilocalories per cup on the label, usually labelled as kcal ME per cup. Divide the daily kcal target by that number. A 1,075 kcal target on a 350 kcal per cup food is about 3.1 cups. If your food lists only kcal per kilogram, divide by about 4 to get kcal per cup of kibble, then check with a scale.",
+  },
+  {
+    q: "Do treats count toward the daily calories?",
+    a: "Yes. A common guideline is to keep treats and extras under about 10 percent of daily calories and reduce meals to match. A single medium dental chew can contain 70 to 100 kcal, which is a meaningful share of a small dog's daily budget.",
+  },
+  {
+    q: "How many times a day should I feed my dog?",
+    a: "Most healthy adult dogs do well with two meals a day, roughly 8 to 12 hours apart. The calculator shows a per-meal amount for two meals. Giant and deep-chested breeds may do better with three smaller meals, and your vet can advise on bloat risk.",
+  },
+  {
+    q: "Can I use this for a puppy or a pregnant dog?",
+    a: "Use the puppy food calculator for dogs growing toward adult size, because they need 2 to 3 times RER. Pregnant and nursing dogs can need much more than any maintenance factor and should follow a veterinary feeding plan.",
+  },
+  {
+    q: "My dog is overweight. What should I enter?",
+    a: "Choose the weight loss option and enter your dog's target weight, not the current weight, then confirm the plan with your vet. Aim to lose roughly 1 to 2 percent of body weight per week and re-weigh every two weeks.",
+  },
+];
+
+const sources = [
+  SRC.nrc,
+  SRC.wsavaNutrition,
+  SRC.aahaNutrition,
+  SRC.aafco,
+  SRC.msdDogHome,
+];
+---
+
+<ToolPageShell
+  slug="dog-food-calculator"
+  title="Dog Food Calculator: Calories & Cups a Day"
+  description="Calculate how much to feed your dog each day in calories and cups from weight, life stage, and food label kcal. Free, lb and kg, no signup."
+  answer="A dog food calculator estimates how many calories and cups your dog needs per day. It multiplies resting energy, 70 × weight in kg to the 0.75 power, by a life-stage factor, then divides by the kcal per cup on your food label. Start there, then adjust by body condition."
+  takeaways={[
+    "Daily calories = 70 × (kg)^0.75 × a life-stage factor. For a neutered adult the factor is 1.6.",
+    "Enter kcal per cup from your bag. Foods range from under 300 to over 500 kcal per cup, so the same cup means different things.",
+    "Treats count. Keep them under roughly 10 percent of daily calories.",
+    "Re-weigh every two to four weeks and nudge portions by about 10 percent if weight drifts.",
+  ]}
+  faq={faq}
+  sources={sources}
+>
+  <Fragment slot="calculator">
+    <DogFoodCalc />
+  </Fragment>
+
+  <h2>How to use the dog food calculator</h2>
+  <p>
+    Enter your dog's current healthy weight in pounds or kilograms. If your dog is overweight, enter the weight you
+    are aiming for and pick the weight loss option, ideally with your vet's agreement. Choose the life stage or activity that fits best.
+    The list covers neutered and intact adults, active and sporting dogs, working dogs, seniors, and weight loss or gain.
+    Finally, type the kilocalories per cup from the food bag, which is often printed beside the feeding chart as "kcal ME/cup".
+  </p>
+  <p>
+    The result panel shows the resting energy requirement, the daily calorie target, the approximate cups per day,
+    and a per-meal amount based on two meals. Your inputs are stored in the page address, so you can bookmark
+    the result or send it to a family member who shares the feeding routine.
+  </p>
+
+  <h2>Formula and method</h2>
+  <p><strong>RER (kcal/day) = 70 × (body weight in kg)<sup>0.75</sup></strong></p>
+  <p><strong>MER (kcal/day) = RER × life-stage factor</strong></p>
+  <p><strong>Cups per day = MER ÷ kcal per cup</strong></p>
+  <p>
+    The exponent 0.75 reflects that energy needs rise more slowly than body weight. A 40 kg dog weighs ten times as much as a 4 kg
+    dog but needs only about 5.6 times as many calories. The life-stage factors are the ones taught in veterinary
+    nutrition and consistent with the ranges in the National Research Council's Nutrient Requirements of Dogs and Cats and
+    the WSAVA Global Nutrition Guidelines. The AAHA nutrition and weight management guidelines recommend a similar
+    approach: calculate a starting calorie target, then adjust to body condition.
+  </p>
+
+  <h3>Life-stage factors used</h3>
+  <table>
+    <thead><tr><th>Life stage or activity</th><th>Multiplier</th><th>Typical use</th></tr></thead>
+    <tbody>
+      <tr><td>Weight loss</td><td>1.0 × RER</td><td>Veterinary-supervised diet, calculated on target weight</td></tr>
+      <tr><td>Senior</td><td>1.4 × RER</td><td>Less active older dogs</td></tr>
+      <tr><td>Adult, neutered or spayed</td><td>1.6 × RER</td><td>Most pet dogs</td></tr>
+      <tr><td>Weight gain</td><td>1.7 × RER</td><td>Underweight dogs, with a vet check</td></tr>
+      <tr><td>Adult, intact</td><td>1.8 × RER</td><td>Unneutered, moderately active</td></tr>
+      <tr><td>Active or sporting</td><td>2.0 × RER</td><td>Daily hard exercise</td></tr>
+      <tr><td>Working dog</td><td>2.5 × RER</td><td>Herding, sled, or detection work</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Worked example</h2>
+  <p>
+    A neutered Labrador-mix weighs 45 lb (20.4 kg) and eats a kibble that provides 350 kcal per cup.
+  </p>
+  <ul>
+    <li>RER = 70 × 20.4<sup>0.75</sup> = about 672 kcal per day.</li>
+    <li>MER for a neutered adult = 672 × 1.6 = about 1,076 kcal per day.</li>
+    <li>Cups per day = 1,076 ÷ 350 = about 3.1 cups.</li>
+    <li>Two meals: about 1.5 cups each.</li>
+  </ul>
+  <p>
+    If the same dog is moved to a more calorie-dense food at 420 kcal per cup, the target stays at 1,076 kcal and the
+    amount falls to about 2.6 cups. That is the reason to plan by calories rather than cups.
+  </p>
+
+  <h2>Examples by weight</h2>
+  <p>Adult neutered dogs at a 1.6 factor and a food at 350 kcal per cup:</p>
+  <table>
+    <thead><tr><th>Weight</th><th>RER</th><th>Daily kcal</th><th>Cups per day</th></tr></thead>
+    <tbody>
+      <tr><td>10 lb (4.5 kg)</td><td>218 kcal</td><td>348 kcal</td><td>About 1.0</td></tr>
+      <tr><td>22 lb (10 kg)</td><td>394 kcal</td><td>630 kcal</td><td>About 1.8</td></tr>
+      <tr><td>45 lb (20.4 kg)</td><td>672 kcal</td><td>1,076 kcal</td><td>About 3.1</td></tr>
+      <tr><td>65 lb (29.5 kg)</td><td>886 kcal</td><td>1,417 kcal</td><td>About 4.0</td></tr>
+      <tr><td>90 lb (40.8 kg)</td><td>1,131 kcal</td><td>1,809 kcal</td><td>About 5.2</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Why calories, not cups, are the right target</h2>
+  <p>
+    Dog foods vary from under 300 to well over 500 kcal per cup. A "cup a day" is therefore a very different
+    amount from brand to brand. Starting from calories lets you change foods without guessing: divide the same daily
+    target by the new food's kcal per cup. Also keep in mind that scoops are imprecise. A scoop can hold 20 percent more
+    or less kibble depending on how it is filled, so a kitchen scale in grams is better. Wet food, fresh food, and toppers have
+    their own calorie counts, which you can subtract from the target before measuring dry food.
+  </p>
+
+  <h2>Common mistakes</h2>
+  <ul>
+    <li><strong>Using the current weight of an overweight dog.</strong> This locks in the extra weight. Calculate on the target weight.</li>
+    <li><strong>Ignoring treats and chews.</strong> They can add 10 to 20 percent of the day's calories without anyone noticing.</li>
+    <li><strong>Copying the bag chart.</strong> Charts are broad averages. Use your dog's body condition as the final test.</li>
+    <li><strong>Mixing kcal per cup and kcal per 100 g.</strong> Check the unit on the label before typing the number in.</li>
+    <li><strong>Using this for puppies.</strong> Growing dogs have higher multipliers and need a growth diet. Use the <a href="/tools/puppy-food-calculator/">puppy food calculator</a>.</li>
+    <li><strong>Never rechecking.</strong> Needs change with season, activity, neutering, and age.</li>
+  </ul>
+
+  <h2>Tips for getting the amount right</h2>
+  <ul>
+    <li>Run your hands along your dog's ribs. You should feel them easily under a thin fat cover, with a visible waist from above. The <a href="/tools/dog-bmi-calculator/">body condition helper</a> describes the 9-point scale vets use.</li>
+    <li>Weigh every two to four weeks. If your dog is gaining unintentionally, cut about 10 percent. If losing, add about 10 percent and ask your vet.</li>
+    <li>Choose a food with an AAFCO statement of nutritional adequacy for your dog's life stage.</li>
+    <li>Provide fresh water and check the baseline with the <a href="/tools/dog-water-intake-calculator/">dog water intake calculator</a>.</li>
+    <li>If you cook for your dog, see the <a href="/tools/homemade-dog-food-calculator/">homemade dog food calculator</a> and talk to a veterinary nutritionist about balance.</li>
+  </ul>
+  <p>
+    Medical conditions such as diabetes, kidney disease, thyroid problems, and pancreatitis change energy and nutrient needs. For a dog with any health issue, follow your veterinarian's plan rather than a general formula.
+  </p>
+</ToolPageShell>

@@ -1,0 +1,118 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Takeaway from './Takeaway.astro';
+import Faq from './Faq.astro';
+import Disclaimer from './Disclaimer.astro';
+import ReviewerBox from './ReviewerBox.astro';
+import AuthorMeta from './AuthorMeta.astro';
+import SourcesList from './SourcesList.astro';
+import AdSlot from './AdSlot.astro';
+import type { FaqItem } from './Faq.astro';
+import type { SourceItem } from './SourcesList.astro';
+import { siteConfig, absoluteUrl } from '../config/site.ts';
+import { getGuide } from '../data/guides.ts';
+import { getTool } from '../data/tools.ts';
+
+export interface Props {
+  slug: string;
+  /** SEO title (site name appended by layout) */
+  title: string;
+  description: string;
+  answer: string;
+  takeaways: string[];
+  faq?: FaqItem[];
+  sources: SourceItem[];
+}
+
+const { slug, title, description, answer, takeaways, faq = [], sources } = Astro.props;
+const guide = getGuide(slug);
+if (!guide) throw new Error(`Unknown guide slug: ${slug}`);
+
+const path = `/guides/${slug}/`;
+const lastUpdated = guide.lastUpdated ?? siteConfig.buildDate;
+const relatedTools = guide.relatedTools
+  .map((s) => getTool(s))
+  .filter((t): t is NonNullable<ReturnType<typeof getTool>> => Boolean(t));
+
+const jsonLd: Record<string, unknown>[] = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: guide.title,
+    description,
+    mainEntityOfPage: absoluteUrl(path),
+    url: absoluteUrl(path),
+    inLanguage: 'en-US',
+    datePublished: lastUpdated,
+    dateModified: lastUpdated,
+    author: { '@type': 'Organization', name: siteConfig.defaultAuthor.name, url: absoluteUrl('/authors/') },
+    publisher: {
+      '@type': 'Organization',
+      name: siteConfig.siteName,
+      url: absoluteUrl('/'),
+      logo: { '@type': 'ImageObject', url: absoluteUrl('/favicon.svg') },
+    },
+  },
+  ...(faq.length
+    ? [
+        {
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          mainEntity: faq.map((item) => ({
+            '@type': 'Question',
+            name: item.q,
+            acceptedAnswer: { '@type': 'Answer', text: item.a },
+          })),
+        },
+      ]
+    : []),
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonicalPath={path}
+  ogType="article"
+  lastUpdated={lastUpdated}
+  jsonLd={jsonLd}
+  breadcrumbs={[
+    { name: 'Guides', path: '/guides/' },
+    { name: guide.title, path },
+  ]}
+>
+  <article>
+    <header class="hero">
+      <h1>{guide.title}</h1>
+      <p class="lead">{answer}</p>
+      <AuthorMeta lastUpdated={lastUpdated} />
+    </header>
+
+    <Takeaway items={takeaways} />
+
+    <div class="prose">
+      <slot />
+    </div>
+
+    <section class="related" aria-labelledby="guide-tools-heading">
+      <h2 id="guide-tools-heading">Try the calculators</h2>
+      <div class="card-grid">
+        {
+          relatedTools.map((tool) => (
+            <a class="tool-card" href={`/tools/${tool.slug}/`}>
+              <h3>{tool.title}</h3>
+              <p>{tool.description}</p>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+
+    <AdSlot slotId="guide-after-content" />
+
+    <Faq items={faq} />
+    <Disclaimer />
+    <ReviewerBox />
+    <SourcesList items={sources} />
+  </article>
+</BaseLayout>

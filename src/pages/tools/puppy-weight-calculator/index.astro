@@ -1,0 +1,160 @@
+---
+import ToolPageShell from '../../../components/ToolPageShell.astro';
+import PuppyWeightCalc from '../../../components/calculators/PuppyWeightCalc.astro';
+import { SRC } from '../../../data/sources.ts';
+
+const faq = [
+  {
+    q: "How accurate is a puppy weight calculator?",
+    a: "For puppies under about 16 weeks the estimate is usually within 15 to 25 percent of the final weight, which is a wide band for a large breed. Accuracy improves after five or six months because most of the growth curve has already happened. Mixed-breed puppies are the hardest to predict, so expect a wider range.",
+  },
+  {
+    q: "What is the puppy weight formula at 16 weeks?",
+    a: "A common rule of thumb is to double the weight at 16 weeks for small dogs and multiply by 2.5 for large breeds. The calculator uses a related rule, current weight divided by age in weeks times 52, for puppies up to 16 weeks, then blends it with the typical adult range for the breed or size class you select.",
+  },
+  {
+    q: "Should I enter weight in pounds or kilograms?",
+    a: "Either. Use the lb/kg toggle above the weight box and the calculator converts internally and shows the result in both units. Weigh your puppy on the same scale each time, ideally on a baby or bathroom scale while you hold the puppy and subtract your own weight.",
+  },
+  {
+    q: "Why is my puppy bigger or smaller than the prediction?",
+    a: "Litter size, parent size, nutrition, neuter timing, and normal growth spurts all matter. Puppies often grow unevenly, with a fast stretch followed by a slow one. A single measurement is a snapshot, so repeat the calculation every two to four weeks and look at the trend rather than one number.",
+  },
+  {
+    q: "Does neutering change how big my puppy gets?",
+    a: "Early neutering can delay the closing of growth plates, which sometimes leads to slightly taller, leaner dogs. The effect on final weight is modest, but timing is a medical decision. Ask your veterinarian when to neuter, especially for large and giant breeds where joint health is a concern.",
+  },
+  {
+    q: "When should I worry about my puppy's weight?",
+    a: "Call your vet if your puppy loses weight, stops gaining for two weeks, has a swollen belly, or is falling well outside the typical range for its size class. Rapid gain in a large-breed puppy can stress developing joints, so steady and lean growth is the goal.",
+  },
+  {
+    q: "Can I use this for a cat or a kitten?",
+    a: "No. The growth curves here are built for dogs. Kittens reach adult size on a different schedule, usually by 12 months, and adult cats vary far less in weight. Use the cat food calculator for kitten feeding amounts.",
+  },
+];
+
+const sources = [
+  SRC.nrc,
+  SRC.wsavaNutrition,
+  SRC.aahaCanineLife,
+  SRC.aspcaDogCare,
+  SRC.msdDogHome,
+];
+---
+
+<ToolPageShell
+  slug="puppy-weight-calculator"
+  title="Puppy Weight Calculator & Growth Chart"
+  description="Predict your puppy's adult weight from age in weeks, current weight, and breed size. Free growth chart in lb and kg, no signup needed."
+  answer="A puppy weight calculator estimates your dog's adult weight from its current weight, age in weeks, and breed or size class. Enter those values above to get a predicted adult range in pounds and kilograms plus a growth curve. Treat the result as a planning estimate, because genetics, diet, and neuter timing all shift the final number."
+  takeaways={[
+    "Puppies under 16 weeks are predicted with current weight divided by age in weeks, multiplied by 52, then blended with the breed's typical adult range.",
+    "Expect a range, not a single number. A 12-week medium-breed puppy can end up anywhere across a 30 to 40 lb span.",
+    "Weigh every two weeks on the same scale and plot the trend. Steady, lean growth matters more than hitting a target.",
+    "Large and giant breeds keep growing until 16 to 24 months, so do not switch food types early.",
+  ]}
+  faq={faq}
+  sources={sources}
+>
+  <Fragment slot="calculator">
+    <PuppyWeightCalc />
+  </Fragment>
+
+  <h2>How to use the puppy weight calculator</h2>
+  <p>
+    Start with an accurate weight. The easiest method at home is to step on a bathroom scale holding your puppy,
+    then subtract your own weight. A kitchen scale works for toy breeds. Enter the number and choose pounds or
+    kilograms with the toggle. Next, enter your puppy's age in whole weeks. If you only know the birth date,
+    divide the number of days since birth by seven and round down.
+  </p>
+  <p>
+    Pick a breed from the list if you have a purebred puppy. The list covers about 50 common breeds plus a mixed
+    or unknown option, and each one carries a typical adult weight range and a typical age at which growth finishes.
+    If your dog is a mix, leave the breed blank and choose a size class instead. The class label shows its adult range
+    in kilograms so you can match it to what a vet or shelter told you about the parents.
+  </p>
+  <p>
+    The results panel shows an estimated adult range, the expected range for the breed or size, how far through
+    growth your puppy probably is, and which method produced the estimate. The small chart plots an illustrative growth
+    curve toward the predicted adult weight. Your inputs are written into the page address, so you can bookmark the
+    result and repeat the measurement later without retyping anything.
+  </p>
+
+  <h2>Formula and method</h2>
+  <p>
+    The calculator uses two methods depending on age. For puppies up to 16 weeks old it applies the classic early
+    estimate used by many breeders and veterinary teams:
+  </p>
+  <p><strong>Estimated adult weight = (current weight ÷ age in weeks) × 52</strong></p>
+  <p>
+    This works because young puppies gain weight at a fairly predictable rate relative to age. For older puppies the
+    rule becomes unreliable, so the calculator instead estimates what fraction of adult weight a dog of that age
+    normally has reached and divides the current weight by that fraction. The fraction comes from a smooth curve that
+    rises quickly in early life and tapers as the dog nears maturity, with maturity set by breed or size class
+    (about 10 months for toy breeds and up to 18 to 24 months for giants).
+  </p>
+  <p>
+    Either raw estimate is then blended with the midpoint of the breed's expected adult range, using 65 percent
+    weight on the calculation and 35 percent on the breed midpoint. That blend dampens wild predictions from a single
+    odd weigh-in. The final low and high values add and subtract half the breed range, or at least 12 percent of the
+    estimate, whichever is larger. It is an educational model built on common veterinary rules of thumb, not a
+    clinical growth standard.
+  </p>
+
+  <h2>Worked example</h2>
+  <p>
+    Suppose you have a medium-sized mixed-breed puppy that weighs 12 lb (5.4 kg) at 12 weeks.
+  </p>
+  <ul>
+    <li>Early estimate: 5.44 kg ÷ 12 weeks × 52 = 23.6 kg (52 lb).</li>
+    <li>Medium size class range is 12 to 27 kg, so the midpoint is 19.5 kg.</li>
+    <li>Blend: 23.6 × 0.65 + 19.5 × 0.35 = 22.2 kg (about 49 lb).</li>
+    <li>Spread: half the range is 7.5 kg, giving a predicted adult range of roughly 14.7 to 29.7 kg (32 to 65 lb).</li>
+  </ul>
+  <p>
+    The range is wide because a 12-week-old puppy is still far from adult size, and the medium class itself covers
+    dogs from beagle-sized to husky-sized. Re-run the calculation at 16 and 24 weeks and the range will tighten.
+  </p>
+
+  <h2>Typical adult weight and growth timing by size</h2>
+  <table>
+    <thead>
+      <tr><th>Size class</th><th>Adult weight</th><th>Growth mostly finished</th><th>Example breeds</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Toy</td><td>3 to 12 lb (1.5 to 5.5 kg)</td><td>About 10 months</td><td>Chihuahua, Pomeranian, Yorkshire Terrier</td></tr>
+      <tr><td>Small</td><td>12 to 26 lb (5.5 to 12 kg)</td><td>About 12 months</td><td>Beagle, Pug, Dachshund</td></tr>
+      <tr><td>Medium</td><td>26 to 60 lb (12 to 27 kg)</td><td>About 14 months</td><td>Border Collie, Siberian Husky, Bulldog</td></tr>
+      <tr><td>Large</td><td>60 to 100 lb (27 to 45 kg)</td><td>About 16 months</td><td>Labrador, Golden Retriever, Boxer</td></tr>
+      <tr><td>Giant</td><td>100 to 200 lb (45 to 90 kg)</td><td>18 to 24 months</td><td>Great Dane, Saint Bernard, Mastiff</td></tr>
+    </tbody>
+  </table>
+  <p>
+    Frame size and fat are different things. A dog can finish growing in height at 12 months and still fill out in
+    the chest and muscle for another year, particularly in large breeds. Use the weight prediction together with a hands-on
+    body condition check, which you can do with our <a href="/tools/dog-bmi-calculator/">dog body condition helper</a>.
+  </p>
+
+  <h2>Common mistakes</h2>
+  <ul>
+    <li><strong>Using one weigh-in.</strong> Puppies have growth spurts and flat spells. Average two or three readings before drawing conclusions.</li>
+    <li><strong>Entering age in months.</strong> The field expects weeks. A 4-month-old puppy is about 17 weeks, not 4.</li>
+    <li><strong>Picking the wrong size class for a mix.</strong> If you are unsure, choose the larger class when both parents are unknown and a pediatric exam suggests big paws and long limbs.</li>
+    <li><strong>Treating the prediction as a target.</strong> Do not feed a puppy to hit a number. Overfeeding large breeds increases the risk of developmental joint problems.</li>
+    <li><strong>Comparing across breeds.</strong> Littermates of different sexes can differ by 10 to 20 percent in final weight.</li>
+  </ul>
+
+  <h2>Tips for tracking growth</h2>
+  <ul>
+    <li>Weigh every one to two weeks until 6 months, then monthly. Record the date, scale used, and whether your puppy had just eaten.</li>
+    <li>Ask your vet to log weight at each vaccine visit. Clinic scales are more precise than home scales.</li>
+    <li>Pair this tool with the <a href="/tools/puppy-food-calculator/">puppy food calculator</a> so calories track weight as it climbs.</li>
+    <li>Feed a diet labeled for growth, and for large breeds one formulated for large-breed puppies, which carries controlled calcium. AAFCO nutrient profiles define these life stages.</li>
+    <li>Read our guide on <a href="/guides/when-do-puppies-stop-growing/">when puppies stop growing</a> to plan the switch to adult food.</li>
+  </ul>
+  <p>
+    If your puppy's weight drops, stalls, or climbs unusually fast, the right next step is a veterinary exam, not a
+    different prediction.
+  </p>
+</ToolPageShell>

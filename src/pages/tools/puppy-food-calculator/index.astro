@@ -1,0 +1,149 @@
+---
+import ToolPageShell from '../../../components/ToolPageShell.astro';
+import PuppyFoodCalc from '../../../components/calculators/PuppyFoodCalc.astro';
+
+const faq = [
+  {
+    q: 'How much should a puppy eat per day?',
+    a: 'It depends on current weight, age, and expected adult size. The calculator estimates resting energy (RER) and multiplies it by a growth factor of about 3.0 for puppies under four months and about 2.0 from four months until near adult size, then converts calories to cups using your food’s kcal per cup.',
+  },
+  {
+    q: 'How many times a day should I feed a puppy?',
+    a: 'Many veterinarians suggest three to four small meals daily for puppies under about 12 weeks, three meals until roughly six months, and two meals afterward. Splitting the daily total into more meals can be gentler on small stomachs and helps with house training.',
+  },
+  {
+    q: 'Should I use the feeding chart on the bag instead?',
+    a: 'Bag charts are a reasonable starting point, but they are written for an average puppy and often run high. Use the label amount and this estimate as a range, then adjust every one to two weeks based on body condition and growth.',
+  },
+  {
+    q: 'When should I switch from puppy food to adult food?',
+    a: 'Small and medium breeds usually switch around 9 to 12 months. Large and giant breeds often stay on a large-breed puppy formula until 15 to 18 months or longer. Ask your vet to confirm for your dog, and switch gradually over about a week.',
+  },
+  {
+    q: 'Do treats count toward my puppy’s calories?',
+    a: 'Yes. Keep treats and training rewards to roughly 10 percent of daily calories or less, and reduce meal portions to compensate. This matters most for toy breeds, where a few treats can be a large share of the day.',
+  },
+  {
+    q: 'Can large-breed puppies be overfed?',
+    a: 'Yes, and it matters more for them. Overly rapid growth in large and giant breeds is associated with developmental orthopedic problems. Feed a formula designed for large-breed growth and keep your puppy lean, with ribs easy to feel.',
+  },
+];
+
+const sources = [
+  {
+    title: 'NRC Nutrient Requirements of Dogs and Cats',
+    url: 'https://nap.nationalacademies.org/catalog/10668/nutrient-requirements-of-dogs-and-cats',
+    publisher: 'National Academies Press',
+  },
+  {
+    title: 'WSAVA Global Nutrition Guidelines',
+    url: 'https://wsava.org/global-guidelines/global-nutrition-guidelines/',
+    publisher: 'WSAVA',
+  },
+  {
+    title: 'AAHA Nutrition and Weight Management Guidelines',
+    url: 'https://www.aaha.org/resources/2021-aaha-nutrition-and-weight-management-guidelines/',
+    publisher: 'AAHA',
+  },
+  {
+    title: 'AAFCO Pet Food Label Nutritional Adequacy Statements',
+    url: 'https://www.aafco.org/consumers/understanding-pet-food/',
+    publisher: 'AAFCO',
+  },
+];
+---
+
+<ToolPageShell
+  slug="puppy-food-calculator"
+  title="Puppy Food Calculator: Calories & Cups"
+  description="Free puppy food calculator: estimate daily calories and cups from weight, age, and adult size using RER and growth multipliers."
+  answer="A puppy food calculator estimates daily calories from your puppy’s weight, age, and expected adult size, then converts them to cups for your specific food. Puppies need about two to three times the resting energy of an adult, so amounts shrink relative to body weight as growth slows."
+  takeaways={[
+    'Puppies under four months need roughly 3 × RER; older puppies about 2 × RER.',
+    'Cups depend on the food’s kcal per cup — check your bag, not a generic chart.',
+    'Spread the daily total over three or four meals while your puppy is young.',
+    'Large-breed puppies should grow steadily, not quickly; keep them lean.',
+    'Recalculate every few weeks as weight changes.',
+  ]}
+  faq={faq}
+  sources={sources}
+>
+  <PuppyFoodCalc slot="calculator" />
+
+  <h2>How to use the puppy food calculator</h2>
+  <ol>
+    <li>Weigh your puppy on a kitchen or baby scale. Weighing yourself holding the puppy and subtracting also works.</li>
+    <li>Enter the weight, your puppy’s age, and the expected adult size class or weight.</li>
+    <li>Enter the kcal per cup from your food’s label. This is listed as “kcal/cup” or “ME” in the guaranteed analysis area.</li>
+    <li>Read the daily calorie estimate and the cup range, then divide the total across meals.</li>
+    <li>Re-check body condition and weight every one to two weeks and rerun the calculator.</li>
+  </ol>
+
+  <h2>How the estimate works</h2>
+  <p>
+    The calculation starts with Resting Energy Requirement, a standard veterinary estimate of the
+    calories a dog burns at rest: <code>RER = 70 × (body weight in kg)^0.75</code>. The exponent
+    reflects the fact that metabolism does not scale in a straight line with weight; a 20 kg dog does
+    not need twice the calories of a 10 kg dog.
+  </p>
+  <p>
+    RER is then multiplied by a life-stage factor. Commonly taught values for growing dogs are about
+    <strong>3.0 × RER up to four months of age</strong> and about <strong>2.0 × RER from four months
+    to adulthood</strong>. These come from the NRC and veterinary nutrition teaching and are starting
+    points, not rules. Active, lean, or fast-growing puppies may need more; calm or chubby ones less.
+  </p>
+
+  <h2>Worked example</h2>
+  <p>
+    A 5 kg (11 lb) puppy at 12 weeks: RER = 70 × 5^0.75 ≈ 234 kcal. At 3.0 × RER the estimate is about
+    <strong>700 kcal per day</strong>. If the food contains 400 kcal per cup, that is about
+    <strong>1.75 cups per day</strong>, or just under half a cup at each of four meals. Two months
+    later the same puppy might weigh 9 kg; RER is about 365 kcal, and at 2.0 × RER the target is about
+    730 kcal. Notice that the daily calories barely changed even though the puppy gained weight,
+    because the growth multiplier fell. This is why a feeding amount that worked at 12 weeks can
+    quietly turn into overfeeding at 16 weeks.
+  </p>
+
+  <h2>Typical puppy feeding frequency</h2>
+  <table>
+    <thead>
+      <tr><th>Age</th><th>Meals per day</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>6–12 weeks</td><td>4</td><td>Small stomachs; toy breeds may need an extra snack to avoid low blood sugar.</td></tr>
+      <tr><td>3–6 months</td><td>3</td><td>Keep meal times consistent to help with house training.</td></tr>
+      <tr><td>6–12 months</td><td>2–3</td><td>Move to two meals as appetite and routine settle.</td></tr>
+      <tr><td>12+ months</td><td>2</td><td>Transition to adult food by breed size, gradually.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Adjusting for body condition</h2>
+  <p>
+    Calories are only half of the picture. The most reliable check is hands-on: you should be able to
+    feel your puppy’s ribs under a thin layer of padding, and see a waist from above. If ribs are hard
+    to find, reduce the daily amount by about 10 percent and reassess in two weeks. If ribs are
+    sharply visible, increase by 10 percent and speak with your vet, because parasites and other
+    health problems can also cause a thin puppy. Our <a href="/tools/dog-bmi-calculator/">dog body
+    condition helper</a> and the WSAVA 1–9 scale describe what to look for.
+  </p>
+
+  <h2>Common mistakes</h2>
+  <ul>
+    <li>Feeding adult-food amounts to a puppy, or puppy-food amounts to a nearly grown dog.</li>
+    <li>Ignoring treats, chews, and food used for training.</li>
+    <li>Using cups from a different brand — kcal per cup can range from under 300 to over 500.</li>
+    <li>Free-feeding large-breed puppies, which makes rapid growth more likely.</li>
+    <li>Changing foods suddenly instead of mixing old and new over seven or more days.</li>
+  </ul>
+
+  <h2>Related reading</h2>
+  <p>
+    For a broader overview read <a href="/guides/how-much-to-feed-a-puppy/">How much to feed a puppy</a>.
+    To plan ahead, use the <a href="/tools/puppy-weight-calculator/">puppy weight calculator</a> to
+    estimate adult size, and the <a href="/tools/dog-food-calculator/">dog food calculator</a> once your
+    dog is fully grown. If you prepare meals at home, see the
+    <a href="/tools/homemade-dog-food-calculator/">homemade dog food calculator</a> and talk to a
+    veterinary nutritionist, since growing puppies are especially sensitive to calcium and phosphorus
+    imbalances.
+  </p>
+</ToolPageShell>

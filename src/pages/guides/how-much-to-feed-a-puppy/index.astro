@@ -1,0 +1,171 @@
+---
+import GuidePageShell from '../../../components/GuidePageShell.astro';
+
+const faq = [
+  {
+    q: 'How much should a 10-week-old puppy eat?',
+    a: 'It depends on weight and expected adult size. A 4 kg puppy needs roughly 3 × RER, about 590 kcal a day, which is about 1.5 cups of a 400 kcal/cup food. Use the label as a check and adjust by body condition.',
+  },
+  {
+    q: 'Should I free-feed my puppy?',
+    a: 'Generally no. Measured meals help control growth, make appetite changes obvious, and support house training. Free-feeding is especially risky for large-breed puppies.',
+  },
+  {
+    q: 'What if my puppy leaves food in the bowl?',
+    a: 'Pick up the bowl after 15 to 20 minutes and offer food at the next meal. Occasional skipped meals are normal, but a puppy that refuses food for a day, or seems unwell, needs a vet check.',
+  },
+  {
+    q: 'Can I give my puppy human food?',
+    a: 'Small amounts of plain, safe foods can be used as treats within the 10 percent rule. Avoid chocolate, grapes, raisins, onions, garlic, xylitol, macadamia nuts, and fatty scraps.',
+  },
+  {
+    q: 'Do I need to add supplements?',
+    a: 'Not with a complete and balanced puppy food. Extra calcium in particular can be harmful to large-breed puppies. Ask your vet before adding anything.',
+  },
+];
+
+const sources = [
+  {
+    title: 'NRC Nutrient Requirements of Dogs and Cats',
+    url: 'https://nap.nationalacademies.org/catalog/10668/nutrient-requirements-of-dogs-and-cats',
+    publisher: 'National Academies Press',
+  },
+  {
+    title: 'WSAVA Global Nutrition Guidelines',
+    url: 'https://wsava.org/global-guidelines/global-nutrition-guidelines/',
+    publisher: 'WSAVA',
+  },
+  {
+    title: 'AAHA Nutrition and Weight Management Guidelines',
+    url: 'https://www.aaha.org/resources/2021-aaha-nutrition-and-weight-management-guidelines/',
+    publisher: 'AAHA',
+  },
+  {
+    title: 'AAFCO Pet Food Label Basics',
+    url: 'https://www.aafco.org/consumers/understanding-pet-food/',
+    publisher: 'AAFCO',
+  },
+];
+---
+
+<GuidePageShell
+  slug="how-much-to-feed-a-puppy"
+  title="How Much to Feed a Puppy: Calories & Meals"
+  description="Practical puppy feeding guide covering calories, meal frequency, and common overfeeding mistakes, with a calculator."
+  answer="Most puppies need about two to three times the resting energy of an adult dog: roughly 3 × RER under four months and 2 × RER afterward, spread over three or four meals a day. Start with the calculator or the bag’s chart, then adjust based on your puppy’s body condition."
+  takeaways={[
+    'Calories come first: about 3 × RER under 4 months, 2 × RER after.',
+    'Three to four meals a day for young puppies, then two.',
+    'Use the kcal per cup on your food’s label to convert to cups.',
+    'Keep treats under about 10% of calories.',
+    'Judge by ribs and waist, not by an empty bowl.',
+  ]}
+  faq={faq}
+  sources={sources}
+>
+  <h2>The short version</h2>
+  <p>
+    Puppies are building bone, muscle, and organs while running around all day, so they need more
+    calories per pound than adults. But overfeeding is just as risky as underfeeding: puppies that grow
+    too fast, especially large breeds, are more likely to develop joint and skeletal problems. The
+    goal is steady, lean growth. Use a calorie target, divide it into several measured meals, and
+    check your puppy’s body shape every week or two.
+  </p>
+
+  <h2>Step 1: Work out daily calories</h2>
+  <p>
+    Veterinary nutrition uses Resting Energy Requirement, or RER, as a baseline: 70 × (weight in
+    kg) to the power of 0.75. For growing puppies it is multiplied by about 3.0 until around four
+    months, and about 2.0 from four months until near adult size. Here is what that looks like for a
+    few weights:
+  </p>
+  <table>
+    <thead>
+      <tr><th>Puppy weight</th><th>RER (kcal)</th><th>At 3 × RER</th><th>At 2 × RER</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>2 kg (4.4 lb)</td><td>118</td><td>~355</td><td>~235</td></tr>
+      <tr><td>5 kg (11 lb)</td><td>234</td><td>~700</td><td>~470</td></tr>
+      <tr><td>10 kg (22 lb)</td><td>394</td><td>~1,180</td><td>~790</td></tr>
+      <tr><td>20 kg (44 lb)</td><td>662</td><td>~1,990</td><td>~1,325</td></tr>
+    </tbody>
+  </table>
+  <p>
+    To skip the arithmetic, enter your puppy’s numbers into the
+    <a href="/tools/puppy-food-calculator/">puppy food calculator</a>. Use the
+    <a href="/tools/puppy-weight-calculator/">puppy weight calculator</a> first if you want to know
+    the expected adult size, which affects the growth multiplier and whether to use a large-breed
+    formula.
+  </p>
+
+  <h2>Step 2: Convert calories to cups</h2>
+  <p>
+    Look for “kcal/cup” or “ME” on your food’s label. If the food has 400 kcal per cup and your
+    puppy needs 700 kcal, that is 1.75 cups per day. Foods differ a lot. A grain-free or high-fat
+    formula might offer 500 kcal per cup, while a lighter one may offer 320. This is why the printed
+    cup chart on a different brand is a poor guide. Weighing food in grams on a kitchen scale is more
+    accurate than a scoop. If you change food brand, recalculate rather than keeping the old cup
+    amount.
+  </p>
+
+  <h2>Step 3: Choose a meal schedule</h2>
+  <ul>
+    <li><strong>6–12 weeks:</strong> four meals, evenly spaced. Toy breeds may need a small snack before bedtime.</li>
+    <li><strong>3–6 months:</strong> three meals.</li>
+    <li><strong>6–12 months:</strong> two to three meals; most settle on two.</li>
+    <li><strong>Adulthood:</strong> two meals, or one for some dogs, as advised by your vet.</li>
+  </ul>
+  <p>
+    A consistent schedule makes house training easier, since puppies usually need to go out within
+    15 to 30 minutes of eating. It also helps you spot problems: a puppy that suddenly skips
+    meals is easier to notice than one grazing from a full bowl.
+  </p>
+
+  <h2>Step 4: Check body condition weekly</h2>
+  <p>
+    The bag and calculator give a starting point, but your puppy decides how well it works. Run your
+    hands over the ribs: you should feel them easily under a thin layer of padding. From above, a
+    waist should be visible behind the ribs. If ribs are hard to find, cut about 10 percent; if
+    they are prominent, increase by 10 percent and ask your vet to check for parasites. The 1–9
+    body condition scale used by veterinarians is explained in our
+    <a href="/tools/dog-bmi-calculator/">body condition helper</a>. Weigh your puppy every one to
+    two weeks and write it down.
+  </p>
+
+  <h2>Large-breed puppies need extra care</h2>
+  <p>
+    Large and giant breeds are prone to developmental orthopedic disease when they grow too quickly,
+    and excess calcium makes the risk worse. Feed a formula labeled for large-breed puppies, measure
+    portions carefully, and keep your puppy lean. Do not add calcium supplements. Growth should be
+    steady rather than as fast as possible. Our guide on
+    <a href="/guides/when-do-puppies-stop-growing/">when puppies stop growing</a> has timelines by
+    size.
+  </p>
+
+  <h2>Common overfeeding traps</h2>
+  <ul>
+    <li><strong>Cups creeping up:</strong> amounts that were right at 12 weeks are often too much at 16 weeks because the growth factor falls.</li>
+    <li><strong>Treat inflation:</strong> training rewards, chews, and table scraps can reach 30 percent of calories in a busy household. Keep treats to about 10 percent and reduce meals accordingly.</li>
+    <li><strong>Multiple feeders:</strong> if several people feed the puppy, write amounts on a shared note.</li>
+    <li><strong>Reading the bag as a minimum:</strong> manufacturers’ ranges are broad and often generous.</li>
+  </ul>
+
+  <h2>When to switch to adult food</h2>
+  <p>
+    Small and medium breeds usually switch at 9 to 12 months, large and giant breeds at 15 to 18
+    months or later. Move gradually over seven to ten days. After switching, use the
+    <a href="/tools/dog-food-calculator/">dog food calculator</a> to set an adult calorie target,
+    since the puppy multipliers no longer apply. Neutered adults often need less energy than intact
+    dogs, so keep monitoring weight for the first few months.
+  </p>
+
+  <h2>When to call the vet</h2>
+  <p>
+    Contact your vet if your puppy refuses food for more than a day, vomits repeatedly, has diarrhea
+    lasting over a day, or seems lethargic. Very small puppies can develop low blood sugar quickly.
+    Puppies with a pot belly and poor growth may have worms. Ask your vet to confirm a feeding plan
+    at each vaccination visit, and ask for help if you are considering a homemade diet; see
+    our <a href="/tools/homemade-dog-food-calculator/">homemade dog food calculator</a> note about
+    balance.
+  </p>
+</GuidePageShell>

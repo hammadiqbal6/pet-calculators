@@ -1,0 +1,65 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { tools } from '../../data/tools.ts';
+import { guides } from '../../data/guides.ts';
+
+const catTools = tools.filter((t) => t.category === 'cat' || t.category === 'both');
+const catGuides = guides.filter((g) => g.slug.includes('cat') || g.relatedTools.some((s) => s.startsWith('cat-')));
+
+const title = 'Cat Calculators Hub';
+const description =
+  'Cat calculator hub: cat age in human years and cat food calorie estimates by life stage, with feeding guides.';
+const breadcrumbs = [
+  { name: 'Cats', path: '/cats/' },
+];
+---
+
+<BaseLayout title={title} description={description} canonicalPath="/cats/" breadcrumbs={breadcrumbs}>
+  <h1>Cat calculators</h1>
+  <p class="answer-first">
+    Use these cat tools to estimate age in human years and daily calorie needs by life stage. Each
+    calculator explains its method, links veterinary nutrition sources, and reminds you that results
+    are educational—not a substitute for your veterinarian.
+  </p>
+
+  <div class="prose">
+    <p>
+      Cats are obligate carnivores with different calorie and protein needs than dogs. Indoor neutered
+      adults often gain weight on ad lib feeding, while kittens need frequent meals and higher MER
+      multipliers. Our <a href="/tools/cat-food-calculator/">cat food calculator</a> starts from the
+      same RER formula used in veterinary nutrition (70 × kg<sup>0.75</sup>) and applies life-stage
+      factors from WSAVA-style teaching charts. The <a href="/tools/cat-age-calculator/">cat age
+      calculator</a> converts calendar age to human years and names the life stage (kitten, prime,
+      mature, senior, geriatric) so you can align vet visits and diet changes.
+    </p>
+    <p>
+      For deeper feeding context—wet versus dry, meal frequency, and weight goals—read the
+      <a href="/guides/cat-feeding-guide/">cat feeding guide</a>. If you also care for dogs, visit the
+      <a href="/dogs/">dog calculators hub</a> or the full <a href="/tools/">tool directory</a>.
+    </p>
+  </div>
+
+  <h2>Cat tools</h2>
+  <div class="card-grid">
+    {
+      catTools.map((t) => (
+        <a class="tool-card" href={`/tools/${t.slug}/`}>
+          <h3>{t.title}</h3>
+          <p>{t.description}</p>
+        </a>
+      ))
+    }
+  </div>
+
+  <h2 style="margin-top: 2rem">Related guides</h2>
+  <div class="card-grid">
+    {
+      catGuides.map((g) => (
+        <a class="tool-card" href={`/guides/${g.slug}/`}>
+          <h3>{g.title}</h3>
+          <p>{g.description}</p>
+        </a>
+      ))
+    }
+  </div>
+</BaseLayout>

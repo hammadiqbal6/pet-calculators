@@ -1,0 +1,191 @@
+---
+import GuidePageShell from '../../../components/GuidePageShell.astro';
+
+const faq = [
+  {
+    q: 'How much chocolate is toxic to dogs?',
+    a: 'Toxicity depends on the type of chocolate, the amount eaten, and your dog’s weight. Dark and baking chocolate contain more theobromine than milk chocolate. A few ounces of baker’s chocolate can seriously poison a small dog, while a single milk-chocolate chip cookie may only cause mild upset in a large dog. When in doubt, use the toxicity calculator and call poison control.',
+  },
+  {
+    q: 'What are the signs of chocolate poisoning in dogs?',
+    a: 'Early signs include vomiting, diarrhea, restlessness, and increased thirst. Higher doses can cause a racing heart, tremors, seizures, and collapse. Symptoms may start within a few hours and can last a day or more because theobromine is slow to clear.',
+  },
+  {
+    q: 'Should I make my dog vomit if he ate chocolate?',
+    a: 'Do not induce vomiting unless a veterinarian or poison hotline instructs you to. Hydrogen peroxide at home is sometimes recommended for recent ingestions, but the wrong dose or timing can harm your dog, especially if he is already symptomatic or ate something sharp.',
+  },
+  {
+    q: 'Is white chocolate safe for dogs?',
+    a: 'White chocolate contains very little theobromine, so poisoning is unlikely from white chocolate alone. It is still high in sugar and fat and can cause pancreatitis or gastrointestinal upset. “Safe” is not the same as “healthy.”',
+  },
+  {
+    q: 'What number do I call for chocolate poisoning?',
+    a: 'In the United States, call the ASPCA Animal Poison Control Center at (888) 426-4435 or the Pet Poison Helpline at (855) 764-7661. Both charge a consultation fee. Have your dog’s weight, the chocolate type, and estimated amount ready.',
+  },
+  {
+    q: 'Can cats eat chocolate?',
+    a: 'Cats are also sensitive to theobromine, though they rarely seek chocolate. Keep all cocoa products away from cats as well. The same hotlines advise on feline exposures.',
+  },
+];
+
+const sources = [
+  {
+    title: 'ASPCA Animal Poison Control',
+    url: 'https://www.aspca.org/pet-care/animal-poison-control',
+    publisher: 'ASPCA',
+  },
+  {
+    title: 'FDA: Chocolate and Dogs',
+    url: 'https://www.fda.gov/consumers/consumer-updates/chocolate-and-dogs',
+    publisher: 'FDA',
+  },
+  {
+    title: 'Merck Veterinary Manual: Chocolate Poisoning',
+    url: 'https://www.merckvetmanual.com/toxicology/food-hazards/chocolate',
+    publisher: 'Merck Veterinary Manual',
+  },
+  {
+    title: 'Pet Poison Helpline: Chocolate',
+    url: 'https://www.petpoisonhelpline.com/poison/chocolate/',
+    publisher: 'Pet Poison Helpline',
+  },
+  {
+    title: 'AVMA: Household Hazards',
+    url: 'https://www.avma.org/resources-tools/pet-owners/petcare/household-hazards',
+    publisher: 'AVMA',
+  },
+];
+---
+
+<GuidePageShell
+  slug="chocolate-and-dogs-safety"
+  title="Chocolate and Dogs: Why It Is Dangerous"
+  description="Theobromine toxicity explained by chocolate type, symptoms to watch for, and when to call a poison hotline."
+  answer="Chocolate is toxic to dogs because it contains theobromine and caffeine, stimulants dogs clear slowly. Darker, more cocoa-rich chocolate is more dangerous per ounce than milk chocolate. Any known or suspected ingestion warrants a quick dose estimate with a toxicity calculator and a call to your veterinarian or ASPCA Animal Poison Control—do not wait for symptoms in large exposures."
+  takeaways={[
+    'Theobromine dose depends on chocolate type, amount, and dog weight—not on whether your dog “looks fine.”',
+    'Baking and dark chocolate are far more concentrated than milk chocolate.',
+    'Vomiting, agitation, and a fast heart rate can progress to seizures; treat ingestion as urgent.',
+    'Call ASPCA Poison Control or Pet Poison Helpline with weight and product details.',
+    'Store cocoa powder, baking bars, and holiday trays out of reach; educate guests and kids.',
+    'Use the dog chocolate toxicity calculator for a first-pass risk estimate, then follow professional advice.',
+  ]}
+  faq={faq}
+  sources={sources}
+>
+  <h2>Why chocolate hurts dogs but not usually people</h2>
+  <p>
+    Chocolate comes from cacao seeds rich in methylxanthines, mainly theobromine and some caffeine.
+    Humans metabolize theobromine relatively quickly. Dogs process it slowly, so it builds up to levels
+    that overstimulate the heart and nervous system. The FDA’s consumer update on chocolate and dogs
+    notes that even small amounts can cause vomiting and diarrhea, while larger amounts can produce
+    tremors, irregular heartbeat, seizures, and death. There is no safe “treat” amount for dogs; chocolate
+    belongs in the human snack cabinet, not the treat pouch.
+  </p>
+
+  <h2>Not all chocolate is equal</h2>
+  <p>
+    Theobromine content rises with cocoa percentage. Unsweetened baking chocolate and high-percentage
+    dark bars can carry 400 mg or more of theobromine per ounce. Milk chocolate might contain roughly
+    50 to 60 mg per ounce, and white chocolate traces only. Cocoa powder used in brownies is extremely
+    concentrated because fat has been removed, so a spilled canister is more dangerous than it looks.
+    Holiday assortments mix types; always identify the worst-case piece your dog could have swallowed.
+  </p>
+  <table>
+    <thead>
+      <tr><th>Product (approx.)</th><th>Theobromine risk</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Cocoa powder</td><td>Very high</td><td>Used in baking; small volumes add up fast.</td></tr>
+      <tr><td>Baking chocolate</td><td>Very high</td><td>One square can threaten small dogs.</td></tr>
+      <tr><td>Dark chocolate (70%+)</td><td>High</td><td>Popular gifts; keep off coffee tables.</td></tr>
+      <tr><td>Milk chocolate</td><td>Moderate</td><td>Large dogs may tolerate tiny amounts; still call if unsure.</td></tr>
+      <tr><td>White chocolate</td><td>Very low theobromine</td><td>Still fatty; pancreatitis possible.</td></tr>
+    </tbody>
+  </table>
+  <p>
+    The <a href="/tools/dog-chocolate-toxicity-calculator/">dog chocolate toxicity calculator</a> combines
+    your dog’s weight, the chocolate type, and ounces eaten to estimate milligrams of theobromine per
+    kilogram and suggest whether monitoring at home, an urgent vet visit, or poison hotline contact is
+    appropriate. It is a triage aid, not a diagnosis; always confirm with a professional when exposure is
+    real.
+  </p>
+
+  <h2>How poisoning unfolds</h2>
+  <p>
+    Absorption begins within an hour. Mild cases show stomach upset and hyperactivity. Moderate cases
+    may add panting, pacing, and a pounding pulse you can feel in the chest. Severe cases progress to
+    muscle tremors, fever, red gums, irregular rhythm, seizures, and coma. The Merck Veterinary Manual
+    describes symptoms lasting 12 to 36 hours because theobromine recirculates through the liver and
+    intestines. Older dogs, those with heart disease, and very small dogs tolerate less before crisis.
+  </p>
+  <p>
+    Chocolate with fillings adds other risks: xylitol-sweetened candy is acutely toxic to dogs, raisins
+    in bars cause kidney failure, and macadamia nuts trigger neurologic signs. Tell poison control
+    everything in the box, not just the chocolate shell.
+  </p>
+
+  <h2>What to do in the first ten minutes</h2>
+  <ol>
+    <li>Remove remaining chocolate and keep the wrapper; note the product and estimated ounces missing.</li>
+    <li>Weigh your dog if possible, or recall the last vet weight.</li>
+    <li>Run the calculator and call your veterinarian or ASPCA Animal Poison Control at (888) 426-4435.</li>
+    <li>Do not give human medications, charcoal, or home remedies unless instructed.</li>
+    <li>Transport to an emergency clinic if advised, bringing wrappers and timing details.</li>
+  </ol>
+  <p>
+    ASPCA Poison Control and the Pet Poison Helpline employ veterinary toxicologists who calculate
+    exposure daily. A consultation fee applies, but the guidance prevents both under- and over-treatment.
+    If your dog is already vomiting, tremoring, or collapsing, skip online research and go straight to
+    emergency care while someone else calls ahead.
+  </p>
+
+  <h2>What veterinarians may do</h2>
+  <p>
+    For recent ingestions, clinics may induce vomiting if the dog is alert and the chocolate was eaten
+    within a few hours. Activated charcoal may reduce further absorption. IV fluids support the kidneys
+    and blood pressure. Heart monitoring, sedatives for agitation, and anti-seizure drugs treat severe
+    cases. There is no universal antidote; treatment is supportive until theobromine clears. Dogs with
+    pre-existing arrhythmias may stay hospitalized longer on ECG monitoring.
+  </p>
+
+  <h2>Prevention beats panic</h2>
+  <p>
+    Dogs are opportunists; counters and purses are not secure. During holidays, put gift bags in closets,
+    empty cocoa powder into high cabinets, and teach children not to share Halloween haul. Crate training
+    helps when baking. Remind guests that sugar-free desserts may contain xylitol. AVMA household hazard
+    lists include chocolate alongside grapes, onions, and medications; post the list on the fridge.
+  </p>
+  <p>
+    If you bake with dogs in the kitchen, sweep floors before releasing them; a single dropped chip of
+    dark chocolate matters for a 5 lb Yorkie. Trash cans with flip lids fail against determined Labs;
+    use latching bins.
+  </p>
+
+  <h2>Special cases</h2>
+  <p>
+    <strong>Pregnant or nursing dogs</strong> should be treated aggressively because fetal stress complicates
+    care. <strong>Dogs on MAOI drugs or certain behavior medications</strong> may have exaggerated
+    stimulant effects; mention all prescriptions to poison control. <strong>Repeated small exposures</strong>
+    over a week—stealing from a kid’s backpack—can accumulate; chronic low-grade vomiting warrants a
+    diet history review even if no single binge occurred.
+  </p>
+
+  <h2>After the scare</h2>
+  <p>
+    Follow discharge instructions on diet and activity. Some dogs need bland meals for a day after
+    vomiting. Schedule a recheck if heart arrhythmia was noted. Use the episode to update your emergency
+    kit with poison numbers, your dog’s weight written in pen, and a plan for who drives to the clinic at
+    night. Pair this guide with routine care tools such as the
+    <a href="/tools/dog-food-calculator/">dog food calculator</a> for everyday calories, so treats never
+    need to come from the candy drawer.
+  </p>
+
+  <h2>Bottom line</h2>
+  <p>
+    Chocolate and dogs do not mix. Theobromine toxicity is dose-dependent and unpredictable at home, so
+    treat every ingestion seriously, estimate risk with the calculator, and involve ASPCA Poison Control
+    or your veterinarian immediately for moderate or unknown amounts. Prevention and fast professional
+    guidance save lives; waiting until tremors start turns a manageable call into a critical hospital stay.
+  </p>
+</GuidePageShell>

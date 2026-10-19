@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { tools } from '../data/tools.ts';
+import { guides } from '../data/guides.ts';
+---
+
+<BaseLayout
+  title="Page Not Found"
+  description="That page could not be found. Try one of our free dog and cat calculators or guides instead."
+  canonicalPath="/404/"
+  noindex
+>
+  <header class="hero">
+    <h1>Page not found</h1>
+    <p class="lead">
+      We could not find that page. It may have moved, or the address may have a typo. These calculators are a good place
+      to restart.
+    </p>
+    <div class="btn-row">
+      <a class="btn btn-primary" href="/">Go to the homepage</a>
+      <a class="btn btn-secondary" href="/tools/">Browse all tools</a>
+    </div>
+  </header>
+
+  <section aria-labelledby="nf-tools">
+    <h2 id="nf-tools">Popular calculators</h2>
+    <div class="card-grid cols-3">
+      {
+        tools.map((tool) => (
+          <a class="tool-card" href={`/tools/${tool.slug}/`}>
+            <h3>{tool.title}</h3>
+            <p>{tool.description}</p>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="related" aria-labelledby="nf-guides">
+    <h2 id="nf-guides">Guides</h2>
+    <ul>
+      {
+        guides.map((guide) => (
+          <li>
+            <a href={`/guides/${guide.slug}/`}>{guide.title}</a>
+          </li>
+        ))
+      }
+    </ul>
+    <p>
+      Looking for something else? <a href="/contact/">Tell us what is missing</a>.
+    </p>
+  </section>
+</BaseLayout>

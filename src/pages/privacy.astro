@@ -1,0 +1,114 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { siteConfig } from '../config/site.ts';
+
+const description =
+  'PetCalc Tools privacy policy: what data we collect, how Google AdSense, DoubleClick, and GA4 use cookies, and how to opt out of personalized ads.';
+---
+
+<BaseLayout
+  title="Privacy Policy"
+  description={description}
+  canonicalPath="/privacy/"
+  breadcrumbs={[{ name: 'Privacy Policy', path: '/privacy/' }]}
+>
+  <header class="hero">
+    <h1>Privacy policy</h1>
+    <p class="lead">
+      We collect as little as we can. The calculators work in your browser without an account. Cookies and similar
+      technologies are used only for essential site functions, optional analytics, and advertising, and you can opt out.
+    </p>
+    <p class="meta-row"><span>Last updated: {siteConfig.buildDate}</span></p>
+  </header>
+
+  <div class="prose">
+    <h2>Information we do not collect</h2>
+    <p>
+      There is no registration, login, or comment system. The calculators run on your device, and the values you type
+      (for example a pet's weight or age) are not submitted to a server. For convenience some calculators copy your
+      inputs into the page address as query parameters so you can bookmark or share a result. Anyone who has that link can see
+      those values, so do not share a link if you would rather keep them private.
+    </p>
+
+    <h2>Information collected automatically</h2>
+    <p>
+      Like most websites, our hosting provider and logging tools receive standard request data: IP address, browser and
+      device type, referring page, requested page, and timestamps. We use this for security, abuse prevention, capacity
+      planning, and to understand which tools are useful.
+    </p>
+
+    <h2>Cookies and local storage</h2>
+    <ul>
+      <li>
+        <strong>Essential.</strong> We store a small flag in your browser's local storage so the cookie notice does not
+        reappear after you accept it.
+      </li>
+      <li>
+        <strong>Analytics.</strong> If enabled, we use Google Analytics 4 (GA4) to measure page views, approximate
+        location, device category, and traffic sources. We configure GA4 with IP anonymization, and it sets first-party
+        cookies to distinguish visits.
+      </li>
+      <li>
+        <strong>Advertising.</strong> If enabled, Google AdSense shows ads. Google and its partners, including
+        DoubleClick, may set or read cookies and use identifiers to serve ads, limit repeat ads, measure performance, and,
+        where permitted, personalize ads based on your visits to this and other websites.
+      </li>
+    </ul>
+
+    <h2>Google AdSense and DoubleClick</h2>
+    <p>
+      Third-party vendors, including Google, use cookies to serve ads based on a user's prior visits to this site or other
+      sites. Google's use of advertising cookies enables it and its partners to serve ads to you based on your visit to
+      our site and other sites on the internet. Ads may be non-personalized in some regions or if you decline consent. We do
+      not control or have access to the cookies placed by advertisers. You can read how Google uses data from sites that
+      use its services at
+      <a href="https://policies.google.com/technologies/partner-sites" rel="noopener noreferrer">policies.google.com/technologies/partner-sites</a>.
+    </p>
+
+    <h2>How to opt out</h2>
+    <ul>
+      <li>
+        Turn off personalized advertising in
+        <a href="https://adssettings.google.com/" rel="noopener noreferrer">Google Ads Settings</a>.
+      </li>
+      <li>
+        Opt out of many third-party ad vendors at
+        <a href="https://optout.aboutads.info/" rel="noopener noreferrer">aboutads.info</a> (US) or
+        <a href="https://www.youronlinechoices.com/" rel="noopener noreferrer">youronlinechoices.com</a> (EU).
+      </li>
+      <li>
+        Install the
+        <a href="https://tools.google.com/dlpage/gaoptout" rel="noopener noreferrer">Google Analytics opt-out browser add-on</a>.
+      </li>
+      <li>Block or delete cookies in your browser settings. The calculators keep working without them.</li>
+      <li>Enable the Global Privacy Control or Do Not Track signal in browsers that support it.</li>
+    </ul>
+
+    <h2>Your rights</h2>
+    <p>
+      Depending on where you live, you may have rights to access, correct, delete, or restrict the use of personal
+      information, and to object to targeted advertising. Because we hold almost no personal information directly, most
+      requests are best directed to the advertising and analytics providers above. For anything else, contact us at
+      <a href={`mailto:${siteConfig.contactEmail}`}>{siteConfig.contactEmail}</a>.
+    </p>
+
+    <h2>Children</h2>
+    <p>
+      The site is intended for adults who care for pets. We do not knowingly collect personal information from children
+      under 13.
+    </p>
+
+    <h2>Third-party links</h2>
+    <p>
+      Pages link to sources and organizations outside this site. Their privacy practices are their own, and we
+      encourage you to review them.
+    </p>
+
+    <h2>Changes</h2>
+    <p>
+      If we add or change a vendor, for example by switching ads or analytics on, we will update this page and the date
+      above. Questions can be sent through the <a href="/contact/">contact page</a>. See also our
+      <a href="/terms/">terms of use</a>.
+    </p>
+  </div>
+</BaseLayout>

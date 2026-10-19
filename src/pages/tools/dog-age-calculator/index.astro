@@ -1,0 +1,146 @@
+---
+import ToolPageShell from '../../../components/ToolPageShell.astro';
+import DogAgeCalc from '../../../components/calculators/DogAgeCalc.astro';
+
+const faq = [
+  {
+    q: 'Is one dog year really seven human years?',
+    a: 'No. The 7:1 rule is a rough folk estimate that ignores size, breed, and the fact that dogs mature very quickly in their first two years. Modern life-stage guidance and research-based models give different, more nuanced answers.',
+  },
+  {
+    q: 'How does this calculator convert dog years to human years?',
+    a: 'By default it uses a size-aware life-stage model: about 15 human years for the first dog year, about 9 for the second, and then 4 to 7 per year depending on size. You can also compare an illustrative logarithmic curve based on epigenetic aging research.',
+  },
+  {
+    q: 'Why do large dogs age faster?',
+    a: 'Large and giant breeds tend to have shorter lifespans, so they reach senior and geriatric stages earlier. AAHA life stage guidelines reflect this by defining senior age by breed size. Why this happens is still being studied.',
+  },
+  {
+    q: 'What is the logarithmic curve option?',
+    a: 'It is a popular-science adaptation of epigenetic clock work, roughly human age = 16 × ln(dog age) + 31. It is illustrative, was derived from a single breed in the original research, and is not a clinical standard.',
+  },
+  {
+    q: 'What life stage is my dog in?',
+    a: 'AAHA defines puppy, young adult, mature adult, senior, and end-of-life stages. The calculator maps your dog’s age and size to those labels. Your vet makes the real call based on exam findings.',
+  },
+  {
+    q: 'Does the calculator work for mixed-breed dogs?',
+    a: 'Yes. Choose the size class that matches the dog’s expected adult weight. If the dog is between sizes, try both and look at the range.',
+  },
+];
+
+const sources = [
+  {
+    title: 'AAHA Canine Life Stage Guidelines',
+    url: 'https://www.aaha.org/resources/canine-life-stage-guidelines/',
+    publisher: 'AAHA',
+  },
+  {
+    title: 'Quantitative translation of dog-to-human aging by conserved remodeling of the DNA methylome (Wang et al., 2020)',
+    url: 'https://doi.org/10.1016/j.cels.2020.06.006',
+    publisher: 'Cell Systems',
+  },
+  {
+    title: 'AVMA: Senior pet care and aging',
+    url: 'https://www.avma.org/resources-tools/pet-owners/petcare/senior-pet-care',
+    publisher: 'AVMA',
+  },
+];
+---
+
+<ToolPageShell
+  slug="dog-age-calculator"
+  title="Dog Age Calculator: Dog Years by Breed Size"
+  description="Convert dog years to human years by size using AAHA-style life stages. Includes an illustrative log curve; not the old 7:1 rule."
+  answer="A dog age calculator converts your dog’s age into an approximate human-year equivalent. This one uses a size-aware life-stage model aligned with AAHA guidance instead of the old 7:1 rule, because dogs age fastest early on and large breeds reach their senior years sooner than small ones."
+  takeaways={[
+    'The 7:1 rule is a myth; dogs age about 15 human years in year one and about 9 in year two.',
+    'After age two, larger dogs add more human years per calendar year than smaller dogs.',
+    'The log curve is illustrative only and is not a clinical standard.',
+    'Life stage matters more than the human-year number for care decisions.',
+    'Senior screening usually starts earlier for large and giant breeds.',
+  ]}
+  faq={faq}
+  sources={sources}
+>
+  <DogAgeCalc slot="calculator" />
+
+  <h2>How to use the dog age calculator</h2>
+  <ol>
+    <li>Enter your dog’s age in years, including fractions (for example 3.5 for three and a half).</li>
+    <li>Choose a size class from toy to giant, based on expected adult weight.</li>
+    <li>Pick the method: the default size-aware model, or the illustrative log curve for comparison.</li>
+    <li>Read the human-year equivalent and the AAHA-style life stage label.</li>
+  </ol>
+
+  <h2>Why the 7:1 rule fails</h2>
+  <p>
+    Multiplying by seven is easy, which explains its long life. But a one-year-old dog is not a
+    seven-year-old child: most dogs are sexually mature and near full size by their first birthday,
+    which is closer to a mid-teen human. By the end of year two, a dog has reached what looks more like
+    a young adult. After that, aging slows relative to the early years, and the rate depends heavily
+    on size. Our guide on the <a href="/guides/dog-years-myth/">dog years myth</a> goes deeper.
+  </p>
+
+  <h2>The size-aware model used here</h2>
+  <p>
+    The default method is a piecewise estimate commonly used in client education and consistent with
+    the framework of the AAHA Canine Life Stage Guidelines:
+  </p>
+  <ul>
+    <li><strong>Year 1:</strong> about 15 human years.</li>
+    <li><strong>Year 2:</strong> about 9 more human years (24 total at age two).</li>
+    <li><strong>After year 2:</strong> add about 4 years per dog year for toy and small breeds, 5 for medium, 6 for large, and 7 for giant.</li>
+  </ul>
+  <p>
+    The life-stage label also depends on size. Senior status is taken to begin around 10 years for toy
+    and small dogs, 8 for medium, 7 for large, and 6 for giant breeds. These cut-offs are
+    approximations for education and are not diagnostic.
+  </p>
+
+  <h2>About the logarithmic curve (illustrative)</h2>
+  <p>
+    In 2020, researchers compared DNA methylation patterns, a kind of molecular aging marker, in
+    Labrador Retrievers and humans. A logarithmic fit of the data produced the widely shared formula
+    <code>human age ≈ 16 × ln(dog age) + 31</code>. The calculator offers this as a comparison option
+    because it illustrates the key idea that early aging is fast and later aging is slower.
+    <strong>Treat the log curve as illustrative.</strong> It came from one breed, a modest sample, and
+    it was not meant to be a veterinary standard or to predict health or lifespan for an individual
+    dog.
+  </p>
+
+  <h2>Worked example</h2>
+  <p>
+    A 6-year-old Labrador-type dog (large): 24 + (6 − 2) × 6 = <strong>48 human years</strong>, with
+    a life stage of mature adult, close to the senior threshold of 7. A 6-year-old Chihuahua (toy):
+    24 + 4 × 4 = <strong>40 human years</strong>, still a mature adult for several more years. The log
+    curve would give about 59.6 for both, which shows why one-size-fits-all conversions are
+    unreliable.
+  </p>
+
+  <h2>Life stages matter more than the number</h2>
+  <p>
+    The most useful thing about age is what care it prompts. Puppies need vaccination series, socialization,
+    and growth-appropriate food. Mature adults benefit from annual exams and dental checks. Seniors
+    typically do better with exams every six months, bloodwork, and attention to mobility, weight, and
+    cognition. Giant breeds reach that stage years before toy breeds, so screening should start
+    earlier for them. If you track growth earlier in life, our
+    <a href="/tools/puppy-weight-calculator/">puppy weight calculator</a> and the
+    <a href="/tools/dog-bmi-calculator/">body condition helper</a> are good companions.
+  </p>
+
+  <h2>Cats are different</h2>
+  <p>
+    Cats follow their own life-stage pattern, with a longer prime and less size variation. Use the
+    <a href="/tools/cat-age-calculator/">cat age calculator</a> for feline age conversion rather than
+    applying a dog formula.
+  </p>
+
+  <h2>How to use the result</h2>
+  <p>
+    Use the human-year number as a conversation starter rather than a verdict. If it tells you
+    your dog is roughly the equivalent of a 60-year-old, ask whether the care plan reflects that:
+    twice-yearly exams, bloodwork, a mobility check, dental review, and a diet suited to the
+    life stage. These actions matter far more than the exact number.
+  </p>
+</ToolPageShell>
