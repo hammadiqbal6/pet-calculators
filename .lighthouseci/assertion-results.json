@@ -1,0 +1,181 @@
+[
+  {
+    "name": "auditRan",
+    "expected": 1,
+    "actual": 0,
+    "values": [
+      0,
+      0,
+      0
+    ],
+    "operator": ">=",
+    "passed": false,
+    "message": "\"tap-targets\" is not a known audit.",
+    "auditId": "tap-targets",
+    "level": "warn",
+    "url": "http://localhost:33389/"
+  },
+  {
+    "name": "auditRan",
+    "expected": 1,
+    "actual": 0,
+    "values": [
+      0,
+      0,
+      0
+    ],
+    "operator": ">=",
+    "passed": false,
+    "message": "\"tap-targets\" is not a known audit.",
+    "auditId": "tap-targets",
+    "level": "warn",
+    "url": "http://localhost:33389/tools/"
+  },
+  {
+    "name": "auditRan",
+    "expected": 1,
+    "actual": 0,
+    "values": [
+      0,
+      0,
+      0
+    ],
+    "operator": ">=",
+    "passed": false,
+    "message": "\"tap-targets\" is not a known audit.",
+    "auditId": "tap-targets",
+    "level": "warn",
+    "url": "http://localhost:33389/tools/puppy-weight-calculator/"
+  },
+  {
+    "name": "minScore",
+    "expected": 0.9,
+    "actual": 0,
+    "values": [
+      0,
+      0,
+      0
+    ],
+    "operator": ">=",
+    "passed": false,
+    "auditId": "errors-in-console",
+    "level": "warn",
+    "url": "http://localhost:33389/tools/puppy-weight-calculator/",
+    "auditTitle": "Browser errors were logged to the console",
+    "auditDocumentationLink": "https://developer.chrome.com/docs/lighthouse/best-practices/errors-in-console/"
+  },
+  {
+    "name": "auditRan",
+    "expected": 1,
+    "actual": 0,
+    "values": [
+      0,
+      0,
+      0
+    ],
+    "operator": ">=",
+    "passed": false,
+    "message": "\"tap-targets\" is not a known audit.",
+    "auditId": "tap-targets",
+    "level": "warn",
+    "url": "http://localhost:33389/tools/dog-food-calculator/"
+  },
+  {
+    "name": "minScore",
+    "expected": 0.9,
+    "actual": 0,
+    "values": [
+      0,
+      0,
+      0
+    ],
+    "operator": ">=",
+    "passed": false,
+    "auditId": "errors-in-console",
+    "level": "warn",
+    "url": "http://localhost:33389/tools/dog-food-calculator/",
+    "auditTitle": "Browser errors were logged to the console",
+    "auditDocumentationLink": "https://developer.chrome.com/docs/lighthouse/best-practices/errors-in-console/"
+  },
+  {
+    "name": "auditRan",
+    "expected": 1,
+    "actual": 0,
+    "values": [
+      0,
+      0,
+      0
+    ],
+    "operator": ">=",
+    "passed": false,
+    "message": "\"tap-targets\" is not a known audit.",
+    "auditId": "tap-targets",
+    "level": "warn",
+    "url": "http://localhost:33389/tools/cat-age-calculator/"
+  },
+  {
+    "name": "auditRan",
+    "expected": 1,
+    "actual": 0,
+    "values": [
+      0,
+      0,
+      0
+    ],
+    "operator": ">=",
+    "passed": false,
+    "message": "\"tap-targets\" is not a known audit.",
+    "auditId": "tap-targets",
+    "level": "warn",
+    "url": "http://localhost:33389/tools/dog-chocolate-toxicity-calculator/"
+  },
+  {
+    "name": "minScore",
+    "expected": 0.9,
+    "actual": 0,
+    "values": [
+      0,
+      0,
+      0
+    ],
+    "operator": ">=",
+    "passed": false,
+    "auditId": "errors-in-console",
+    "level": "warn",
+    "url": "http://localhost:33389/tools/dog-chocolate-toxicity-calculator/",
+    "auditTitle": "Browser errors were logged to the console",
+    "auditDocumentationLink": "https://developer.chrome.com/docs/lighthouse/best-practices/errors-in-console/"
+  },
+  {
+    "name": "auditRan",
+    "expected": 1,
+    "actual": 0,
+    "values": [
+      0,
+      0,
+      0
+    ],
+    "operator": ">=",
+    "passed": false,
+    "message": "\"tap-targets\" is not a known audit.",
+    "auditId": "tap-targets",
+    "level": "warn",
+    "url": "http://localhost:33389/guides/when-do-puppies-stop-growing/"
+  },
+  {
+    "name": "auditRan",
+    "expected": 1,
+    "actual": 0,
+    "values": [
+      0,
+      0,
+      0
+    ],
+    "operator": ">=",
+    "passed": false,
+    "message": "\"tap-targets\" is not a known audit.",
+    "auditId": "tap-targets",
+    "level": "warn",
+    "url": "http://localhost:33389/privacy/"
+  }
+]

@@ -1,0 +1,49 @@
+---
+description: SEO metadata, content minimums, and structure for PetCalc Astro pages
+globs: src/pages/**/*
+alwaysApply: false
+---
+
+# SEO pages (PetCalc)
+
+Synced with `scripts/audit/lib.mjs` `LIMITS` and `scripts/audit/seo.mjs`. Full playbook: `docs/SEO-PLAYBOOK.md`. Keyword ownership: `docs/KEYWORD-MAP.md`.
+
+## Metadata (every indexable page)
+
+- **Title**: 30–65 characters (hard max 80); primary keyword near the start; unique site-wide.
+- **Meta description**: 70–160 characters (hard max 200); one clear value prop; includes primary keyword once.
+- **One H1** only, aligned with title intent (not identical boilerplate on every page).
+- **Canonical**: pass `canonicalPath` to `BaseLayout`; absolute URL via `siteUrl`; trailing slash (`trailingSlash: 'always'`).
+- **Open Graph**: title, description, url; prefer a real `og:image` in `public/` (1200×630).
+
+## Content minimums (body copy, not boilerplate alone)
+
+| Page kind | Min words |
+|-----------|-----------|
+| Tool (`src/pages/tools/*/index.astro`) | 600 |
+| Guide (`src/pages/guides/*/index.astro`) | 800 |
+| Hub (`/tools/`, `/dogs/`, `/cats/`, `/guides/`) | 150 unique intro |
+| Legal/trust | 150 |
+
+Tools must include: answer-first paragraph, how-to, formula/explanation, worked example, assumptions, FAQ (≥4), sources (≥3), disclaimer, ≥2 related internal links.
+
+## Keywords
+
+- One **primary keyword** per URL — must match a row in `docs/KEYWORD-MAP.md`.
+- Secondary phrases stay on the owning page only; never reuse another page's primary term as your H1 target.
+- Do not create separate URLs for synonym variants of the same task (fan-out trap).
+
+## Technical
+
+- `lang` on `<html>`, viewport meta present.
+- Images: descriptive `alt` text; decorative images use empty alt.
+- `/404/` and `/embed/` are not sitemap targets; 404 is `noindex`.
+- JSON-LD: see `structured-data` skill; no fake ratings.
+
+## Before merge
+
+```bash
+npm run build && npm run audit:seo && npm run check:links
+```
+
+Fix errors; treat `AUDIT_PROD=1` failures as launch blockers.

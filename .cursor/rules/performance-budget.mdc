@@ -1,0 +1,44 @@
+---
+description: JS/CSS/HTML size and CWV budgets for PetCalc static builds
+globs: "{src/**/*,public/**/*,lighthouserc.cjs,scripts/audit/budgets.mjs}"
+alwaysApply: false
+---
+
+# Performance budget (PetCalc)
+
+Enforced by `scripts/audit/budgets.mjs` and `npm run lhci` (`lighthouserc.cjs`). Philosophy: plain HTML, light client JS (`docs/SEO-PLAYBOOK.md` section 2).
+
+## Gzip size limits (defaults)
+
+| Metric | Limit |
+|--------|-------|
+| First-party JS per page | 25 KB |
+| First-party JS per embed page | 15 KB |
+| Any single emitted `.js` file | 20 KB |
+| Total JS in `dist/` | 200 KB |
+| HTML document (incl. inlined CSS) | 60 KB |
+| CSS (inline + linked) per page | 25 KB |
+| Single image (raw) | 150 KB |
+
+Override via env vars (`BUDGET_PAGE_JS_KB`, etc.) only with measured need documented in PR.
+
+## Lighthouse CI (mobile lab)
+
+- Performance score ≥ 0.95 (median)
+- LCP ≤ 2.5s, CLS ≤ 0.1, TBT ≤ 200ms
+- Run after enabling `ga4MeasurementId` or AdSense — third-party scripts affect real users even when excluded from budget math.
+
+## Implementation rules
+
+- Put calculator maths in `src/lib/formulas/*`; keep `.astro` scripts thin.
+- No new npm dependencies unless bundle impact is measured with `npm run audit:budgets`.
+- Reserve dimensions for images and ad slots to prevent CLS.
+- Embeds must stay under embed JS budget — no duplicate full-page scripts.
+
+## Pre-merge
+
+```bash
+npm run build && npm run audit:budgets && npm run lhci
+```
+
+Add new URLs to `lighthouserc.cjs` only when introducing a **new template**, not each tool clone.

@@ -1,0 +1,47 @@
+---
+description: Editorial quality bar for PetCalc tools, guides, and hub copy
+globs: "{src/pages/**/*,src/components/**/*,src/data/*.ts}"
+alwaysApply: false
+---
+
+# Content quality (PetCalc)
+
+Audits measure length and structure; **you** measure usefulness. Target readers are pet owners seeking quick, trustworthy answers — not keyword stuffing.
+
+## Voice and structure
+
+- Lead with the **direct answer** in plain language (40–60 words on tools).
+- Short paragraphs (2–4 sentences); use H2/H3 for scannable sections.
+- Active voice; US English; consistent units (lb/kg toggles via `src/lib/units.ts`).
+- Explain jargon once (RER, MER, BCS) then use the acronym.
+
+## Originality
+
+- Every guide needs **original** tables, examples, or decision trees — not rephrased competitor articles.
+- Worked examples must use realistic numbers produced by `src/lib/formulas/*`.
+- Do not duplicate full sections across tools; cross-link instead (`internal-linking` skill).
+
+## FAQ
+
+- Questions should match real search queries (PAA, forums) mapped as **secondary** keywords.
+- Answers: 2–4 sentences, self-contained, no fluff openers ("Great question!").
+
+## Prohibited patterns
+
+- Placeholder copy (`lorem`, `[TBD]`, `[Veterinary reviewer name]` on production).
+- Medical diagnosis certainty ("your dog has X") — use screening / educational framing.
+- Invented statistics or citations; see `vet-source-citation` skill.
+- Thin affiliate-style lists with no tool or sourced guidance.
+
+## Registry consistency
+
+When copy changes, update:
+
+- `src/data/tools.ts` or `src/data/guides.ts` (`description`, `keywords`)
+- `docs/KEYWORD-MAP.md` if primary keyword, slug, or intent shifts
+
+## Review pass (self-check before PR)
+
+1. Would a vet nurse find anything dangerously wrong? If yes, soften and cite.
+2. Can the reader act without the calculator? Answer should still help.
+3. Remove redundant H2s and marketing superlatives ("best", "#1") unless sourced.

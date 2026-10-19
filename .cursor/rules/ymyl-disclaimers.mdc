@@ -1,0 +1,43 @@
+---
+description: YMYL disclaimers, reviewer claims, and emergency copy on PetCalc health pages
+globs: "{src/pages/tools/**/*,src/pages/guides/**/*,src/components/Disclaimer.astro,src/components/ReviewerBox.astro}"
+alwaysApply: false
+---
+
+# YMYL disclaimers (PetCalc)
+
+Veterinary-adjacent content must not impersonate professional care. Enforced by `audit:seo` (`tool-disclaimer`) and `audit:adsense`.
+
+## Required components
+
+- **Every tool and guide** includes `<Disclaimer />` (`src/components/Disclaimer.astro`).
+- Calculators are **educational estimates**, not diagnosis or prescription.
+- Direct users to their veterinarian for individual advice, especially for puppies, seniors, pregnancy, toxins, and weight loss.
+
+## ReviewerBox
+
+- Use `<ReviewerBox />` only when `src/config/site.ts` names a **real** reviewer with credentials.
+- Never ship placeholder text (`[Veterinary reviewer name]`, "pending review" as a marketing claim).
+- If no reviewer: omit the box or show author-only metadata via `<AuthorMeta />`.
+- `AUDIT_PROD=1` fails placeholder reviewer strings.
+
+## Emergency / toxicity pages
+
+Routes like `/tools/dog-chocolate-toxicity-calculator/` and guides with `Intent: E` in KEYWORD-MAP:
+
+- "Contact your vet / emergency clinic **now**" and poison hotline **above** the result UI.
+- Hotline numbers must match official sources (see `vet-source-citation` skill).
+- Do not suggest home remedies as alternatives to professional care.
+
+## Ads and trust
+
+- No AdSense units above the interactive calculator (`AdSlot.astro` placement).
+- No ads on `/404/` or `/embed/`.
+
+## Copy patterns to avoid
+
+- Guaranteed outcomes ("will cure", "safe to feed unlimited").
+- Breed-specific medical advice without sourcing and "consult your vet" caveats.
+- Human medical crossover unless clearly labeled out-of-scope.
+
+When editing disclaimers, keep wording consistent site-wide — update the shared component rather than one-off paragraphs when possible.

@@ -1,0 +1,48 @@
+---
+description: Accessibility requirements for PetCalc calculators and layouts
+globs: "{src/components/**/*,src/pages/**/*,src/styles/**/*}"
+alwaysApply: false
+---
+
+# Accessibility (PetCalc)
+
+Target: Lighthouse accessibility ≥ 95 (`lighthouserc.cjs`). Calculators must work with keyboard and screen readers.
+
+## Structure
+
+- One logical `<h1>` per page; heading levels do not skip (h2 → h3).
+- Landmarks: main content obvious; nav in header/footer components.
+- Visible focus styles — do not remove outlines without a replacement (`src/styles/global.css`).
+
+## Forms and calculators
+
+- Every input has an associated `<label>` (or `aria-label` when visually hidden helper text exists).
+- Group related inputs with `<fieldset>`/`<legend>` when appropriate (unit toggles, life-stage radios).
+- Error/validation messages: associate via `aria-describedby` or live region for dynamic results.
+- Results region: announce meaningful updates (`aria-live="polite"`) without spamming on each keystroke — prefer update on submit/calculate button.
+
+## Color and motion
+
+- Contrast ≥ WCAG AA for body text and controls.
+- Do not convey state by color alone (add text/icons for errors/warnings).
+- Respect `prefers-reduced-motion` for animations (if added).
+
+## Media and icons
+
+- Informative images: descriptive `alt`.
+- Decorative images: `alt=""`.
+- SVG icons paired with visible text or `aria-hidden="true"` when redundant.
+
+## Ads
+
+- Ad slots must not trap focus; keep tab order logical through calculator first (`AdSlot.astro` below tool).
+
+## Testing
+
+After UI changes to `src/components/calculators/*`:
+
+```bash
+npm run build && npm run lhci
+```
+
+Manually tab through: focus order, calculate action, readable result.
