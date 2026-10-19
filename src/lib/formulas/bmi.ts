@@ -30,15 +30,18 @@ export function dogBodyMassIndex(weightKg: number, heightCm: number): number {
   return weightKg / (m * m);
 }
 
-/** Rough educational mapping from BMI-like index to suggested BCS band midpoint */
+/**
+ * Educational mapping from dog BMI-style index to suggested BCS.
+ * Canine index values are much higher than human BMI (often ~70–95 for fit adults);
+ * human cutoffs would misclassify normal dogs as obese.
+ */
 export function suggestBcsFromIndex(bmi: number): number {
-  if (bmi < 15) return 2;
-  if (bmi < 20) return 3;
-  if (bmi < 25) return 4;
-  if (bmi < 30) return 5;
-  if (bmi < 35) return 6;
-  if (bmi < 40) return 7;
-  if (bmi < 45) return 8;
+  if (bmi < 55) return 3;
+  if (bmi < 68) return 4;
+  if (bmi < 82) return 5;
+  if (bmi < 92) return 6;
+  if (bmi < 102) return 7;
+  if (bmi < 115) return 8;
   return 9;
 }
 

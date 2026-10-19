@@ -95,7 +95,10 @@ describe('bmi / bcs', () => {
     expect(dogBodyMassIndex(30, 60)).toBeCloseTo(83.33, 1);
   });
   it('suggests BCS and labels', () => {
-    expect(suggestBcsFromIndex(28)).toBe(5);
+    const bmiTypical = dogBodyMassIndex(25, 55.88); // ~55 lb, 22 in at withers
+    expect(bmiTypical).toBeGreaterThan(75);
+    expect(suggestBcsFromIndex(bmiTypical)).toBe(5);
+    expect(suggestBcsFromIndex(dogBodyMassIndex(30, 60))).toBe(6);
     expect(getBcs(5).label).toBe('Ideal');
   });
 });
