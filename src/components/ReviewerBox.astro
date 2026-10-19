@@ -1,18 +1,13 @@
 ---
-import { siteConfig } from '../config/site.ts';
+import { siteConfig, hasConfiguredReviewer } from '../config/site.ts';
 
-const reviewer = siteConfig.reviewerPlaceholder;
-const hasRealReviewer = Boolean(
-  reviewer &&
-    reviewer.name.trim() &&
-    reviewer.credentials.trim() &&
-    !/\[[^\]]*\]/.test(`${reviewer.name}${reviewer.credentials}`),
-);
+const reviewer = siteConfig.reviewer;
+const showPerson = hasConfiguredReviewer(reviewer);
 ---
 
 <aside class="reviewer-box" aria-label="Content review status">
   {
-    hasRealReviewer && reviewer ? (
+    showPerson ? (
       <>
         <p>
           <strong>Reviewed by:</strong> {reviewer.name}, {reviewer.credentials}

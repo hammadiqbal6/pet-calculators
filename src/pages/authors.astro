@@ -1,17 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { siteConfig, absoluteUrl } from '../config/site.ts';
+import { siteConfig, absoluteUrl, hasConfiguredReviewer } from '../config/site.ts';
+
+const author = siteConfig.defaultAuthor;
+const reviewer = siteConfig.reviewer;
+const showReviewer = hasConfiguredReviewer(reviewer);
 
 const description =
-  'Who builds PetCalc Tools: an independent developer maintains the calculators and guides, with formulas sourced from cited veterinary references.';
-
-const reviewer = siteConfig.reviewerPlaceholder;
-const hasRealReviewer = Boolean(
-  reviewer &&
-    reviewer.name.trim() &&
-    reviewer.credentials.trim() &&
-    !/\[[^\]]*\]/.test(`${reviewer.name}${reviewer.credentials}`),
-);
+  'Who builds PetCalc Tools: the PetCalc Team maintains the calculators and guides, with formulas sourced from cited veterinary references.';
 
 const jsonLd = [
   {
@@ -21,7 +17,7 @@ const jsonLd = [
     url: absoluteUrl('/authors/'),
     mainEntity: {
       '@type': 'Organization',
-      name: siteConfig.defaultAuthor.name,
+      name: author.name,
       url: absoluteUrl('/about/'),
     },
   },
@@ -38,28 +34,24 @@ const jsonLd = [
   <header class="hero">
     <h1>Authors and reviewers</h1>
     <p class="lead">
-      {siteConfig.siteName} is built and maintained by an independent developer. Calculators and guides cite published
+      Calculators and guides on {siteConfig.siteName} are maintained by {author.name}. Formulas cite published
       veterinary sources; they are educational tools, not clinical advice.
     </p>
   </header>
 
   <div class="prose">
-    <h2>{siteConfig.defaultAuthor.name}</h2>
-    <p><strong>Role:</strong> {siteConfig.defaultAuthor.role}</p>
+    <h2>{author.name}</h2>
+    <p><strong>Role:</strong> {author.role}</p>
+    <p>{author.bio}</p>
     <p>
-      This site is built and maintained by an independent developer. Formulas are implemented from cited references
-      (such as NRC, AAHA, WSAVA, AAFCO, AAFP, ASPCA, and the MSD Veterinary Manual), explained in plain language, and
-      checked against the published numbers in those sources. The maintainer is not a veterinarian; clinical decisions
-      always belong with a licensed professional and the individual animal.
-    </p>
-    <p>
-      Questions, corrections, or source suggestions: <a href={`mailto:${siteConfig.contactEmail}`}>{siteConfig.contactEmail}</a>
-      or the <a href="/contact/">contact page</a>.
+      Questions, corrections, or source suggestions:{' '}
+      <a href={`mailto:${siteConfig.contactEmail}`}>{siteConfig.contactEmail}</a>
+      {' '}or the <a href="/contact/">contact page</a>.
     </p>
 
     <h2>Veterinary review</h2>
     {
-      hasRealReviewer && reviewer ? (
+      showReviewer ? (
         <>
           <p>
             <strong>{reviewer.name}</strong>, {reviewer.credentials}
@@ -86,7 +78,7 @@ const jsonLd = [
     <h2>Become a reviewer</h2>
     <p>
       Licensed veterinarians, veterinary technicians, and board-certified nutritionists who would like to review pages
-      can reach us at <a href={`mailto:${siteConfig.contactEmail}`}>{siteConfig.contactEmail}</a> or through the
+      can reach us at <a href={`mailto:${siteConfig.contactEmail}`}>{siteConfig.contactEmail}</a> or through the{' '}
       <a href="/contact/">contact page</a>. Reviewers are credited by name on the pages they check.
     </p>
   </div>

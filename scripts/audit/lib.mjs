@@ -48,18 +48,25 @@ export function readSiteConfig() {
     const m = src.match(new RegExp(`${key}:\\s*['"\`]([^'"\`]*)['"\`]`));
     return m ? m[1] : '';
   };
-  // Mirror src/config/site.ts: PUBLIC_* env wins, then FALLBACK_SITE_URL literal.
+  const constStr = (name, fallback = '') => {
+    const m = src.match(new RegExp(`export const ${name}\\s*=\\s*['"\`]([^'"\`]*)['"\`]`));
+    return m ? m[1] : fallback;
+  };
+  // Mirror src/config/site.ts: PUBLIC_* / INDEXNOW_* env wins, then exported defaults.
   const envSiteUrl = (process.env.PUBLIC_SITE_URL || '').trim().replace(/\/$/, '');
-  const fallbackMatch = src.match(/FALLBACK_SITE_URL\s*=\s*['"`]([^'"`]*)['"`]/);
-  const fallbackSiteUrl = (fallbackMatch?.[1] || 'https://www.petcalctools.example').replace(
-    /\/$/,
-    '',
-  );
+  const fallbackSiteUrl = constStr(
+    'FALLBACK_SITE_URL',
+    'https://pet-calculators.hammadiqbal117.workers.dev',
+  ).replace(/\/$/, '');
   const envGa4 = (process.env.PUBLIC_GA4_MEASUREMENT_ID || '').trim();
+  const envAdsense = (process.env.PUBLIC_ADSENSE_PUBLISHER_ID || '').trim();
+  const envIndexNow = (process.env.INDEXNOW_KEY || '').trim();
+  const defaultIndexNow = constStr('DEFAULT_INDEXNOW_KEY', '');
+  const literalIndexNow = pick('indexNowKey');
   return {
     siteUrl: envSiteUrl || fallbackSiteUrl,
-    adsensePublisherId: pick('adsensePublisherId'),
-    indexNowKey: pick('indexNowKey'),
+    adsensePublisherId: envAdsense || pick('adsensePublisherId'),
+    indexNowKey: envIndexNow || defaultIndexNow || literalIndexNow,
     ga4MeasurementId: envGa4,
     buildDate: pick('buildDate'),
   };

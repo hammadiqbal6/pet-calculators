@@ -1,15 +1,40 @@
 /**
- * Single source of truth for brand, domain, analytics, and AdSense placeholders.
- * Canonical URL, GA4, GSC verification, and contact email come from build-time
- * PUBLIC_* env vars (see `.env.example`). Do not scatter domain strings across
+ * Single source of truth for brand, domain, analytics, author/reviewer, and AdSense.
+ * Canonical URL, GA4, GSC, contact, author, and reviewer come from build-time PUBLIC_*
+ * (and INDEXNOW_KEY) env vars — see `.env.example`. Do not scatter domain strings across
  * pages — use `absoluteUrl()`.
  */
+
+export const SITE_NAME = 'PetCalc Tools';
+export const BRAND_NAME = 'PetCalc';
 
 /** Used when `PUBLIC_SITE_URL` is unset (local builds / audits). */
 export const FALLBACK_SITE_URL = 'https://pet-calculators.hammadiqbal117.workers.dev';
 
 /** Public contact mailbox when `PUBLIC_CONTACT_EMAIL` is unset. */
 export const DEFAULT_CONTACT_EMAIL = 'hammadiqbal117@gmail.com';
+
+/** IndexNow key when `INDEXNOW_KEY` is unset (must match `public/{key}.txt`). */
+export const DEFAULT_INDEXNOW_KEY = '6a232080046a9576fef903fc8f5b8279';
+
+/** Bylines when `PUBLIC_AUTHOR_NAME` is unset — brand team, not a fake person. */
+export const DEFAULT_AUTHOR_NAME = `${BRAND_NAME} Team`;
+
+/** Role label when `PUBLIC_AUTHOR_ROLE` is unset. */
+export const DEFAULT_AUTHOR_ROLE = 'Site maintainer';
+
+/**
+ * Honest default bio when `PUBLIC_AUTHOR_BIO` is unset.
+ * No invented credentials; maintainer is not presented as a veterinarian.
+ */
+export const DEFAULT_AUTHOR_BIO =
+  'PetCalc Tools is built and maintained by an independent developer. Formulas are implemented from cited veterinary references (such as NRC, AAHA, WSAVA, AAFCO, AAFP, ASPCA, and the MSD Veterinary Manual), explained in plain language, and checked against the published numbers in those sources. The maintainer is not a veterinarian; clinical decisions always belong with a licensed professional and the individual animal.';
+
+export type SiteReviewer = {
+  name: string;
+  credentials: string;
+  note?: string;
+};
 
 function publicEnv(name: string): string {
   const fromMeta =
@@ -40,15 +65,70 @@ function resolveGoogleSiteVerification(): string {
   return publicEnv('PUBLIC_GSC_VERIFICATION');
 }
 
+function resolveBingSiteVerification(): string {
+  return publicEnv('PUBLIC_BING_SITE_VERIFICATION');
+}
+
 function resolveContactEmail(): string {
   return publicEnv('PUBLIC_CONTACT_EMAIL') || DEFAULT_CONTACT_EMAIL;
 }
 
+function resolveAdsensePublisherId(): string {
+  return publicEnv('PUBLIC_ADSENSE_PUBLISHER_ID');
+}
+
+function resolveAdsenseAutoAds(): boolean {
+  const raw = publicEnv('PUBLIC_ADSENSE_AUTO_ADS').toLowerCase();
+  return raw === '1' || raw === 'true' || raw === 'yes';
+}
+
+function resolveIndexNowKey(): string {
+  return publicEnv('INDEXNOW_KEY') || DEFAULT_INDEXNOW_KEY;
+}
+
+function resolveAuthorName(): string {
+  return publicEnv('PUBLIC_AUTHOR_NAME') || DEFAULT_AUTHOR_NAME;
+}
+
+function resolveAuthorRole(): string {
+  return publicEnv('PUBLIC_AUTHOR_ROLE') || DEFAULT_AUTHOR_ROLE;
+}
+
+function resolveAuthorBio(): string {
+  return publicEnv('PUBLIC_AUTHOR_BIO') || DEFAULT_AUTHOR_BIO;
+}
+
+/**
+ * Named reviewer only when both name and credentials are set via env.
+ * Empty defaults → null (ReviewerBox shows the neutral sourced-references line).
+ * Rejects bracketed placeholder strings so a fake vet never ships.
+ */
+function resolveReviewer(): SiteReviewer | null {
+  const name = publicEnv('PUBLIC_REVIEWER_NAME');
+  const credentials = publicEnv('PUBLIC_REVIEWER_CREDENTIALS');
+  if (!name || !credentials) return null;
+  if (/\[[^\]]*\]/.test(`${name}${credentials}`)) return null;
+  const note = publicEnv('PUBLIC_REVIEWER_NOTE');
+  return note ? { name, credentials, note } : { name, credentials };
+}
+
+/** True when a real named reviewer (not a bracket placeholder) is configured. */
+export function hasConfiguredReviewer(reviewer: SiteReviewer | null | undefined): reviewer is SiteReviewer {
+  if (!reviewer) return false;
+  const name = reviewer.name?.trim() ?? '';
+  const credentials = reviewer.credentials?.trim() ?? '';
+  if (!name || !credentials) return false;
+  if (/\[[^\]]*\]/.test(`${name}${credentials}`)) return false;
+  return true;
+}
+
+const resolvedReviewer = resolveReviewer();
+
 export const siteConfig = {
   /** Public site name shown in UI, titles, and Organization schema */
-  siteName: 'PetCalc Tools',
+  siteName: SITE_NAME,
   /** Short brand used in nav / logo text */
-  brandName: 'PetCalc',
+  brandName: BRAND_NAME,
   /**
    * Canonical origin including protocol, no trailing slash.
    * Set via `PUBLIC_SITE_URL` at build time (Workers Builds / local `.env`).
@@ -73,34 +153,43 @@ export const siteConfig = {
    * Empty string omits the meta tag. Prefer DNS verification when possible.
    */
   googleSiteVerification: resolveGoogleSiteVerification(),
-  /** Bing Webmaster Tools verification. Leave empty to disable. */
-  bingSiteVerification: '',
   /**
-   * AdSense publisher ID (ca-pub-XXXXXXXXXXXXXXXX).
+   * Bing Webmaster Tools HTML-tag verification from `PUBLIC_BING_SITE_VERIFICATION`.
+   * Empty string omits the meta tag.
+   */
+  bingSiteVerification: resolveBingSiteVerification(),
+  /**
+   * AdSense publisher ID from `PUBLIC_ADSENSE_PUBLISHER_ID` (ca-pub-…).
    * Leave empty — ads stay disabled until configured. See docs/ADSENSE.md.
    */
-  adsensePublisherId: '',
-  /** Enable AdSense Auto ads when publisher ID is set */
-  adsenseAutoAds: false,
-  /** IndexNow key (also place matching file at /public/{key}.txt). Google does not use IndexNow. */
-  indexNowKey: '6a232080046a9576fef903fc8f5b8279',
+  adsensePublisherId: resolveAdsensePublisherId(),
+  /** Enable AdSense Auto ads when publisher ID is set (`PUBLIC_ADSENSE_AUTO_ADS`). */
+  adsenseAutoAds: resolveAdsenseAutoAds(),
+  /**
+   * IndexNow key from `INDEXNOW_KEY` (also place matching file at /public/{key}.txt).
+   * Google does not use IndexNow.
+   */
+  indexNowKey: resolveIndexNowKey(),
   /** Social / entity sameAs URLs for Organization schema (real profiles only) */
   sameAs: [] as string[],
-  /** Default author shown in bylines */
+  /**
+   * Default author shown in bylines and on /authors/.
+   * Override with PUBLIC_AUTHOR_NAME / PUBLIC_AUTHOR_ROLE / PUBLIC_AUTHOR_BIO.
+   */
   defaultAuthor: {
-    name: 'PetCalc Editorial',
-    role: 'Content team',
+    name: resolveAuthorName(),
+    role: resolveAuthorRole(),
+    bio: resolveAuthorBio(),
   },
   /**
-   * Named veterinary reviewer. Keep `null` until a real credentialed reviewer
-   * has checked pages — never invent names or credentials. When set, ReviewerBox
-   * shows "Reviewed by: {name}, {credentials}".
+   * Named veterinary reviewer from PUBLIC_REVIEWER_NAME + PUBLIC_REVIEWER_CREDENTIALS.
+   * Null when unset — never invent a vet. ReviewerBox then shows the neutral methodology line.
    */
-  reviewerPlaceholder: null as null | {
-    name: string;
-    credentials: string;
-    note?: string;
-  },
+  reviewer: resolvedReviewer,
+  /**
+   * @deprecated Alias of `reviewer` for older call sites; prefer `siteConfig.reviewer`.
+   */
+  reviewerPlaceholder: resolvedReviewer,
   /** Locale */
   locale: 'en_US',
   /** Twitter / X handle without @, optional */

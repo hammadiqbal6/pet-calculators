@@ -38,6 +38,9 @@ Set on the Worker (Production; Preview if used):
 | `PUBLIC_GA4_MEASUREMENT_ID` | no | `G-…`; empty/unset emits no GA4 script |
 | `PUBLIC_GSC_VERIFICATION` | no | Search Console HTML-tag `content` value; empty/unset omits the meta tag |
 | `PUBLIC_CONTACT_EMAIL` | no | Public contact mailbox; empty/unset → `hammadiqbal117@gmail.com` |
+| `PUBLIC_AUTHOR_*` / `PUBLIC_REVIEWER_*` | no | Author defaults to PetCalc Team; reviewer empty → neutral ReviewerBox |
+| `PUBLIC_ADSENSE_*` | no | Leave empty until AdSense approval |
+| `INDEXNOW_KEY` | no | Defaults to committed key; must match `public/<key>.txt` |
 | `NODE_VERSION` | recommended | `22.22.0` or newer 22.x |
 
 Confirm after the first build: `dist` HTML canonicals, `/sitemap-0.xml` hosts, `/robots.txt` `Sitemap:` line and `/llms.txt` links all use `PUBLIC_SITE_URL`.
@@ -214,14 +217,16 @@ Committed template: **`.env.example`**. Copy to `.env` for local builds (gitigno
 | `PUBLIC_SITE_URL` | production build | → `siteConfig.siteUrl`; canonicals, sitemap, robots, llms.txt |
 | `PUBLIC_GA4_MEASUREMENT_ID` | optional | → `siteConfig.ga4MeasurementId`; empty = no gtag |
 | `PUBLIC_GSC_VERIFICATION` | optional | → `siteConfig.googleSiteVerification`; empty = no meta tag |
-| `PUBLIC_CONTACT_EMAIL` | optional | → `siteConfig.contactEmail`; Contact/privacy/terms, footer, Organization JSON-LD; empty = `hammadiqbal117@gmail.com` |
+| `PUBLIC_BING_SITE_VERIFICATION` | optional | → `siteConfig.bingSiteVerification`; empty = no meta tag |
+| `PUBLIC_CONTACT_EMAIL` | optional | → `siteConfig.contactEmail`; empty = `hammadiqbal117@gmail.com` |
+| `PUBLIC_AUTHOR_NAME` / `PUBLIC_AUTHOR_ROLE` / `PUBLIC_AUTHOR_BIO` | optional | → `siteConfig.defaultAuthor`; defaults to PetCalc Team + honest bio |
+| `PUBLIC_REVIEWER_NAME` / `PUBLIC_REVIEWER_CREDENTIALS` / `PUBLIC_REVIEWER_NOTE` | optional | → `siteConfig.reviewer`; both name+credentials required or ReviewerBox stays neutral (never invent a vet) |
+| `PUBLIC_ADSENSE_PUBLISHER_ID` / `PUBLIC_ADSENSE_AUTO_ADS` | after AdSense approval | leave empty until approved; [ADSENSE.md](./ADSENSE.md) |
 | `buildDate` (`site.ts`) | each content release | `lastmod`, "Last updated", `dateModified` |
-| `bingSiteVerification` (`site.ts`) | meta-tag verification only | prefer DNS; GSC uses `PUBLIC_GSC_VERIFICATION` |
-| `adsensePublisherId` / `adsenseAutoAds` | after AdSense approval | [ADSENSE.md](./ADSENSE.md) |
-| `indexNowKey` | deploy | plus `public/<key>.txt`; ping via `npm run indexnow` / deploy command |
-| `INDEXNOW_KEY` | optional runtime | overrides key in `scripts/indexnow.mjs` |
+| `INDEXNOW_KEY` | deploy | → `siteConfig.indexNowKey` + `scripts/indexnow.mjs`; plus `public/<key>.txt` |
 | `INDEXNOW_DISABLE` | optional runtime | `1` skips the IndexNow POST (useful for preview deploys) |
 | `sameAs` | when real profiles exist | Organization schema |
-| `defaultAuthor`, `reviewerPlaceholder` | before launch | real people only |
+
+Full list with sample values: [`.env.example`](../.env.example).
 
 CI (`.github/workflows/ci.yml`) runs `npm ci`, `npm test`, `npm run build`, the audits and Lighthouse CI on PRs and pushes to `main`. Require the `Build, test, audit` and `Lighthouse CI (mobile)` checks in branch protection before merging.
