@@ -1,0 +1,35 @@
+---
+export interface Props {
+  items: { name: string; path: string }[];
+}
+
+const { items } = Astro.props;
+
+function trailSlash(path: string): string {
+  if (!path || path === '/') return '/';
+  return path.endsWith('/') ? path : `${path}/`;
+}
+---
+
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li>
+      <a href="/">Home</a>
+    </li>
+    {
+      items.map((item, index) => {
+        const href = trailSlash(item.path);
+        const isLast = index === items.length - 1;
+        return (
+          <li>
+            {isLast ? (
+              <span aria-current="page">{item.name}</span>
+            ) : (
+              <a href={href}>{item.name}</a>
+            )}
+          </li>
+        );
+      })
+    }
+  </ol>
+</nav>

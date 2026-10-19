@@ -1,0 +1,33 @@
+---
+import { getRelatedTools, getTool } from '../data/tools.ts';
+
+export interface Props {
+  currentSlug: string;
+}
+
+const { currentSlug } = Astro.props;
+const related = getRelatedTools(currentSlug);
+const current = getTool(currentSlug);
+---
+
+{
+  related.length > 0 && (
+    <section class="related" aria-labelledby="related-tools-heading">
+      <h2 id="related-tools-heading">Related calculators</h2>
+      {current && (
+        <p class="answer-first">
+          More {current.category === 'cat' ? 'cat' : current.category === 'dog' ? 'dog' : 'pet'}{' '}
+          tools that pair well with {current.shortTitle.toLowerCase()}.
+        </p>
+      )}
+      <div class="card-grid">
+        {related.map((tool) => (
+          <a class="tool-card" href={`/tools/${tool.slug}/`}>
+            <h3>{tool.title}</h3>
+            <p>{tool.description}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+  )
+}

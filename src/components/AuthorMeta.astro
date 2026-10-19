@@ -1,0 +1,26 @@
+---
+import { siteConfig } from '../config/site.ts';
+
+export interface Props {
+  lastUpdated?: string;
+  authorName?: string;
+  authorRole?: string;
+}
+
+const {
+  lastUpdated = siteConfig.buildDate,
+  authorName = siteConfig.defaultAuthor.name,
+  authorRole = siteConfig.defaultAuthor.role,
+} = Astro.props;
+---
+
+<p class="meta-row author-meta">
+  <span>
+    <strong>Author:</strong> {authorName}
+    {authorRole ? ` (${authorRole})` : ''}
+  </span>
+  <span>
+    <strong>Last updated:</strong>
+    <time datetime={lastUpdated}>{lastUpdated}</time>
+  </span>
+</p>
