@@ -1,0 +1,129 @@
+---
+import { BCS_SCALE } from '../../lib/formulas/bmi';
+---
+
+<form class="calc-form dog-bmi-calc" id="dog-bmi-calc" novalidate>
+  <div class="calc-grid cols-2">
+    <label class="field">
+      Weight
+      <span class="unit-toggle" data-weight-toggle role="group" aria-label="Weight unit">
+        <button type="button" data-unit="lb" aria-pressed="true">lb</button>
+        <button type="button" data-unit="kg" aria-pressed="false">kg</button>
+      </span>
+      <input type="number" name="weight" inputmode="decimal" min="0.5" step="0.1" value="55" required />
+    </label>
+    <label class="field">
+      Height at withers
+      <span class="unit-toggle" data-height-toggle role="group" aria-label="Height unit">
+        <button type="button" data-unit="in" aria-pressed="true">in</button>
+        <button type="button" data-unit="cm" aria-pressed="false">cm</button>
+      </span>
+      <input type="number" name="height" inputmode="decimal" min="1" step="0.1" value="22" required />
+    </label>
+    <label class="field">
+      Body condition score (1–9)
+      <span class="hint">Optional — compare with index estimate</span>
+      <select name="bcs">
+        <option value="">— Not sure —</option>
+        {BCS_SCALE.map((b) => (
+          <option value={String(b.score)}>
+            {b.score} — {b.label}
+          </option>
+        ))}
+      </select>
+    </label>
+  </div>
+
+  <div class="results" id="dog-bmi-results" aria-live="polite" hidden>
+    <p class="big" data-result-bmi></p>
+    <dl>
+      <dt>Suggested BCS from index</dt>
+      <dd data-result-suggested></dd>
+      <dt>Your selected BCS</dt>
+      <dd data-result-selected></dd>
+      <dt>Guidance</dt>
+      <dd data-result-guidance></dd>
+    </dl>
+  </div>
+</form>
+
+<script>
+  import { dogBodyMassIndex, getBcs, suggestBcsFromIndex } from '../../lib/formulas/bmi';
+  import { round } from '../../lib/units';
+  import {
+    applyQueryToForm,
+    bindFormInputs,
+    formatCmIn,
+    formatKgLb,
+    getFieldValue,
+    inToCm,
+    parseNum,
+    showResults,
+    syncFormToQuery,
+    weightKgFromForm,
+    wireLengthUnitToggle,
+    wireWeightUnitToggle,
+    type LengthUnit,
+    type WeightUnit,
+  } from './calc-utils';
+
+  const form = document.getElementById('dog-bmi-calc') as HTMLFormElement | null;
+  if (form) {
+    const keys = ['weight', 'height', 'bcs'];
+    applyQueryToForm(form, keys, { weight: '55', height: '22', bcs: '' });
+
+    let wUnit: WeightUnit = 'lb';
+    let hUnit: LengthUnit = 'in';
+
+    wireWeightUnitToggle(form, '[data-weight-toggle]', 'lb', (u) => {
+      wUnit = u;
+      compute();
+    });
+    wireLengthUnitToggle(form, '[data-height-toggle]', 'in', (u) => {
+      hUnit = u;
+      compute();
+    }, 'hunit');
+
+    const panel = form.querySelector('#dog-bmi-results') as HTMLElement;
+
+    function heightCm(): number | null {
+      const h = parseNum(getFieldValue(form!, 'height'));
+      if (h == null || h <= 0) return null;
+      return hUnit === 'cm' ? h : inToCm(h);
+    }
+
+    function compute() {
+      syncFormToQuery(form!, [...keys, 'unit', 'hunit']);
+      const weightKg = weightKgFromForm(form!, 'weight', wUnit);
+      const heightCmVal = heightCm();
+
+      if (weightKg == null || heightCmVal == null) {
+        showResults(panel, false);
+        return;
+      }
+
+      try {
+        const bmi = dogBodyMassIndex(weightKg, heightCmVal);
+        const suggested = suggestBcsFromIndex(bmi);
+        const suggestedBand = getBcs(suggested);
+
+        const bcsRaw = getFieldValue(form!, 'bcs');
+        const selected = bcsRaw ? getBcs(Number(bcsRaw)) : null;
+
+        showResults(panel, true);
+        form.querySelector('[data-result-bmi]')!.textContent =
+          `Index: ${round(bmi, 1)} (weight ${formatKgLb(weightKg, wUnit)}, height ${formatCmIn(heightCmVal, hUnit)})`;
+        form.querySelector('[data-result-suggested]')!.textContent = `${suggested} — ${suggestedBand.label}`;
+        form.querySelector('[data-result-selected]')!.textContent = selected
+          ? `${selected.score} — ${selected.label}`
+          : 'Not provided';
+        form.querySelector('[data-result-guidance]')!.textContent = selected?.guidance ?? suggestedBand.guidance;
+      } catch {
+        showResults(panel, false);
+      }
+    }
+
+    bindFormInputs(form, keys, compute);
+    compute();
+  }
+</script>

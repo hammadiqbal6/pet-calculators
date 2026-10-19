@@ -1,0 +1,64 @@
+---
+import { siteConfig } from '../../config/site';
+const toolUrl = '/puppy-weight-calculator/';
+---
+
+<div class="embed-calc" style="font: inherit; max-width: 28rem;">
+  <form class="calc-form embed-puppy-weight" id="embed-puppy-weight" novalidate>
+    <div class="calc-grid">
+      <label class="field">
+        Puppy weight (lb)
+        <input type="number" name="weight" inputmode="decimal" min="0.1" step="0.1" value="12" />
+      </label>
+      <label class="field">
+        Age (weeks)
+        <input type="number" name="ageWeeks" inputmode="decimal" min="1" step="1" value="12" />
+      </label>
+      <label class="field">
+        Size
+        <select name="size">
+          <option value="toy">Toy</option>
+          <option value="small">Small</option>
+          <option value="medium" selected>Medium</option>
+          <option value="large">Large</option>
+          <option value="giant">Giant</option>
+        </select>
+      </label>
+    </div>
+    <div class="results" id="embed-puppy-results" aria-live="polite">
+      <p class="big" data-embed-headline>Calculating…</p>
+    </div>
+  </form>
+  <p style="margin: 0.5rem 0 0; font-size: 0.8rem; color: var(--ink-muted);">
+    <a href={toolUrl}>Full {siteConfig.brandName} puppy weight calculator</a>
+  </p>
+</div>
+
+<script>
+  import { predictAdultWeight } from '../../lib/formulas/puppyWeight';
+  import type { SizeClass } from '../../data/breeds';
+  import { lbToKg, kgToLb, round } from '../../lib/units';
+  import { bindFormInputs, getFieldValue, parseNum } from './calc-utils';
+
+  const form = document.getElementById('embed-puppy-weight') as HTMLFormElement | null;
+  if (form) {
+    const headline = form.querySelector('[data-embed-headline]') as HTMLElement;
+
+    function compute() {
+      const lb = parseNum(getFieldValue(form!, 'weight'));
+      const ageWeeks = parseNum(getFieldValue(form!, 'ageWeeks'));
+      const size = getFieldValue(form!, 'size') as SizeClass;
+      if (lb == null || ageWeeks == null || ageWeeks <= 0) return;
+
+      try {
+        const r = predictAdultWeight({ currentWeightKg: lbToKg(lb), ageWeeks, size });
+        headline.textContent = `Adult est. ${round(kgToLb(r.predictedAdultKg), 1)} lb`;
+      } catch {
+        headline.textContent = 'Enter valid values';
+      }
+    }
+
+    bindFormInputs(form, ['weight', 'ageWeeks', 'size'], compute);
+    compute();
+  }
+</script>

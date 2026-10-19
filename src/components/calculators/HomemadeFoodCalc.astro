@@ -1,0 +1,105 @@
+---
+import type { HomemadeGoal } from '../../lib/formulas/homemade';
+
+const goals: { id: HomemadeGoal; label: string }[] = [
+  { id: 'maintain', label: 'Adult maintenance' },
+  { id: 'puppy', label: 'Puppy / growth' },
+  { id: 'active', label: 'Active / working' },
+  { id: 'weight_loss', label: 'Weight loss (vet-supervised)' },
+];
+---
+
+<form class="calc-form homemade-food-calc" id="homemade-food-calc" novalidate>
+  <div class="calc-grid cols-2">
+    <label class="field">
+      Dog weight
+      <span class="unit-toggle" data-weight-toggle role="group" aria-label="Weight unit">
+        <button type="button" data-unit="lb" aria-pressed="true">lb</button>
+        <button type="button" data-unit="kg" aria-pressed="false">kg</button>
+      </span>
+      <input type="number" name="weight" inputmode="decimal" min="0.5" step="0.1" value="50" required />
+    </label>
+    <label class="field">
+      Goal
+      <select name="goal">
+        {goals.map((g) => (
+          <option value={g.id} selected={g.id === 'maintain'}>
+            {g.label}
+          </option>
+        ))}
+      </select>
+    </label>
+  </div>
+
+  <p class="disclaimer" style="margin-top: 0.85rem;">
+    Portion ranges only — complete homemade diets need balanced calcium, vitamins, and amino acids under veterinary guidance.
+  </p>
+
+  <div class="results" id="homemade-food-results" aria-live="polite" hidden>
+    <p class="big" data-result-range></p>
+    <dl>
+      <dt>Body-weight percentage</dt>
+      <dd data-result-pct></dd>
+      <dt>Grams per day</dt>
+      <dd data-result-grams></dd>
+    </dl>
+  </div>
+</form>
+
+<script>
+  import { homemadeRation } from '../../lib/formulas/homemade';
+  import type { HomemadeGoal } from '../../lib/formulas/homemade';
+  import { round } from '../../lib/units';
+  import {
+    applyQueryToForm,
+    bindFormInputs,
+    formatKgLb,
+    getFieldValue,
+    showResults,
+    syncFormToQuery,
+    weightKgFromForm,
+    wireWeightUnitToggle,
+    type WeightUnit,
+  } from './calc-utils';
+
+  const form = document.getElementById('homemade-food-calc') as HTMLFormElement | null;
+  if (form) {
+    const keys = ['weight', 'goal'];
+    applyQueryToForm(form, keys, { weight: '50', goal: 'maintain' });
+
+    let unit: WeightUnit = 'lb';
+    wireWeightUnitToggle(form, '[data-weight-toggle]', 'lb', (u) => {
+      unit = u;
+      compute();
+    });
+
+    const panel = form.querySelector('#homemade-food-results') as HTMLElement;
+
+    function compute() {
+      syncFormToQuery(form, [...keys, 'unit']);
+      const weightKg = weightKgFromForm(form, 'weight', unit);
+      const goal = getFieldValue(form, 'goal') as HomemadeGoal;
+
+      if (weightKg == null) {
+        showResults(panel, false);
+        return;
+      }
+
+      try {
+        const r = homemadeRation(weightKg, goal);
+        showResults(panel, true);
+        form.querySelector('[data-result-range]')!.textContent =
+          `${formatKgLb(r.lowKgPerDay, unit)} – ${formatKgLb(r.highKgPerDay, unit)} / day`;
+        form.querySelector('[data-result-pct]')!.textContent =
+          `${round(r.percentLow, 1)}% – ${round(r.percentHigh, 1)}% of body weight`;
+        form.querySelector('[data-result-grams]')!.textContent =
+          `${Math.round(r.lowGPerDay)} – ${Math.round(r.highGPerDay)} g`;
+      } catch {
+        showResults(panel, false);
+      }
+    }
+
+    bindFormInputs(form, keys, compute);
+    compute();
+  }
+</script>

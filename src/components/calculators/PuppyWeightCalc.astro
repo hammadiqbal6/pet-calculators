@@ -1,0 +1,195 @@
+---
+import { breeds, SIZE_ADULT_KG, type SizeClass } from '../../data/breeds';
+
+const sizes: { id: SizeClass; label: string }[] = [
+  { id: 'toy', label: 'Toy' },
+  { id: 'small', label: 'Small' },
+  { id: 'medium', label: 'Medium' },
+  { id: 'large', label: 'Large' },
+  { id: 'giant', label: 'Giant' },
+];
+---
+
+<form class="calc-form puppy-weight-calc" id="puppy-weight-calc" novalidate>
+  <div class="calc-grid cols-2">
+    <label class="field">
+      Current weight
+      <span class="unit-toggle" data-weight-toggle role="group" aria-label="Weight unit">
+        <button type="button" data-unit="lb" aria-pressed="true">lb</button>
+        <button type="button" data-unit="kg" aria-pressed="false">kg</button>
+      </span>
+      <input type="number" name="weight" inputmode="decimal" min="0.1" step="0.1" value="12" required />
+    </label>
+    <label class="field">
+      Age (weeks)
+      <span class="hint">Whole weeks since birth</span>
+      <input type="number" name="ageWeeks" inputmode="decimal" min="1" max="104" step="1" value="12" required />
+    </label>
+    <label class="field">
+      Breed (optional)
+      <select name="breedId">
+        <option value="">— Select breed —</option>
+        {breeds.map((b) => (
+          <option value={b.id}>{b.name}</option>
+        ))}
+      </select>
+    </label>
+    <label class="field">
+      Size class
+      <span class="hint">Used if breed unknown</span>
+      <select name="size">
+        {sizes.map((s) => (
+          <option value={s.id} selected={s.id === 'medium'}>
+            {s.label} ({SIZE_ADULT_KG[s.id][0]}–{SIZE_ADULT_KG[s.id][1]} kg adult)
+          </option>
+        ))}
+      </select>
+    </label>
+  </div>
+
+  <div class="results" id="puppy-weight-results" aria-live="polite" hidden>
+    <p class="big" data-result-headline></p>
+    <dl>
+      <dt>Estimated adult range</dt>
+      <dd data-result-range></dd>
+      <dt>Expected breed/size range</dt>
+      <dd data-result-expected></dd>
+      <dt>Growth progress</dt>
+      <dd data-result-growth></dd>
+      <dt>Method</dt>
+      <dd data-result-method></dd>
+    </dl>
+    <figure style="margin: 1rem 0 0;">
+      <figcaption style="font-size: 0.85rem; color: var(--ink-muted); margin-bottom: 0.35rem;">
+        Estimated growth curve (illustrative)
+      </figcaption>
+      <svg
+        data-growth-chart
+        role="img"
+        aria-label="Puppy weight growth chart"
+        width="100%"
+        height="160"
+        viewBox="0 0 400 160"
+        preserveAspectRatio="none"
+        style="background: #fff; border: 1px solid var(--border); border-radius: 8px;"
+      ></svg>
+    </figure>
+  </div>
+</form>
+
+<script>
+  import { predictAdultWeight } from '../../lib/formulas/puppyWeight';
+  import { getBreed, type SizeClass } from '../../data/breeds';
+  import {
+    applyQueryToForm,
+    bindFormInputs,
+    formatKgLb,
+    showResults,
+    syncFormToQuery,
+    weightKgFromForm,
+    wireWeightUnitToggle,
+    type WeightUnit,
+  } from './calc-utils';
+
+  const form = document.getElementById('puppy-weight-calc') as HTMLFormElement | null;
+  if (form) {
+    const keys = ['weight', 'ageWeeks', 'breedId', 'size'];
+    applyQueryToForm(form, keys, { weight: '12', ageWeeks: '12', size: 'medium' });
+
+    let unit: WeightUnit = 'lb';
+    const getUnit = wireWeightUnitToggle(form, '[data-weight-toggle]', 'lb', (u) => {
+      unit = u;
+      compute();
+    });
+
+    const panel = form.querySelector('#puppy-weight-results') as HTMLElement;
+    const headline = form.querySelector('[data-result-headline]') as HTMLElement;
+    const rangeEl = form.querySelector('[data-result-range]') as HTMLElement;
+    const expectedEl = form.querySelector('[data-result-expected]') as HTMLElement;
+    const growthEl = form.querySelector('[data-result-growth]') as HTMLElement;
+    const methodEl = form.querySelector('[data-result-method]') as HTMLElement;
+    const svg = form.querySelector('[data-growth-chart]') as SVGSVGElement;
+
+    function renderChart(
+      points: { week: number; estimatedKg: number }[],
+      adultKg: number,
+      ageWeeks: number,
+      currentKg: number,
+    ) {
+      if (!svg || points.length === 0) return;
+      const w = 400;
+      const h = 160;
+      const pad = { l: 36, r: 12, t: 12, b: 28 };
+      const maxWeek = Math.max(...points.map((p) => p.week), ageWeeks);
+      const maxKg = Math.max(adultKg, ...points.map((p) => p.estimatedKg), currentKg) * 1.05;
+
+      const x = (week: number) => pad.l + ((week / maxWeek) * (w - pad.l - pad.r));
+      const y = (kg: number) => pad.t + (1 - kg / maxKg) * (h - pad.t - pad.b);
+
+      const path = points.map((p, i) => `${i === 0 ? 'M' : 'L'} ${x(p.week).toFixed(1)} ${y(p.estimatedKg).toFixed(1)}`).join(' ');
+
+      svg.innerHTML = `
+        <line x1="${pad.l}" y1="${h - pad.b}" x2="${w - pad.r}" y2="${h - pad.b}" stroke="#d5ddd8" />
+        <line x1="${pad.l}" y1="${pad.t}" x2="${pad.l}" y2="${h - pad.b}" stroke="#d5ddd8" />
+        <path d="${path}" fill="none" stroke="#1f6b4a" stroke-width="2.5" />
+        <circle cx="${x(ageWeeks)}" cy="${y(currentKg)}" r="5" fill="#0b57d0" />
+        <text x="${pad.l}" y="${h - 6}" font-size="11" fill="#4a5a54">Weeks</text>
+        <text x="4" y="${pad.t + 8}" font-size="11" fill="#4a5a54" transform="rotate(-90 8 ${pad.t + 8})">kg</text>
+      `;
+    }
+
+    function compute() {
+      unit = getUnit();
+      syncFormToQuery(form, [...keys, 'unit']);
+
+      const weightKg = weightKgFromForm(form, 'weight', unit);
+      const ageWeeks = Number(getFieldValueSafe(form, 'ageWeeks'));
+      const breedId = getFieldValueSafe(form, 'breedId') || undefined;
+      let size = getFieldValueSafe(form, 'size') as SizeClass;
+
+      if (breedId) {
+        const b = getBreed(breedId);
+        if (b) size = b.size;
+      }
+
+      if (weightKg == null || !Number.isFinite(ageWeeks) || ageWeeks <= 0) {
+        showResults(panel, false);
+        return;
+      }
+
+      try {
+        const r = predictAdultWeight({ currentWeightKg: weightKg, ageWeeks, size, breedId });
+        showResults(panel, true);
+        headline.textContent = `Predicted adult: ${formatKgLb(r.predictedAdultKg, unit)}`;
+        rangeEl.textContent = `${formatKgLb(r.predictedLowKg, unit)} – ${formatKgLb(r.predictedHighKg, unit)}`;
+        expectedEl.textContent = `${formatKgLb(r.expectedAdultRangeKg[0], unit)} – ${formatKgLb(r.expectedAdultRangeKg[1], unit)}`;
+        growthEl.textContent = `${Math.round(r.growthCompleteFraction * 100)}% of expected adult size`;
+        methodEl.textContent = r.method === 'week52' ? 'Early puppy (×52 weeks rule)' : 'Growth-curve estimate';
+        renderChart(r.chart, r.predictedAdultKg, ageWeeks, weightKg);
+      } catch {
+        showResults(panel, false);
+      }
+    }
+
+    function getFieldValueSafe(f: HTMLFormElement, key: string): string {
+      const el = f.elements.namedItem(key);
+      if (el instanceof HTMLInputElement || el instanceof HTMLSelectElement) return el.value;
+      return '';
+    }
+
+    form.querySelector('[name="breedId"]')?.addEventListener('change', () => {
+      const id = getFieldValueSafe(form, 'breedId');
+      const b = id ? getBreed(id) : undefined;
+      if (b) setSelect(form, 'size', b.size);
+      compute();
+    });
+
+    function setSelect(f: HTMLFormElement, key: string, value: string) {
+      const el = f.elements.namedItem(key);
+      if (el instanceof HTMLSelectElement) el.value = value;
+    }
+
+    bindFormInputs(form, keys, compute);
+    compute();
+  }
+</script>

@@ -1,0 +1,59 @@
+<form class="calc-form cat-age-calc" id="cat-age-calc" novalidate>
+  <div class="calc-grid">
+    <label class="field">
+      Cat age (years)
+      <span class="hint">Decimals OK (e.g. 0.5 for 6 months)</span>
+      <input type="number" name="ageYears" inputmode="decimal" min="0" max="25" step="0.1" value="3" required />
+    </label>
+  </div>
+
+  <div class="results" id="cat-age-results" aria-live="polite" hidden>
+    <p class="big" data-result-human></p>
+    <dl>
+      <dt>Life stage</dt>
+      <dd data-result-stage></dd>
+    </dl>
+  </div>
+</form>
+
+<script>
+  import { catToHumanYears } from '../../lib/formulas/catAge';
+  import { round } from '../../lib/units';
+  import {
+    applyQueryToForm,
+    bindFormInputs,
+    getFieldValue,
+    parseNum,
+    showResults,
+    syncFormToQuery,
+  } from './calc-utils';
+
+  const form = document.getElementById('cat-age-calc') as HTMLFormElement | null;
+  if (form) {
+    const keys = ['ageYears'];
+    applyQueryToForm(form, keys, { ageYears: '3' });
+
+    const panel = form.querySelector('#cat-age-results') as HTMLElement;
+
+    function compute() {
+      syncFormToQuery(form, keys);
+      const ageYears = parseNum(getFieldValue(form, 'ageYears'));
+      if (ageYears == null || ageYears < 0) {
+        showResults(panel, false);
+        return;
+      }
+
+      try {
+        const r = catToHumanYears(ageYears);
+        showResults(panel, true);
+        form.querySelector('[data-result-human]')!.textContent = `≈ ${round(r.humanYears, 1)} human years`;
+        form.querySelector('[data-result-stage]')!.textContent = r.lifeStage;
+      } catch {
+        showResults(panel, false);
+      }
+    }
+
+    bindFormInputs(form, keys, compute);
+    compute();
+  }
+</script>

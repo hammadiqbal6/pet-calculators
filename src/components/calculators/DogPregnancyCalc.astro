@@ -1,0 +1,87 @@
+<form class="calc-form dog-pregnancy-calc" id="dog-pregnancy-calc" novalidate>
+  <div class="calc-grid cols-2">
+    <label class="field">
+      Start date
+      <span class="hint">Breeding or ovulation date</span>
+      <input type="date" name="startDate" required />
+    </label>
+    <label class="field">
+      Date type
+      <select name="mode">
+        <option value="breeding" selected>Mating / breeding date</option>
+        <option value="ovulation">Ovulation / LH surge estimate</option>
+      </select>
+    </label>
+  </div>
+
+  <div class="results" id="dog-pregnancy-results" aria-live="polite" hidden>
+    <p class="big" data-result-due></p>
+    <dl>
+      <dt>Expected window</dt>
+      <dd data-result-window></dd>
+      <dt>Gestation used</dt>
+      <dd data-result-gestation></dd>
+      <dt>Days until due date</dt>
+      <dd data-result-countdown></dd>
+    </dl>
+  </div>
+</form>
+
+<script>
+  import { daysUntil, estimateWhelpingDate } from '../../lib/formulas/pregnancy';
+  import type { PregnancyInput } from '../../lib/formulas/pregnancy';
+  import {
+    applyQueryToForm,
+    bindFormInputs,
+    getFieldValue,
+    showResults,
+    syncFormToQuery,
+  } from './calc-utils';
+
+  function defaultStartDate(): string {
+    const d = new Date();
+    d.setUTCDate(d.getUTCDate() - 30);
+    return d.toISOString().slice(0, 10);
+  }
+
+  function formatDate(iso: string): string {
+    const d = new Date(iso + 'T12:00:00Z');
+    return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' });
+  }
+
+  const form = document.getElementById('dog-pregnancy-calc') as HTMLFormElement | null;
+  if (form) {
+    const keys = ['startDate', 'mode'];
+    applyQueryToForm(form, keys, { startDate: defaultStartDate(), mode: 'breeding' });
+
+    const panel = form.querySelector('#dog-pregnancy-results') as HTMLElement;
+
+    function compute() {
+      syncFormToQuery(form!, keys);
+      const startDate = getFieldValue(form!, 'startDate');
+      const mode = getFieldValue(form!, 'mode') as PregnancyInput['mode'];
+
+      if (!startDate) {
+        showResults(panel, false);
+        return;
+      }
+
+      try {
+        const r = estimateWhelpingDate({ startDate, mode });
+        const remaining = daysUntil(r.dueDate);
+        showResults(panel, true);
+        form.querySelector('[data-result-due]')!.textContent = `Due date: ${formatDate(r.dueDate)}`;
+        form.querySelector('[data-result-window]')!.textContent =
+          `${formatDate(r.windowStart)} – ${formatDate(r.windowEnd)}`;
+        form.querySelector('[data-result-gestation]')!.textContent = `${r.gestationDaysUsed} days (${mode})`;
+        form.querySelector('[data-result-countdown]')!.textContent =
+          remaining >= 0 ? `${remaining} days remaining` : `${Math.abs(remaining)} days past due date`;
+      } catch {
+        showResults(panel, false);
+      }
+    }
+
+    bindFormInputs(form, keys, compute);
+    compute();
+  }
+</script>
