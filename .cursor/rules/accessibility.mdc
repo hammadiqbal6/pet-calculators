@@ -1,48 +1,39 @@
 ---
-description: Accessibility requirements for PetCalc calculators and layouts
-globs: "{src/components/**/*,src/pages/**/*,src/styles/**/*}"
+description: Accessibility rules (WCAG 2.2 AA) for calculators, forms, results, nav and content on the pet calculators site
+globs: src/components/**/*.astro,src/pages/**/*.astro,src/layouts/**/*.astro,src/styles/global.css
 alwaysApply: false
 ---
 
-# Accessibility (PetCalc)
+# Accessibility (WCAG 2.2 AA)
 
-Target: Lighthouse accessibility ≥ 95 (`lighthouserc.cjs`). Calculators must work with keyboard and screen readers.
-
-## Structure
-
-- One logical `<h1>` per page; heading levels do not skip (h2 → h3).
-- Landmarks: main content obvious; nav in header/footer components.
-- Visible focus styles — do not remove outlines without a replacement (`src/styles/global.css`).
+Lighthouse accessibility >= 95 is enforced in `lighthouserc.cjs`; the rest requires manual checks. Accessibility is also an SEO and AdSense (UX) signal.
 
 ## Forms and calculators
+- Every input has a visible `<label>` (wrapping `<label class="field">` is the house pattern), unit text, and an optional `.hint`. Placeholder text is never the label.
+- Correct types: `type="number"` + `inputmode="decimal"`, `min`/`max`/`step`; `<select>` for enumerations; radio groups in `<fieldset><legend>`.
+- No input-time validation errors that steal focus. Invalid input hides results (`showResults(panel, false)`) and, where helpful, shows a text message in an `aria-live="polite"` region.
+- Results panel: `aria-live="polite"`, updated as text; do not rely on colour, charts or canvas alone: provide a text summary and table alternative.
+- Unit toggles are real `<button type="button" aria-pressed>` elements (see `wireWeightUnitToggle` in `calc-utils.ts`), keyboard operable, with visible labels ("lb", "kg").
+- Calculators are fully usable with keyboard only and with 200% text zoom / 320 px width (reflow), no horizontal scroll, no hover-only controls.
 
-- Every input has an associated `<label>` (or `aria-label` when visually hidden helper text exists).
-- Group related inputs with `<fieldset>`/`<legend>` when appropriate (unit toggles, life-stage radios).
-- Error/validation messages: associate via `aria-describedby` or live region for dynamic results.
-- Results region: announce meaningful updates (`aria-live="polite"`) without spamming on each keystroke — prefer update on submit/calculate button.
+## Structure and content
+- One `<h1>`; logical heading order; landmarks (`<header>`, `<nav aria-label>`, `<main id="main-content">`, `<footer>`); the skip link in `BaseLayout.astro` stays first in the tab order.
+- Link text describes the destination (no "click here"); links that open a new tab say so and use `rel="noopener noreferrer"`.
+- Tables: `<th scope>`, captions or a preceding heading; responsive wrappers use `overflow-x: auto` with `tabindex="0"` and an accessible name.
+- Images: meaningful `alt` or `alt=""` if decorative; SVG decorations `aria-hidden="true"`; charts have a text alternative.
+- `<html lang="en">`; avoid auto-playing or moving content; no pop-ups/interstitials; the cookie notice is a dialog with a focusable "Accept" button and does not trap focus.
+- Do not use `title` for essential info; do not remove focus outlines.
 
-## Color and motion
+## Visual
+- Text contrast >= 4.5:1 (large text and UI components >= 3:1). Check any colour you add to `src/styles/global.css` against its background, including warning/disclaimer boxes and the ad placeholder.
+- Visible `:focus-visible` style on all interactive elements.
+- Tap targets >= 24x24 CSS px (WCAG 2.2 target size minimum); prefer 44 px for primary buttons.
+- Respect `prefers-reduced-motion`; no essential information conveyed by colour alone.
+- Ads: label "Advertisement"; `AdSlot` has an `aria-label`; never place ads between a form field and its result.
 
-- Contrast ≥ WCAG AA for body text and controls.
-- Do not convey state by color alone (add text/icons for errors/warnings).
-- Respect `prefers-reduced-motion` for animations (if added).
-
-## Media and icons
-
-- Informative images: descriptive `alt`.
-- Decorative images: `alt=""`.
-- SVG icons paired with visible text or `aria-hidden="true"` when redundant.
-
-## Ads
-
-- Ad slots must not trap focus; keep tab order logical through calculator first (`AdSlot.astro` below tool).
-
-## Testing
-
-After UI changes to `src/components/calculators/*`:
-
-```bash
-npm run build && npm run lhci
-```
-
-Manually tab through: focus order, calculate action, readable result.
+## Test before merging UI changes
+1. Keyboard-only pass through the page (Tab, Shift+Tab, Enter/Space on buttons/selects).
+2. Screen-reader spot check (VoiceOver or NVDA): labels read, result announced on change, headings navigable.
+3. 320 px width and 200% zoom, no clipped content.
+4. `npm run lhci` accessibility >= 95 for the changed template (axe-based audits `color-contrast`, `image-alt`, `link-text` are errors).
+5. Emulate `prefers-reduced-motion: reduce` and forced-colors if you changed styling.

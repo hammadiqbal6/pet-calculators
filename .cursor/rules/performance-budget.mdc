@@ -1,44 +1,34 @@
 ---
-description: JS/CSS/HTML size and CWV budgets for PetCalc static builds
-globs: "{src/**/*,public/**/*,lighthouserc.cjs,scripts/audit/budgets.mjs}"
+description: Performance budget for the pet calculators site - plain HTML, vanilla TS, inlined CSS, no frameworks or third-party scripts, ad slots with reserved height, Lighthouse mobile >= 95
+globs: src/**/*.astro,src/**/*.ts,src/styles/**/*.css,astro.config.mjs,lighthouserc.cjs,public/_headers,package.json
 alwaysApply: false
 ---
 
-# Performance budget (PetCalc)
+# Performance budget
 
-Enforced by `scripts/audit/budgets.mjs` and `npm run lhci` (`lighthouserc.cjs`). Philosophy: plain HTML, light client JS (`docs/SEO-PLAYBOOK.md` section 2).
+Sources: `docs/SEO-PLAYBOOK.md` section 2 (CWV targets, "ship plain HTML with light JS", "reserve fixed-height slots for ad units"). Gates: `npm run audit:budgets` and `npm run lhci` (`lighthouserc.cjs`). Procedure: `performance-cwv-audit` skill.
 
-## Gzip size limits (defaults)
+## Targets (mobile, Lighthouse lab; field targets are p75)
+- Performance >= 95, LCP <= 2.5 s, CLS <= 0.1, TBT <= 200 ms (INP <= 200 ms in the field), FCP <= 1.8 s.
+- First-party JS <= 25 KB gzip per page (<= 15 KB on `/embed/*`), any single JS file <= 20 KB gzip, all JS <= 200 KB gzip.
+- HTML document <= 60 KB gzip (CSS is inlined); inline CSS <= 25 KB gzip; any image <= 150 KB.
 
-| Metric | Limit |
-|--------|-------|
-| First-party JS per page | 25 KB |
-| First-party JS per embed page | 15 KB |
-| Any single emitted `.js` file | 20 KB |
-| Total JS in `dist/` | 200 KB |
-| HTML document (incl. inlined CSS) | 60 KB |
-| CSS (inline + linked) per page | 25 KB |
-| Single image (raw) | 150 KB |
+## Architecture constraints
+- Static Astro output; `build.inlineStylesheets: 'always'`; one stylesheet (`src/styles/global.css`). Do not add Tailwind, Bootstrap, CSS-in-JS or a second stylesheet file.
+- No UI framework (React/Vue/Svelte/Alpine/jQuery) and no charting/date/lodash libraries. Calculators are vanilla TS in Astro `<script>` blocks that import `src/lib/formulas/*` and `calc-utils.ts`. Dynamic `import()` only for rare, heavy features.
+- No web fonts unless self-hosted, subset, `font-display: swap`, and one preloaded face. Default is the system font stack.
+- No third-party scripts except GA4, AdSense and a certified CMP, each only when configured in `src/config/site.ts`, loaded `async`, with the CSP/host allow-list documented in `docs/DEPLOYMENT.md`. `audit:budgets` fails other hosts.
+- Content must be in the initial HTML; JS only powers inputs/results.
+- Avoid `is:inline` scripts over ~6 KB gzip; avoid layout-thrashing handlers; debounce `input` handlers if work > ~10 ms.
 
-Override via env vars (`BUDGET_PAGE_JS_KB`, etc.) only with measured need documented in PR.
+## CLS rules
+- Images: explicit `width`/`height` (or `aspect-ratio`); the LCP image (if any) is not `loading="lazy"` and has `fetchpriority="high"`.
+- Ad slots: only `AdSlot.astro`; keep `.ad-slot` `min-height` (90 px) or the taller reserved height for the format actually served; never inject ads above the calculator or into the results panel; never collapse a slot after a no-fill.
+- The cookie/consent banner overlays (fixed), it must not push content.
+- Calculator results render with default values at first paint, or their container reserves height; charts have fixed dimensions.
 
-## Lighthouse CI (mobile lab)
-
-- Performance score ≥ 0.95 (median)
-- LCP ≤ 2.5s, CLS ≤ 0.1, TBT ≤ 200ms
-- Run after enabling `ga4MeasurementId` or AdSense — third-party scripts affect real users even when excluded from budget math.
-
-## Implementation rules
-
-- Put calculator maths in `src/lib/formulas/*`; keep `.astro` scripts thin.
-- No new npm dependencies unless bundle impact is measured with `npm run audit:budgets`.
-- Reserve dimensions for images and ad slots to prevent CLS.
-- Embeds must stay under embed JS budget — no duplicate full-page scripts.
-
-## Pre-merge
-
-```bash
-npm run build && npm run audit:budgets && npm run lhci
-```
-
-Add new URLs to `lighthouserc.cjs` only when introducing a **new template**, not each tool clone.
+## Process
+- Any change to templates, CSS, calculator scripts, images or third-party tags: `npm run build && npm run audit:budgets && npm run lhci` and note the median metrics in the PR.
+- Do not raise a budget to pass a PR. If a budget must move, change `scripts/audit/budgets.mjs` and `lighthouserc.cjs` together with written evidence of user benefit.
+- Add one URL to `lighthouserc.cjs` per new **template**, not per page.
+- CDN: hashed `/_astro/*` assets immutable for a year; HTML `max-age=0, must-revalidate` (`public/_headers`).

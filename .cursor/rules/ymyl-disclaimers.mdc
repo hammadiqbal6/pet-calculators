@@ -1,43 +1,41 @@
 ---
-description: YMYL disclaimers, reviewer claims, and emergency copy on PetCalc health pages
-globs: "{src/pages/tools/**/*,src/pages/guides/**/*,src/components/Disclaimer.astro,src/components/ReviewerBox.astro}"
+description: Veterinary YMYL safety rules - disclaimers, emergency framing, reviewer honesty, no dosing or diagnosis - for every tool and guide page
+globs: src/pages/tools/**/*.astro,src/pages/guides/**/*.astro,src/pages/embed/**/*.astro,src/components/calculators/**/*.astro,src/components/Disclaimer.astro,src/components/ReviewerBox.astro,src/lib/formulas/**/*.ts
 alwaysApply: false
 ---
 
-# YMYL disclaimers (PetCalc)
+# YMYL (pet health) disclaimers and safety
 
-Veterinary-adjacent content must not impersonate professional care. Enforced by `audit:seo` (`tool-disclaimer`) and `audit:adsense`.
+Pet health content can cause real harm if wrong. Google and AdSense reviewers treat it with extra scrutiny (`docs/SEO-PLAYBOOK.md` sections 3 and 6; `docs/ADSENSE.md`).
 
-## Required components
+## Required on every tool and guide page
+- `<Disclaimer />` ("Not veterinary advice...") is rendered. `ToolPageShell` and `GuidePageShell` include it; any custom page must add it. `audit:seo` (`tool-disclaimer`) and `audit:adsense` (`disclaimer`) fail without it.
+- `<ReviewerBox />` and `<AuthorMeta />` are present. The reviewer box must state **pending review** unless `siteConfig.reviewerPlaceholder` has been replaced by a real, named, credentialed reviewer who actually reviewed that page. Never fabricate a reviewer, license, or credential.
+- A sources list with primary veterinary references (`src/data/sources.ts`).
+- An "Assumptions and limits" section: who the estimate fits, who it does not (mixed breeds, puppies/kittens, seniors, pregnancy, illness, medical diets), and when to contact a veterinarian.
+- Embed pages keep the "Educational only, not veterinary advice" line in `EmbedFrame.astro`.
 
-- **Every tool and guide** includes `<Disclaimer />` (`src/components/Disclaimer.astro`).
-- Calculators are **educational estimates**, not diagnosis or prescription.
-- Direct users to their veterinarian for individual advice, especially for puppies, seniors, pregnancy, toxins, and weight loss.
+## Tone and wording
+- Use "estimate", "typical range", "starting point", "talk to your veterinarian". Never "diagnose", "treat", "cure", "guaranteed", "100% safe", "no need to see a vet", "instead of your vet".
+- Never give medication names, doses or home treatment instructions. Never induce-vomiting advice. For poisoning content the only action is: contact your veterinarian, an emergency clinic, or a poison hotline immediately (ASPCA Animal Poison Control Center, Pet Poison Helpline); verify any phone number/fee on the official page on the publish date.
+- Weight-loss, feeding for medical conditions, pregnancy/lactation feeding, homemade/raw diets: state that a veterinarian (or board-certified veterinary nutritionist for home-prepared diets) must individualise the plan.
 
-## ReviewerBox
+## Emergency-adjacent tools and guides (chocolate/toxins, pregnancy complications, dehydration)
+- The "call your vet / poison hotline now" instruction appears in the HTML before any numeric result, not only after JS runs.
+- Results are framed as "possible risk level for planning a call", never "safe amount". Do not show a "safe dose".
+- No ads between the warning and the tool, and no affiliate content.
+- Fail closed: if inputs are missing or out of range, hide results (the components call `showResults(panel, false)`), do not guess.
 
-- Use `<ReviewerBox />` only when `src/config/site.ts` names a **real** reviewer with credentials.
-- Never ship placeholder text (`[Veterinary reviewer name]`, "pending review" as a marketing claim).
-- If no reviewer: omit the box or show author-only metadata via `<AuthorMeta />`.
-- `AUDIT_PROD=1` fails placeholder reviewer strings.
+## Formulas and data
+- Every constant has a citation in the JSDoc and on the page. If sources disagree, show the range and cite both.
+- Unit tests include a published worked example and boundary values (`src/lib/formulas/formulas.test.ts`).
+- Round conservatively; never present false precision (1-2 significant digits for ranges).
+- Changing a formula or constant requires `vet-fact-checker` review and a page-copy update in the same PR.
 
-## Emergency / toxicity pages
+## Privacy
+- Calculator inputs never leave the browser: no `fetch`, no analytics events, no storage beyond the URL query string. If that ever changes, update `/privacy/` first and re-run `adsense-readiness-audit`.
 
-Routes like `/tools/dog-chocolate-toxicity-calculator/` and guides with `Intent: E` in KEYWORD-MAP:
-
-- "Contact your vet / emergency clinic **now**" and poison hotline **above** the result UI.
-- Hotline numbers must match official sources (see `vet-source-citation` skill).
-- Do not suggest home remedies as alternatives to professional care.
-
-## Ads and trust
-
-- No AdSense units above the interactive calculator (`AdSlot.astro` placement).
-- No ads on `/404/` or `/embed/`.
-
-## Copy patterns to avoid
-
-- Guaranteed outcomes ("will cure", "safe to feed unlimited").
-- Breed-specific medical advice without sourcing and "consult your vet" caveats.
-- Human medical crossover unless clearly labeled out-of-scope.
-
-When editing disclaimers, keep wording consistent site-wide — update the shared component rather than one-off paragraphs when possible.
+## Do not
+- Do not hide or shrink the disclaimer, collapse it by default, or move it below the fold on emergency pages.
+- Do not claim endorsements ("AAHA approved"); say "based on".
+- Do not add "reviewed by" JSON-LD (`reviewedBy`) unless a real reviewer reviewed the page.

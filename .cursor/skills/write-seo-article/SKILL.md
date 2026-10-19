@@ -36,7 +36,7 @@ FAQ 5-8 real questions (answers 30-80 words, complete sentences)
 Sources (SourcesList via shell), Disclaimer, AuthorMeta, Try the calculators (shell)
 ```
 
-Length: **>= 800 words** of body copy (`audit:seo` warns under 1000 for guides, errors under 600). Aim for the length the topic needs, not padding.
+Length: **>= 800 words** of body copy (`audit:seo` warns under 800 for guides, errors under 600). Aim for the length the topic needs, not padding.
 
 ## Step 3: Write
 

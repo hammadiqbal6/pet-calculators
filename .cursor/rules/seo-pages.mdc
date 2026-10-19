@@ -1,49 +1,41 @@
 ---
-description: SEO metadata, content minimums, and structure for PetCalc Astro pages
-globs: src/pages/**/*
+description: SEO requirements for every public page (title, meta, H1, canonical, JSON-LD, internal links, keyword ownership) in the pet calculators Astro site
+globs: src/pages/**/*.astro,src/layouts/**/*.astro,src/components/ToolPageShell.astro,src/components/GuidePageShell.astro,src/data/tools.ts,src/data/guides.ts,src/config/site.ts
 alwaysApply: false
 ---
 
-# SEO pages (PetCalc)
+# SEO rules for pages
 
-Synced with `scripts/audit/lib.mjs` `LIMITS` and `scripts/audit/seo.mjs`. Full playbook: `docs/SEO-PLAYBOOK.md`. Keyword ownership: `docs/KEYWORD-MAP.md`.
+Source of truth: `docs/SEO-PLAYBOOK.md` (sections 2, 3, 6), `docs/KEYWORD-MAP.md`. Enforced by `npm run audit:seo` (run `npm run build` first). Thresholds live in `scripts/audit/lib.mjs` `LIMITS`.
 
-## Metadata (every indexable page)
+## Keyword ownership
+- One primary keyword per page, unique across the site. Register it in `docs/KEYWORD-MAP.md` **before** creating the page. A phrasing of an owned intent is a secondary keyword of the owner, never a new page.
+- Primary keyword appears in: `<title>` (first), the H1, the first paragraph, the slug, the meta description. `keywords[0]` in `src/data/tools.ts` equals the keyword-map primary.
+- Do not create per-breed, per-city, per-phrasing or per-food pages without unique, sourced data (scaled-content abuse). Use options on the one tool page.
 
-- **Title**: 30–65 characters (hard max 80); primary keyword near the start; unique site-wide.
-- **Meta description**: 70–160 characters (hard max 200); one clear value prop; includes primary keyword once.
-- **One H1** only, aligned with title intent (not identical boilerplate on every page).
-- **Canonical**: pass `canonicalPath` to `BaseLayout`; absolute URL via `siteUrl`; trailing slash (`trailingSlash: 'always'`).
-- **Open Graph**: title, description, url; prefer a real `og:image` in `public/` (1200×630).
+## Head
+- Title: <= 65 characters **including** the ` | PetCalc Tools` suffix added by `BaseLayout.astro` (hard max 80); unique; not stuffed.
+- Meta description: 70-160 characters, unique, states what the user gets and "free"; no quotes that break the attribute.
+- Exactly one `<h1>`; heading levels never skip; H2s are descriptive ("Worked example", "Formula and method").
+- Canonical: exactly one, absolute `https`, self-referencing, built from `absoluteUrl()`; never `pages.dev`; query-string calculator state never changes it. Trailing slash always.
+- Open Graph/Twitter complete (`og:title/description/url/type/image`); `og:image` is a raster file (PNG/JPG/WebP) 1200x630; `og:url` equals canonical.
+- Do not add `noindex` to content pages. Only `/embed/*` and `/404` are noindex (embeds canonicalise to their tool).
 
-## Content minimums (body copy, not boilerplate alone)
+## Body
+- First paragraph is answer-first (`class="answer-first"` / guide `lead`), 40-60 words, with the answer or formula and one limitation.
+- Required sections for tools: how to use, formula/method, worked example (numbers equal the unit test), assumptions/limits, FAQ (5-8 real questions), sources, related tools. Tools >= 600 words; guides >= 800 words.
+- >= 2 contextual links to other tools/guides in the body; descriptive anchors (never "click here"); every internal href ends with `/`.
+- Visible "Last updated" and author box; dates only change on material edits.
+- Calculator UI and the page text must both be present in the initial HTML; JS only powers the interactive part.
 
-| Page kind | Min words |
-|-----------|-----------|
-| Tool (`src/pages/tools/*/index.astro`) | 600 |
-| Guide (`src/pages/guides/*/index.astro`) | 800 |
-| Hub (`/tools/`, `/dogs/`, `/cats/`, `/guides/`) | 150 unique intro |
-| Legal/trust | 150 |
+## Structured data
+- Use the shells (`ToolPageShell` -> `WebApplication` price 0; `GuidePageShell` -> `Article`) and `BaseLayout` (`Organization`, `WebSite`, `BreadcrumbList`). No `aggregateRating`/`review`/`HowTo`. FAQ markup must mirror the visible FAQ and gives no Google rich result (see `structured-data` skill).
 
-Tools must include: answer-first paragraph, how-to, formula/explanation, worked example, assumptions, FAQ (≥4), sources (≥3), disclaimer, ≥2 related internal links.
+## Registries and routes
+- Every page has a registry entry (`src/data/tools.ts` / `guides.ts`) with a unique `description` <= 160 chars; reciprocal `related` links; no registry entry without a page.
+- Slug = primary keyword, lowercase, hyphenated, never changed after publish without 301s in `public/_redirects` **and** `vercel.json`.
+- Sitemap is automatic (`@astrojs/sitemap`); new indexable pages must appear there, embeds/404 must not.
+- Update `docs/KEYWORD-MAP.md`, `public/llms.txt` and `buildDate` with every new page.
 
-## Keywords
-
-- One **primary keyword** per URL — must match a row in `docs/KEYWORD-MAP.md`.
-- Secondary phrases stay on the owning page only; never reuse another page's primary term as your H1 target.
-- Do not create separate URLs for synonym variants of the same task (fan-out trap).
-
-## Technical
-
-- `lang` on `<html>`, viewport meta present.
-- Images: descriptive `alt` text; decorative images use empty alt.
-- `/404/` and `/embed/` are not sitemap targets; 404 is `noindex`.
-- JSON-LD: see `structured-data` skill; no fake ratings.
-
-## Before merge
-
-```bash
-npm run build && npm run audit:seo && npm run check:links
-```
-
-Fix errors; treat `AUDIT_PROD=1` failures as launch blockers.
+## Before you finish
+Run `npm run audit`. Zero errors required; warnings explained.

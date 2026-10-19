@@ -1,47 +1,35 @@
 ---
-description: Editorial quality bar for PetCalc tools, guides, and hub copy
-globs: "{src/pages/**/*,src/components/**/*,src/data/*.ts}"
+description: Editorial quality bar for tool and guide copy - original, sourced, answer-first, no scaled/AI filler, no invented credentials or statistics
+globs: src/pages/**/*.astro,src/components/**/*.astro,src/data/guides.ts,src/data/tools.ts,docs/**/*.md
 alwaysApply: false
 ---
 
-# Content quality (PetCalc)
+# Content quality rules
 
-Audits measure length and structure; **you** measure usefulness. Target readers are pet owners seeking quick, trustworthy answers — not keyword stuffing.
+Sources: `docs/SEO-PLAYBOOK.md` sections 3, 4, 6; `docs/MARKET-RESEARCH.md` section 4 (AdSense "original, unique, interesting content").
 
-## Voice and structure
+## Must
+- **Answer first.** The first paragraph gives the answer/formula in 1-2 sentences, then supporting detail. No "In this article" or generic intros.
+- **Original value on every page**: a worked example with real numbers, a table built from cited data, an assumptions-and-limits section, or an original diagram. Sibling tool pages must not share paragraphs (`audit:adsense` flags > 30% 5-word-shingle overlap).
+- **Cite every number and health claim** with a source from `src/data/sources.ts` (`SRC`) in the page's sources list and next to the claim. Ranges stay ranges ("typically 12-27 kg for medium breeds"). If you cannot cite it, remove it.
+- **Match code and copy.** The worked example prints exactly what the calculator returns for the same inputs; formula text matches `src/lib/formulas/*.ts`; both lb and kg are shown.
+- **Plain language**: short sentences, define RER, MER, BCS at first use, US spelling, no hype ("best", "perfect", "guaranteed") without evidence.
+- **Honest limits**: say when the tool is unreliable (mixed breeds, young puppies, medical conditions, pregnancy, senior pets) and when to contact a veterinarian.
+- **Fresh**: visible "Last updated" tied to a real change; re-verify every 6 months (`content-refresh` skill).
+- **Unique intent**: one page per distinct task (docs/KEYWORD-MAP.md). Expand the existing page instead of cloning it.
 
-- Lead with the **direct answer** in plain language (40–60 words on tools).
-- Short paragraphs (2–4 sentences); use H2/H3 for scannable sections.
-- Active voice; US English; consistent units (lb/kg toggles via `src/lib/units.ts`).
-- Explain jargon once (RER, MER, BCS) then use the acronym.
+## Must not
+- Do not publish unverified AI-generated text. AI may draft; a human fact-checks every title, description, number, alt text and structured-data value (`vet-fact-checker`).
+- Do not invent or imply: veterinary reviewers or credentials, testimonials, ratings, review counts, user statistics, "tested by our vets", study results, partnerships, awards. `ReviewerBox` stays at "pending review" until a real reviewer is configured in `src/config/site.ts`.
+- Do not copy or lightly paraphrase competitor pages, veterinary-school articles or manufacturer feeding charts. Do not copy images (WSAVA/Purina BCS charts): cite, and draw originals.
+- Do not mass-produce near-duplicate pages (per breed, per phrasing, per food). Do not translate pages for volume.
+- No placeholder or filler: lorem ipsum, "coming soon", "under construction", TODO/TBD, empty sections, keyword stuffing, hidden text.
+- No medical claims: never diagnose, prescribe, give medication doses, promise outcomes, or discourage seeing a veterinarian. See `ymyl-disclaimers.mdc`.
+- No affiliate or product recommendations without disclosure (and none in toxin/emergency content).
 
-## Originality
-
-- Every guide needs **original** tables, examples, or decision trees — not rephrased competitor articles.
-- Worked examples must use realistic numbers produced by `src/lib/formulas/*`.
-- Do not duplicate full sections across tools; cross-link instead (`internal-linking` skill).
-
-## FAQ
-
-- Questions should match real search queries (PAA, forums) mapped as **secondary** keywords.
-- Answers: 2–4 sentences, self-contained, no fluff openers ("Great question!").
-
-## Prohibited patterns
-
-- Placeholder copy (`lorem`, `[TBD]`, `[Veterinary reviewer name]` on production).
-- Medical diagnosis certainty ("your dog has X") — use screening / educational framing.
-- Invented statistics or citations; see `vet-source-citation` skill.
-- Thin affiliate-style lists with no tool or sourced guidance.
-
-## Registry consistency
-
-When copy changes, update:
-
-- `src/data/tools.ts` or `src/data/guides.ts` (`description`, `keywords`)
-- `docs/KEYWORD-MAP.md` if primary keyword, slug, or intent shifts
-
-## Review pass (self-check before PR)
-
-1. Would a vet nurse find anything dangerously wrong? If yes, soften and cite.
-2. Can the reader act without the calculator? Answer should still help.
-3. Remove redundant H2s and marketing superlatives ("best", "#1") unless sourced.
+## Style checklist for a finished page
+1. Would a worried owner get a correct, calm answer in the first 100 words?
+2. Is there something here the top 3 competitors lack (data, sources, worked example, safety framing)?
+3. Is every number traceable to a cited source?
+4. Does any sentence overpromise or sound like generic AI filler? Delete it.
+5. Are there >= 2 meaningful internal links and no generic anchors?
