@@ -1,6 +1,6 @@
 # Deployment
 
-The site is a fully static Astro build (`npm run build` writes `dist/`). There is no server runtime and no database. Brand/AdSense/IndexNow defaults live in `src/config/site.ts`; the **canonical origin, GA4 ID, and GSC HTML-tag token are build-time env vars** (`PUBLIC_SITE_URL`, `PUBLIC_GA4_MEASUREMENT_ID`, `PUBLIC_GSC_VERIFICATION` — see `.env.example`). **Cloudflare Workers Builds (static assets Worker `pet-calculators`) is the primary target**; Cloudflare Pages, Vercel and Netlify remain viable alternatives.
+The site is a fully static Astro build (`npm run build` writes `dist/`). There is no server runtime and no database. Brand/AdSense/IndexNow defaults live in `src/config/site.ts`; the **canonical origin, GA4 ID, GSC HTML-tag token, and contact email are build-time env vars** (`PUBLIC_SITE_URL`, `PUBLIC_GA4_MEASUREMENT_ID`, `PUBLIC_GSC_VERIFICATION`, `PUBLIC_CONTACT_EMAIL` — see `.env.example`). **Cloudflare Workers Builds (static assets Worker `pet-calculators`) is the primary target**; Cloudflare Pages, Vercel and Netlify remain viable alternatives.
 
 Related: [SEO-GUIDE.md](./SEO-GUIDE.md) (indexing and Search Console), [ADSENSE.md](./ADSENSE.md) (`ads.txt`, CMP), [SEO-PLAYBOOK.md](./SEO-PLAYBOOK.md) section 2 (HTTPS, canonical host, robots/AI bots).
 
@@ -22,7 +22,7 @@ Build facts that matter to hosting:
 | `trailingSlash` | `'always'` (`astro.config.mjs`) | URLs are `/tools/x/`; `html_handling: force-trailing-slash` |
 | `build.inlineStylesheets` | `'always'` | no render-blocking CSS file; whole CSS is inline |
 | Sitemap | `@astrojs/sitemap` -> `dist/sitemap-index.xml` + `sitemap-0.xml` | submit the index file |
-| Env vars | `PUBLIC_SITE_URL` (prod), optional `PUBLIC_GA4_MEASUREMENT_ID`, optional `PUBLIC_GSC_VERIFICATION` | see `.env.example`; no secrets |
+| Env vars | `PUBLIC_SITE_URL` (prod), optional `PUBLIC_GA4_MEASUREMENT_ID`, `PUBLIC_GSC_VERIFICATION`, `PUBLIC_CONTACT_EMAIL` | see `.env.example`; no secrets |
 
 ## 2. Cloudflare Workers Builds (primary)
 
@@ -37,6 +37,7 @@ Set on the Worker (Production; Preview if used):
 | `PUBLIC_SITE_URL` | yes (prod) | Canonical origin, e.g. `https://pet-calculators.<account>.workers.dev` or the custom domain |
 | `PUBLIC_GA4_MEASUREMENT_ID` | no | `G-…`; empty/unset emits no GA4 script |
 | `PUBLIC_GSC_VERIFICATION` | no | Search Console HTML-tag `content` value; empty/unset omits the meta tag |
+| `PUBLIC_CONTACT_EMAIL` | no | Public contact mailbox; empty/unset → `hammadiqbal117@gmail.com` |
 | `NODE_VERSION` | recommended | `22.22.0` or newer 22.x |
 
 Confirm after the first build: `dist` HTML canonicals, `/sitemap-0.xml` hosts, `/robots.txt` `Sitemap:` line and `/llms.txt` links all use `PUBLIC_SITE_URL`.
@@ -213,7 +214,7 @@ Committed template: **`.env.example`**. Copy to `.env` for local builds (gitigno
 | `PUBLIC_SITE_URL` | production build | → `siteConfig.siteUrl`; canonicals, sitemap, robots, llms.txt |
 | `PUBLIC_GA4_MEASUREMENT_ID` | optional | → `siteConfig.ga4MeasurementId`; empty = no gtag |
 | `PUBLIC_GSC_VERIFICATION` | optional | → `siteConfig.googleSiteVerification`; empty = no meta tag |
-| `contactEmail` (`site.ts`) | deploy | Contact page, Organization JSON-LD |
+| `PUBLIC_CONTACT_EMAIL` | optional | → `siteConfig.contactEmail`; Contact/privacy/terms, footer, Organization JSON-LD; empty = `hammadiqbal117@gmail.com` |
 | `buildDate` (`site.ts`) | each content release | `lastmod`, "Last updated", `dateModified` |
 | `bingSiteVerification` (`site.ts`) | meta-tag verification only | prefer DNS; GSC uses `PUBLIC_GSC_VERIFICATION` |
 | `adsensePublisherId` / `adsenseAutoAds` | after AdSense approval | [ADSENSE.md](./ADSENSE.md) |

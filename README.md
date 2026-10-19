@@ -139,7 +139,7 @@ All owner-specific values live in **`src/config/site.ts`** (not scattered in pag
 |---|---|
 | `siteName`, `brandName`, `tagline` | UI and schema branding |
 | `PUBLIC_SITE_URL` → `siteUrl` | Canonical origin (`https://…`, no trailing slash); required in production |
-| `contactEmail` | Contact page `mailto:` and Organization schema |
+| `PUBLIC_CONTACT_EMAIL` → `contactEmail` | Contact/privacy/terms `mailto:`, footer, Organization schema; default `hammadiqbal117@gmail.com` |
 | `buildDate` | `lastmod`, “Last updated”, JSON-LD `dateModified` |
 | `PUBLIC_GA4_MEASUREMENT_ID` → `ga4MeasurementId` | Google Analytics 4 (`G-…`); empty = no analytics code |
 | `PUBLIC_GSC_VERIFICATION` → `googleSiteVerification` | GSC HTML-tag `content` value; empty = no meta tag |

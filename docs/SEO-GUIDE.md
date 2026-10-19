@@ -15,7 +15,7 @@ Work top to bottom. Items marked **(gate)** must pass before you request indexin
 ### 1.1 Configuration (all in `src/config/site.ts`, never hard-code these elsewhere)
 
 - [ ] `siteUrl` is the final canonical origin, with `https://` and the chosen host (apex or `www`), no trailing slash. **(gate)** Currently `https://www.petcalctools.example`. Everything (canonicals, `og:url`, JSON-LD, sitemap, `robots.txt`) derives from it.
-- [ ] `contactEmail` is a real, monitored mailbox. **(gate)** The Contact page and Organization schema use it.
+- [x] `contactEmail` is a real, monitored mailbox. **(gate)** Default `hammadiqbal117@gmail.com` (override with `PUBLIC_CONTACT_EMAIL`). The Contact page, footer, privacy/terms, and Organization schema use it.
 - [ ] `defaultAuthor` and `reviewerPlaceholder` are replaced with real named people with real credentials, or the reviewer claim is removed. **(gate)** Never ship `[Veterinary reviewer name]`; `npm run audit:adsense` warns, and `AUDIT_PROD=1` fails the build.
 - [ ] `buildDate` updated on every content release (drives `lastmod`, "Last updated" and `dateModified`).
 - [ ] `indexNowKey` replaced with a random 32-character hex key and the matching file `public/<key>.txt` (contents: the key) exists. The repo ships `public/petcalc-indexnow-key-replace-me.txt`; rename it and update `site.ts` together.
