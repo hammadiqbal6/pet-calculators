@@ -143,13 +143,13 @@ All owner-specific values live in **`src/config/site.ts`** (not scattered in pag
 | `buildDate` | `lastmod`, “Last updated”, JSON-LD `dateModified` |
 | `PUBLIC_GA4_MEASUREMENT_ID` → `ga4MeasurementId` | Google Analytics 4 (`G-…`); empty = no analytics code |
 | `PUBLIC_GSC_VERIFICATION` → `googleSiteVerification` | GSC HTML-tag `content` value; empty = no meta tag |
-| `bingSiteVerification` | Bing Webmaster meta tag; empty = disabled |
-| `adsensePublisherId` | `ca-pub-…`; empty = ads disabled |
-| `adsenseAutoAds` | Enable Auto ads when publisher ID is set |
-| `indexNowKey` | IndexNow key + `public/<key>.txt` |
+| `PUBLIC_BING_SITE_VERIFICATION` → `bingSiteVerification` | Bing Webmaster meta tag; empty = disabled |
+| `PUBLIC_ADSENSE_PUBLISHER_ID` → `adsensePublisherId` | `ca-pub-…`; empty = ads disabled |
+| `PUBLIC_ADSENSE_AUTO_ADS` → `adsenseAutoAds` | Enable Auto ads when publisher ID is set |
+| `INDEXNOW_KEY` → `indexNowKey` | IndexNow key + `public/<key>.txt` |
 | `sameAs` | Organization `sameAs` URLs (real profiles only) |
-| `defaultAuthor` | Author byline |
-| `reviewerPlaceholder` | Reviewer box until a credentialed DVM is named |
+| `PUBLIC_AUTHOR_*` → `defaultAuthor` | Bylines; defaults to PetCalc Team + honest bio |
+| `PUBLIC_REVIEWER_*` → `reviewer` | Named vet only when set; else neutral Methodology line |
 | `locale`, `twitterHandle` | OG locale / Twitter card |
 
 See **`.env.example`** for build env vars. Deploy target: Cloudflare Worker `pet-calculators` (`wrangler.jsonc`).

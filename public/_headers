@@ -33,7 +33,3 @@
 
 /*.html
   Cache-Control: public, max-age=0, must-revalidate
-
-# Version preview URLs on workers.dev (not the production *.workers.dev hostname)
-https://:version.:subdomain.workers.dev/*
-  X-Robots-Tag: noindex

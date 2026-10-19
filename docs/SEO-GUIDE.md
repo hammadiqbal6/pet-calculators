@@ -16,7 +16,7 @@ Work top to bottom. Items marked **(gate)** must pass before you request indexin
 
 - [ ] `siteUrl` is the final canonical origin, with `https://` and the chosen host (apex or `www`), no trailing slash. **(gate)** Currently `https://www.petcalctools.example`. Everything (canonicals, `og:url`, JSON-LD, sitemap, `robots.txt`) derives from it.
 - [x] `contactEmail` is a real, monitored mailbox. **(gate)** Default `hammadiqbal117@gmail.com` (override with `PUBLIC_CONTACT_EMAIL`). The Contact page, footer, privacy/terms, and Organization schema use it.
-- [ ] `defaultAuthor` and `reviewerPlaceholder` are replaced with real named people with real credentials, or the reviewer claim is removed. **(gate)** Never ship `[Veterinary reviewer name]`; `npm run audit:adsense` warns, and `AUDIT_PROD=1` fails the build.
+- [x] Author/reviewer come from `siteConfig` / `PUBLIC_AUTHOR_*` / `PUBLIC_REVIEWER_*`. Default author is the PetCalc Team with an honest bio; reviewer stays empty so ReviewerBox shows the neutral sourced-references line — never a fake vet. **(gate)** `npm run audit:adsense` fails on bracketed reviewer placeholders.
 - [ ] `buildDate` updated on every content release (drives `lastmod`, "Last updated" and `dateModified`).
 - [x] `indexNowKey` set and matching `public/<key>.txt` (contents: the key) committed. Ping after deploy with `npm run indexnow` (section 3).
 - [ ] `googleSiteVerification` and `bingSiteVerification` filled only if you verify with meta tags (DNS verification is preferred, see 2.1).

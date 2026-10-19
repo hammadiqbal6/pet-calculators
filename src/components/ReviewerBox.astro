@@ -1,12 +1,24 @@
 ---
-import { siteConfig } from '../config/site.ts';
+import { siteConfig, hasConfiguredReviewer } from '../config/site.ts';
 
-const reviewer = siteConfig.reviewerPlaceholder;
+const reviewer = siteConfig.reviewer;
+const showPerson = hasConfiguredReviewer(reviewer);
 ---
 
-<aside class="reviewer-box" aria-label="Medical review status">
-  <p>
-    <strong>Reviewed by:</strong> {reviewer.name}, {reviewer.credentials}
-  </p>
-  <p>{reviewer.note}</p>
+<aside class="reviewer-box" aria-label="Content review status">
+  {
+    showPerson ? (
+      <>
+        <p>
+          <strong>Reviewed by:</strong> {reviewer.name}, {reviewer.credentials}
+        </p>
+        {reviewer.note ? <p>{reviewer.note}</p> : null}
+      </>
+    ) : (
+      <p>
+        Content reviewed for accuracy against published veterinary sources; see{' '}
+        <a href="/methodology/">Methodology</a>.
+      </p>
+    )
+  }
 </aside>

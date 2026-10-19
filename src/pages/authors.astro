@@ -1,9 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { siteConfig, absoluteUrl } from '../config/site.ts';
+import { siteConfig, absoluteUrl, hasConfiguredReviewer } from '../config/site.ts';
+
+const author = siteConfig.defaultAuthor;
+const reviewer = siteConfig.reviewer;
+const showReviewer = hasConfiguredReviewer(reviewer);
 
 const description =
-  'Meet the PetCalc Tools editorial team and learn how veterinary reviewers are credited on calculators and guides across the site.';
+  'Who builds PetCalc Tools: the PetCalc Team maintains the calculators and guides, with formulas sourced from cited veterinary references.';
 
 const jsonLd = [
   {
@@ -13,7 +17,7 @@ const jsonLd = [
     url: absoluteUrl('/authors/'),
     mainEntity: {
       '@type': 'Organization',
-      name: siteConfig.defaultAuthor.name,
+      name: author.name,
       url: absoluteUrl('/about/'),
     },
   },
@@ -30,29 +34,38 @@ const jsonLd = [
   <header class="hero">
     <h1>Authors and reviewers</h1>
     <p class="lead">
-      Calculators and guides on {siteConfig.siteName} are written by our editorial team and are intended to be reviewed
-      by credentialed veterinary professionals. This page explains who is responsible for what.
+      Calculators and guides on {siteConfig.siteName} are maintained by {author.name}. Formulas cite published
+      veterinary sources; they are educational tools, not clinical advice.
     </p>
   </header>
 
   <div class="prose">
-    <h2>{siteConfig.defaultAuthor.name}</h2>
-    <p><strong>Role:</strong> {siteConfig.defaultAuthor.role}</p>
+    <h2>{author.name}</h2>
+    <p><strong>Role:</strong> {author.role}</p>
+    <p>{author.bio}</p>
     <p>
-      The editorial team researches published veterinary guidelines, translates formulas into working calculators, writes
-      the explanations, and checks every number against a cited source. The team's background is in science writing and
-      software, not clinical practice, which is why we cite primary guidance throughout and ask for professional review.
-      [Author bio placeholder: add editor names, relevant experience, and a headshot here before launch.]
+      Questions, corrections, or source suggestions:{' '}
+      <a href={`mailto:${siteConfig.contactEmail}`}>{siteConfig.contactEmail}</a>
+      {' '}or the <a href="/contact/">contact page</a>.
     </p>
 
-    <h2>Veterinary reviewer</h2>
-    <p>
-      <strong>{siteConfig.reviewerPlaceholder.name}</strong>, {siteConfig.reviewerPlaceholder.credentials}
-    </p>
-    <p>
-      [Reviewer bio placeholder: add the reviewer's name, licensure, clinic or institution, areas of focus, and the pages they have reviewed.]
-      {siteConfig.reviewerPlaceholder.note}
-    </p>
+    <h2>Veterinary review</h2>
+    {
+      showReviewer ? (
+        <>
+          <p>
+            <strong>{reviewer.name}</strong>, {reviewer.credentials}
+          </p>
+          {reviewer.note ? <p>{reviewer.note}</p> : null}
+        </>
+      ) : (
+        <p>
+          No named veterinary reviewer is credited on these pages yet. Content is checked for accuracy against the
+          published sources listed on each page and on the <a href="/methodology/">methodology</a> page. Licensed
+          veterinarians who want to review a page are welcome to get in touch.
+        </p>
+      )
+    }
 
     <h2>Editorial standards</h2>
     <ul>
@@ -65,7 +78,8 @@ const jsonLd = [
     <h2>Become a reviewer</h2>
     <p>
       Licensed veterinarians, veterinary technicians, and board-certified nutritionists who would like to review pages
-      can reach us through the <a href="/contact/">contact page</a>. Reviewers are credited by name on the pages they check.
+      can reach us at <a href={`mailto:${siteConfig.contactEmail}`}>{siteConfig.contactEmail}</a> or through the{' '}
+      <a href="/contact/">contact page</a>. Reviewers are credited by name on the pages they check.
     </p>
   </div>
 </BaseLayout>
