@@ -10,14 +10,14 @@ Related: [SEO-GUIDE.md](./SEO-GUIDE.md) (indexing and Search Console), [ADSENSE.
 2. Set `PUBLIC_SITE_URL` to the production origin (`https://`, no trailing slash). The build bakes it into canonicals, `og:url`, JSON-LD, the sitemap, `robots.txt` and `llms.txt` via `siteConfig.siteUrl`. A wrong value ships wrong canonicals everywhere. Local fallback: `FALLBACK_SITE_URL` in `src/config/site.ts`.
 3. `npm ci && AUDIT_PROD=1 npm run audit`. `AUDIT_PROD=1` turns launch blockers (placeholder domain, placeholder reviewer, IndexNow placeholder, missing `ads.txt` once the AdSense ID is set) into failures. Put this in the production deploy job; leave previews on the default (warnings only).
 4. `npm run lhci` against the build for template changes.
-5. After deploy: open `/robots.txt`, `/sitemap-index.xml`, `/ads.txt` (post-approval) and one tool URL on the real host; then ping IndexNow (SEO-GUIDE section 3).
+5. After deploy: open `/robots.txt`, `/sitemap-index.xml`, `/ads.txt` (post-approval), `/<indexNowKey>.txt`, and one tool URL on the real host. IndexNow is pinged by the deploy command (`node scripts/indexnow.mjs`); see SEO-GUIDE section 3.
 
 Build facts that matter to hosting:
 
 | Setting | Value | Why |
 |---|---|---|
 | Build command | `npm run build` | `astro build` |
-| Deploy command | `npx wrangler deploy` | Workers Builds / local dry-run |
+| Deploy command | `npx wrangler deploy && node scripts/indexnow.mjs` | Workers Builds / `npm run deploy:indexnow`; IndexNow after assets are live |
 | Output directory | `dist` | static HTML + `_astro/` hashed assets (`wrangler.jsonc` `assets.directory`) |
 | `trailingSlash` | `'always'` (`astro.config.mjs`) | URLs are `/tools/x/`; `html_handling: force-trailing-slash` |
 | `build.inlineStylesheets` | `'always'` | no render-blocking CSS file; whole CSS is inline |
@@ -26,7 +26,7 @@ Build facts that matter to hosting:
 
 ## 2. Cloudflare Workers Builds (primary)
 
-Workers Builds is already the intended production path: Worker name **`pet-calculators`**, branch `main`, root `/`, build `npm run build`, deploy `npx wrangler deploy`. Committed `wrangler.jsonc` serves `./dist` as pure static assets (`not_found_handling: 404-page`) — **no Astro Cloudflare adapter, no SESSION KV / Images bindings**.
+Workers Builds is already the intended production path: Worker name **`pet-calculators`**, branch `main`, root `/`, build `npm run build`, deploy **`npx wrangler deploy && node scripts/indexnow.mjs`** (or `npm run deploy:indexnow`). Do not fold the IndexNow ping into the build step — the key file must be live first. The ping script never fails the deploy (`exit 0`; skip with `INDEXNOW_DISABLE=1` on previews). Committed `wrangler.jsonc` serves `./dist` as pure static assets (`not_found_handling: 404-page`) — **no Astro Cloudflare adapter, no SESSION KV / Images bindings**.
 
 ### 2.1 Build environment variables
 
@@ -218,7 +218,9 @@ Committed template: **`.env.example`**. Copy to `.env` for local builds (gitigno
 | `buildDate` (`site.ts`) | each content release | `lastmod`, "Last updated", `dateModified` |
 | `bingSiteVerification` (`site.ts`) | meta-tag verification only | prefer DNS; GSC uses `PUBLIC_GSC_VERIFICATION` |
 | `adsensePublisherId` / `adsenseAutoAds` | after AdSense approval | [ADSENSE.md](./ADSENSE.md) |
-| `indexNowKey` | deploy | plus `public/<key>.txt` |
+| `indexNowKey` | deploy | plus `public/<key>.txt`; ping via `npm run indexnow` / deploy command |
+| `INDEXNOW_KEY` | optional runtime | overrides key in `scripts/indexnow.mjs` |
+| `INDEXNOW_DISABLE` | optional runtime | `1` skips the IndexNow POST (useful for preview deploys) |
 | `sameAs` | when real profiles exist | Organization schema |
 | `defaultAuthor`, `reviewerPlaceholder` | before launch | real people only |
 
