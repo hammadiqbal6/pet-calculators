@@ -1,5 +1,6 @@
-# Netlify / Cloudflare Pages redirects. Replace the domain, then keep the apex-to-www rule that matches your canonical host.
-# siteConfig.siteUrl is https://www.petcalctools.example, so the non-www host redirects to www.
-https://petcalctools.example/*  https://www.petcalctools.example/:splat  301!
+# Path-only redirects for Cloudflare Workers static assets / Pages / Netlify.
+# Host-based (apex→www) redirects are not supported here on Workers — use a
+# Cloudflare Redirect Rule or Bulk Redirects when a custom domain is attached.
+# Status codes are plain numbers (e.g. 301). Do not use Netlify's `301!` syntax.
 /tools/dog-years-calculator/    /tools/dog-age-calculator/   301
 /tools/puppy-growth-calculator/ /tools/puppy-weight-calculator/ 301

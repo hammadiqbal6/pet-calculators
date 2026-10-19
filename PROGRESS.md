@@ -1,7 +1,7 @@
 <!-- progress: 100 -->
 # Build progress
-Status: Complete — audits and mobile Lighthouse pass; PR ready for review
-Updated: 2026-10-19T06:48:00Z
+Status: Complete — Workers static deploy config verified; PR open
+Updated: 2026-10-19T18:40:00Z
 
 - [x] Project scaffold & config
 - [x] Tools implemented (11 of 11)
@@ -13,3 +13,4 @@ Updated: 2026-10-19T06:48:00Z
 - [x] Docs (README, DEPLOYMENT, SEO-GUIDE, ADSENSE, AGENTS.md, ideas)
 - [x] Skills, rules, agents, auditors & CI
 - [x] Final verification & PR ready for review
+- [x] Cloudflare Workers static assets (`wrangler.jsonc`, `PUBLIC_SITE_URL` / GA4 env, headers/redirects)

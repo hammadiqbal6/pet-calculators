@@ -11,7 +11,7 @@ A **static Astro 7 site of free dog and cat calculators** (puppy weight, dog/cat
 3. **Get and stay AdSense-approved** with real content, trust pages, a clean ad layout and consent.
 4. **Be fast**: plain HTML, light vanilla TypeScript, Lighthouse mobile >= 95.
 
-Brand/domain/IDs live in one file: `src/config/site.ts` (`siteName`, `siteUrl`, `buildDate`, GA4, Search Console/Bing verification, `adsensePublisherId`, `indexNowKey`, author/reviewer). Never hard-code the domain or brand elsewhere; use `absoluteUrl()`.
+Brand/domain/IDs live in one file: `src/config/site.ts` (`siteName`, `siteUrl`, `buildDate`, GA4, Search Console/Bing verification, `adsensePublisherId`, `indexNowKey`, author/reviewer). `siteUrl` and GA4 are filled from build-time `PUBLIC_SITE_URL` and `PUBLIC_GA4_MEASUREMENT_ID` (see `.env.example`); never hard-code the domain or brand elsewhere — use `absoluteUrl()`. Deploy as static-assets Worker `pet-calculators` via `wrangler.jsonc`.
 
 ### Governing guidelines (binding)
 
@@ -59,7 +59,7 @@ src/
     embed/*.astro           iframe-able calculators (noindex, excluded from the sitemap)
     robots.txt.ts           generated robots.txt (search bots allowed, Sitemap line from siteUrl)
   styles/global.css         the only stylesheet (inlined at build; do not add a CSS framework)
-public/                     favicon, og-default.svg, ads.txt template, llms.txt, _headers, _redirects, IndexNow key file
+public/                     favicon, og-default.svg, ads.txt template, _headers, _redirects, IndexNow key file (llms.txt is generated from registries)
 scripts/audit/              lib.mjs + seo.mjs + adsense.mjs + links.mjs + budgets.mjs  (all read dist/)
 lighthouserc.cjs            Lighthouse CI mobile budgets
 .github/workflows/ci.yml    test + build + audits + Lighthouse on every PR
@@ -121,7 +121,7 @@ Full playbook with checklists: [.cursor/skills/add-new-tool/SKILL.md](.cursor/sk
 2. **Component**: `src/components/calculators/<Name>Calc.astro`. Copy the structure of `DogAgeCalc.astro`: `<form class="calc-form" id="..." novalidate>`, labelled inputs with hints, a `results` panel with `aria-live="polite"` and `hidden`, then a `<script>` that imports the formula and `calc-utils.ts`, applies/syncs the query string, and calls `showResults`. Weight inputs use `wireWeightUnitToggle` (see `PuppyWeightCalc.astro`).
 3. **Registry**: add the entry to `src/data/tools.ts` (`slug`, `title`, `shortTitle`, `description` <= 160 chars and unique, `category`, `keywords` starting with the primary keyword, `related` with 2-3 existing slugs) and add the reciprocal slug to the `related` arrays of those tools.
 4. **Page**: `src/pages/tools/<slug>/index.astro` using `ToolPageShell` with `slug`, `title` (primary keyword first), `description`, `answer` (40-60 words), `takeaways`, `faq` (5-8 real questions), `sources` (from `SRC` in `src/data/sources.ts`), the calculator inside `<Fragment slot="calculator">`, then the body: how to use, formula, worked example (numbers identical to the unit test), tables, assumptions and limits, related reading with contextual links. **>= 600 words of body copy.** Template: `src/pages/tools/puppy-weight-calculator/index.astro`.
-5. **Docs/config**: add the row to `docs/KEYWORD-MAP.md` (section 1b; remove it from section 3 if reserved); add the URL to `public/llms.txt`; add it to `urls` in `lighthouserc.cjs` only if it introduces a new template; add contextual links from at least two existing pages (a guide and a sibling tool). `/dogs/` or `/cats/` pick it up from the registry.
+5. **Docs/config**: add the row to `docs/KEYWORD-MAP.md` (section 1b; remove it from section 3 if reserved); `llms.txt` is generated from the tools/guides registries (no manual URL list); add the page to `urls` in `lighthouserc.cjs` only if it introduces a new template; add contextual links from at least two existing pages (a guide and a sibling tool). `/dogs/` or `/cats/` pick it up from the registry.
 6. **Embed (optional)**: `src/components/calculators/Embed<Name>.astro` + `src/pages/embed/<slug>.astro` via `EmbedFrame.astro`; never include ads or `adsbygoogle` code.
 7. **Verify**: `npm test && npm run audit` and `npm run lhci`; have `vet-fact-checker` review; bump `buildDate` in `src/config/site.ts` for the release.
 
@@ -208,7 +208,7 @@ Astro docs for routing, components and content: <https://docs.astro.build>.
 - [ ] >= 2 contextual inbound links from existing pages and >= 2 outbound links to sibling tools/guides; not an orphan.
 - [ ] `npm run audit` passes (0 errors); `npm run lhci` passes for changed templates.
 - [ ] No invented ratings/credentials/stats; no placeholder text; no new third-party scripts.
-- [ ] `src/config/site.ts` `buildDate` and the page's `lastUpdated` updated; `public/llms.txt` updated for new pages.
+- [ ] `src/config/site.ts` `buildDate` and the page's `lastUpdated` updated; registry entry present so generated `llms.txt` includes the page.
 - [ ] Docs updated if behaviour or policy changed (this file, SEO-GUIDE, ADSENSE, DEPLOYMENT); `PROGRESS.md` updated on milestones.
 
 ## 12. Git and PR conventions

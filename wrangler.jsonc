@@ -1,0 +1,16 @@
+/**
+ * Pure static-assets Worker (no Astro Cloudflare adapter, no KV/Images bindings).
+ * Workers Builds: branch main, root /, build `npm run build`, deploy `npx wrangler deploy`.
+ */
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "pet-calculators",
+  "compatibility_date": "2026-10-19",
+  "assets": {
+    "directory": "./dist",
+    // Astro uses trailingSlash: 'always' — keep URLs like /tools/x/
+    "html_handling": "force-trailing-slash",
+    // Serve dist/404.html for unknown paths (multi-page static site, not an SPA)
+    "not_found_handling": "404-page"
+  }
+}
