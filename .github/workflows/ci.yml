@@ -77,3 +77,32 @@ jobs:
         run: npm run lhci
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+
+  proof:
+    name: Generate proof bundle
+    needs: build-test-audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Install Playwright Chromium
+        run: npx playwright install chromium
+
+      - name: Regenerate docs/proof
+        run: npm run proof
+
+      - name: Upload proof artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: docs-proof
+          path: docs/proof
+          retention-days: 14

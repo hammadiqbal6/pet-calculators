@@ -39,10 +39,12 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  overflow-x: clip;
 }
 
 body {
   margin: 0;
+  overflow-x: clip;
   font-family: var(--font);
   font-size: 16px;
   line-height: 1.6;
@@ -447,9 +449,12 @@ textarea {
 
 .prose table {
   width: 100%;
+  max-width: 100%;
   border-collapse: collapse;
   font-size: 0.95rem;
   margin: 1rem 0;
+  display: block;
+  overflow-x: auto;
 }
 
 .prose th,
@@ -620,8 +625,19 @@ textarea {
 
 .chart {
   width: 100%;
+  max-width: 100%;
   height: auto;
   margin-top: 0.75rem;
+}
+
+.calc-grid > * {
+  min-width: 0;
+}
+
+.tool-shell,
+.main {
+  max-width: 100%;
+  overflow-x: clip;
 }
 
 .faq details {

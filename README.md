@@ -281,6 +281,15 @@ Checklist: [docs/SEO-GUIDE.md](docs/SEO-GUIDE.md#1-launch-checklist).
 
 ---
 
+## Proof
+
+Committed SEO, performance, and AdSense evidence (generated, not hand-edited):
+
+- **[docs/proof/README.md](docs/proof/README.md)** — index with tool versions, pass/fail vs budgets, Lighthouse summary table
+- Regenerate locally: `npm run proof` (build → tests → audits → Lighthouse → screenshots → JSON-LD extract)
+
+CI uploads the same folder as the `docs-proof` artifact on pull requests.
+
 ## Roadmap
 
 - Credentialed veterinary reviewer for YMYL pages.

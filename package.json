@@ -16,7 +16,8 @@
     "audit:adsense": "node scripts/audit/adsense.mjs",
     "audit:budgets": "node scripts/audit/budgets.mjs",
     "audit": "npm run build && npm run test && npm run audit:seo && npm run audit:adsense && npm run audit:budgets && npm run check:links",
-    "lhci": "lhci autorun"
+    "lhci": "lhci autorun",
+    "proof": "node scripts/proof/generate.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",

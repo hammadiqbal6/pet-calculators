@@ -1,0 +1,14 @@
+
+> pet-calculators@0.0.1 audit:budgets
+> node scripts/audit/budgets.mjs
+
+
+== budgets ==
+  info  pages: 31; total JS in dist 12.0 KB gzip across 16 files
+  info  heaviest JS: /tools/puppy-weight-calculator/ 4.4 KB gzip, HTML 11.8 KB gzip
+  info  heaviest JS: /embed/puppy-weight-calculator/ 3.1 KB gzip, HTML 3.5 KB gzip
+  info  heaviest JS: /tools/dog-chocolate-toxicity-calculator/ 2.7 KB gzip, HTML 9.6 KB gzip
+  -> 0 error(s), 0 warning(s) - ok
+
+--- proof JS budget (transfer size) ---
+Per-page script transfer budget: 50 KB (see lighthouse table in README.md)
