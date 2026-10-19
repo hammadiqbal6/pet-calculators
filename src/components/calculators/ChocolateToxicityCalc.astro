@@ -103,7 +103,7 @@ const types: { id: ChocolateType; label: string }[] = [
       });
     };
     sync();
-    onChange(unit);
+    queueMicrotask(() => onChange(unit));
 
     group?.addEventListener('click', (e) => {
       const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('button[data-unit]');
@@ -142,7 +142,7 @@ const types: { id: ChocolateType; label: string }[] = [
     function compute() {
       aUnit = getAmountUnit();
       syncFormToQuery(form!, [...keys, 'unit']);
-      writeQuery({ aunit });
+      writeQuery({ aunit: aUnit });
       const weightKg = weightKgFromForm(form!, 'weight', wUnit);
       const type = getFieldValue(form!, 'type') as ChocolateType;
       const amount = parseNum(getFieldValue(form!, 'amount'));

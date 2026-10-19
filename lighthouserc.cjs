@@ -66,7 +66,7 @@ module.exports = {
         'font-display': 'warn',
         'render-blocking-resources': 'warn',
         'unused-javascript': 'warn',
-        'errors-in-console': 'warn',
+        'errors-in-console': 'error',
       },
     },
     upload: {

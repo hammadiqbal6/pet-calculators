@@ -139,7 +139,9 @@ function wireUnitToggle<U extends string>(options: UnitToggleOptions<U>): () => 
   };
 
   syncButtons();
-  onChange(unit);
+  // Deferred so component scripts can finish declaring the elements/closures that
+  // onChange reads; calling synchronously threw a TDZ ReferenceError at page load.
+  queueMicrotask(() => onChange(unit));
 
   group?.addEventListener('click', (e) => {
     const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('button[data-unit]');
