@@ -10,10 +10,15 @@ export interface Props {
   description?: string;
   canonicalPath?: string;
   ogType?: string;
+  ogImage?: string;
   jsonLd?: Record<string, unknown>[];
   breadcrumbs?: { name: string; path: string }[];
   lastUpdated?: string;
   noindex?: boolean;
+  /** Defer cookie banner until scroll/interaction (emergency pages) */
+  deferCookieBanner?: boolean;
+  /** Skip brand suffix when title already includes site name or is long */
+  skipBrandSuffix?: boolean;
 }
 
 const {
@@ -21,10 +26,12 @@ const {
   description = siteConfig.tagline,
   canonicalPath,
   ogType = 'website',
+  ogImage = '/og-default.png',
   jsonLd = [],
   breadcrumbs,
   lastUpdated = siteConfig.buildDate,
   noindex = false,
+  deferCookieBanner = false,
 } = Astro.props;
 
 function trailSlash(path: string): string {
@@ -34,9 +41,10 @@ function trailSlash(path: string): string {
 
 const pathname = trailSlash(Astro.url.pathname);
 const canonical = absoluteUrl(trailSlash(canonicalPath ?? Astro.url.pathname));
-const pageTitle = title.includes(siteConfig.siteName)
-  ? title
-  : `${title} | ${siteConfig.siteName}`;
+const pageTitle =
+  title.includes(siteConfig.siteName) || title.includes(`| ${siteConfig.brandName}`)
+    ? title
+    : `${title} | ${siteConfig.siteName}`;
 
 const navLinks = [
   { href: '/tools/', label: 'Tools' },
@@ -48,7 +56,6 @@ const navLinks = [
 
 const footerLegal = [
   { href: '/about/', label: 'About' },
-  { href: '/authors/', label: 'Authors' },
   { href: '/methodology/', label: 'Methodology' },
   { href: '/contact/', label: 'Contact' },
   { href: '/privacy/', label: 'Privacy' },
@@ -56,24 +63,47 @@ const footerLegal = [
 ] as const;
 
 const adsEnabled = Boolean(siteConfig.adsensePublisherId);
+const ogImageAbs = absoluteUrl(ogImage);
+const personUrl = absoluteUrl('/about/');
 
 const defaultJsonLd: Record<string, unknown>[] = [
   {
     '@context': 'https://schema.org',
     '@type': 'Organization',
+    '@id': absoluteUrl('/#organization'),
     name: siteConfig.siteName,
+    alternateName: siteConfig.brandName,
     url: absoluteUrl('/'),
-    logo: absoluteUrl('/favicon.svg'),
+    logo: {
+      '@type': 'ImageObject',
+      url: absoluteUrl('/logo-512.png'),
+      width: 512,
+      height: 512,
+    },
     email: siteConfig.contactEmail,
+    founder: { '@id': siteConfig.personId },
+    publishingPrinciples: absoluteUrl('/methodology/'),
     ...(siteConfig.sameAs.length ? { sameAs: siteConfig.sameAs } : {}),
   },
   {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
+    '@id': absoluteUrl('/#website'),
     name: siteConfig.siteName,
+    alternateName: [siteConfig.brandName],
     url: absoluteUrl('/'),
     description: siteConfig.tagline,
     inLanguage: 'en-US',
+    publisher: { '@id': absoluteUrl('/#organization') },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    '@id': siteConfig.personId,
+    name: siteConfig.defaultAuthor.name,
+    url: personUrl,
+    description: siteConfig.defaultAuthor.bio,
+    ...(siteConfig.authorSameAs.length ? { sameAs: siteConfig.authorSameAs } : {}),
   },
 ];
 
@@ -102,6 +132,8 @@ function isCurrent(href: string): boolean {
   if (target === '/') return pathname === '/';
   return pathname === target || pathname.startsWith(target);
 }
+
+const gaId = siteConfig.ga4MeasurementId;
 ---
 
 <!doctype html>
@@ -111,13 +143,21 @@ function isCurrent(href: string): boolean {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
+    <meta name="author" content={siteConfig.defaultAuthor.name} />
     <link rel="canonical" href={canonical} />
     <meta
       name="robots"
       content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'}
     />
     <meta name="generator" content={Astro.generator} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content={siteConfig.themeColor} />
+    <meta name="apple-mobile-web-app-title" content={siteConfig.brandName} />
+
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-96x96.png" type="image/png" sizes="96x96" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+    <link rel="manifest" href="/site.webmanifest" />
 
     {siteConfig.googleSiteVerification && (
       <meta name="google-site-verification" content={siteConfig.googleSiteVerification} />
@@ -132,34 +172,51 @@ function isCurrent(href: string): boolean {
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content={siteConfig.locale.replace('_', '-')} />
-    <meta property="og:image" content={absoluteUrl('/og-default.svg')} />
+    <meta property="og:image" content={ogImageAbs} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${siteConfig.siteName} — free dog and cat calculators`} />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:image" content={absoluteUrl('/og-default.svg')} />
+    <meta name="twitter:image" content={ogImageAbs} />
+    <meta name="twitter:image:alt" content={`${siteConfig.siteName} — free dog and cat calculators`} />
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
     {siteConfig.twitterHandle && (
       <meta name="twitter:site" content={`@${siteConfig.twitterHandle}`} />
     )}
 
-    {siteConfig.ga4MeasurementId && (
-      <>
-        <script
-          async
-          src={`https://www.googletagmanager.com/gtag/js?id=${siteConfig.ga4MeasurementId}`}
-        />
-        <script is:inline define:vars={{ gaId: siteConfig.ga4MeasurementId }}>
+    {
+      gaId && (
+        <script is:inline define:vars={{ gaId }}>
           window.dataLayer = window.dataLayer || [];
           function gtag() {
             dataLayer.push(arguments);
           }
+          window.gtag = gtag;
+          gtag('consent', 'default', {
+            ad_storage: 'denied',
+            ad_user_data: 'denied',
+            ad_personalization: 'denied',
+            analytics_storage: 'denied',
+            wait_for_update: 500,
+          });
           gtag('js', new Date());
-          gtag('config', gaId, { anonymize_ip: true });
+          gtag('config', gaId, {
+            anonymize_ip: true,
+            send_page_view: true,
+          });
+          window.__petcalcLoadGa = function () {
+            if (window.__petcalcGaLoaded) return;
+            window.__petcalcGaLoaded = true;
+            var s = document.createElement('script');
+            s.async = true;
+            s.src = 'https://www.googletagmanager.com/gtag/js?id=' + gaId;
+            document.head.appendChild(s);
+          };
         </script>
-      </>
-    )}
+      )
+    }
 
     {adsEnabled && (
       <script
@@ -169,7 +226,7 @@ function isCurrent(href: string): boolean {
       />
     )}
 
-    {allJsonLd.map((block, i) => (
+    {allJsonLd.map((block) => (
       <script type="application/ld+json" set:html={JSON.stringify(block)} />
     ))}
   </head>
@@ -196,16 +253,16 @@ function isCurrent(href: string): boolean {
               d="M4 7h16v2H4V7zm0 5h16v2H4v-2zm0 5h16v2H4v-2z"></path>
           </svg>
         </button>
+        <nav id="site-nav" class="site-nav" data-site-nav aria-label="Primary">
+          {
+            navLinks.map((link) => (
+              <a href={link.href} aria-current={isCurrent(link.href) ? 'page' : undefined}>
+                {link.label}
+              </a>
+            ))
+          }
+        </nav>
       </div>
-      <nav id="site-nav" class="site-nav" data-site-nav aria-label="Primary">
-        {
-          navLinks.map((link) => (
-            <a href={link.href} aria-current={isCurrent(link.href) ? 'page' : undefined}>
-              {link.label}
-            </a>
-          ))
-        }
-      </nav>
     </header>
 
     <main id="main-content" class="main">
@@ -218,6 +275,9 @@ function isCurrent(href: string): boolean {
         <div>
           <p>
             <strong>{siteConfig.siteName}</strong> — {siteConfig.tagline}
+          </p>
+          <p class="meta-row">
+            <span>Maintained by {siteConfig.defaultAuthor.name}</span>
           </p>
           <p class="meta-row">
             <span>Last updated: {lastUpdated}</span>
@@ -268,17 +328,28 @@ function isCurrent(href: string): boolean {
       </p>
     </footer>
 
-    <div class="cookie-banner" data-cookie-banner role="dialog" aria-label="Cookie notice">
+    <div
+      class="cookie-banner"
+      data-cookie-banner
+      data-defer-cookie={deferCookieBanner ? 'true' : 'false'}
+      role="dialog"
+      aria-label="Cookie notice"
+      aria-live="polite"
+    >
       <div class="inner">
         <p>
-          We use essential cookies and optional analytics to improve our free calculators. See our{' '}
-          <a href="/privacy/" style="color: #fff;">Privacy Policy</a>.
+          We use cookies for analytics.
+          <span class="cookie-privacy-long"> See our</span>
+          <a href="/privacy/">Privacy</a>.
         </p>
-        <button type="button" data-cookie-accept>Accept</button>
+        <div class="cookie-actions">
+          <button type="button" data-cookie-reject>Reject</button>
+          <button type="button" data-cookie-accept>OK</button>
+        </div>
       </div>
     </div>
 
-    <script is:inline>
+    <script is:inline define:vars={{ deferCookieBanner, hasGa: Boolean(gaId) }}>
       (function () {
         var toggle = document.querySelector('[data-nav-toggle]');
         var nav = document.querySelector('[data-site-nav]');
@@ -292,17 +363,140 @@ function isCurrent(href: string): boolean {
         var storageKey = 'petcalc-cookie-notice';
         var banner = document.querySelector('[data-cookie-banner]');
         var accept = document.querySelector('[data-cookie-accept]');
-        if (banner && !localStorage.getItem(storageKey)) {
-          banner.classList.add('show');
+        var reject = document.querySelector('[data-cookie-reject]');
+        var consent = null;
+        try {
+          consent = localStorage.getItem(storageKey);
+        } catch (e) {}
+
+        function grantAnalytics() {
+          if (typeof gtag === 'function') {
+            gtag('consent', 'update', {
+              analytics_storage: 'granted',
+            });
+          }
+          if (typeof window.__petcalcLoadGa === 'function') {
+            window.__petcalcLoadGa();
+          }
         }
+
+        function denyAnalytics() {
+          if (typeof gtag === 'function') {
+            gtag('consent', 'update', {
+              analytics_storage: 'denied',
+              ad_storage: 'denied',
+              ad_user_data: 'denied',
+              ad_personalization: 'denied',
+            });
+          }
+        }
+
+        function hideBanner() {
+          if (banner) banner.classList.remove('show');
+        }
+
+        function showBanner() {
+          if (banner) banner.classList.add('show');
+        }
+
+        function loadGaIdle() {
+          if (!hasGa) return;
+          var run = function () {
+            if (typeof window.__petcalcLoadGa === 'function') window.__petcalcLoadGa();
+          };
+          if ('requestIdleCallback' in window) {
+            requestIdleCallback(run, { timeout: 4000 });
+          } else {
+            setTimeout(run, 2000);
+          }
+        }
+
+        if (consent === 'accepted') {
+          grantAnalytics();
+          loadGaIdle();
+        } else if (consent === 'rejected') {
+          denyAnalytics();
+        } else if (banner) {
+          if (deferCookieBanner) {
+            var revealed = false;
+            var reveal = function () {
+              if (revealed) return;
+              revealed = true;
+              showBanner();
+            };
+            window.addEventListener('scroll', reveal, { once: true, passive: true });
+            document.addEventListener(
+              'pointerdown',
+              function (ev) {
+                if (banner.contains(ev.target)) return;
+                reveal();
+              },
+              { once: true },
+            );
+          } else {
+            showBanner();
+          }
+        }
+
         if (accept && banner) {
           accept.addEventListener('click', function () {
             try {
               localStorage.setItem(storageKey, 'accepted');
             } catch (e) {}
-            banner.classList.remove('show');
+            grantAnalytics();
+            loadGaIdle();
+            hideBanner();
           });
         }
+        if (reject && banner) {
+          reject.addEventListener('click', function () {
+            try {
+              localStorage.setItem(storageKey, 'rejected');
+            } catch (e) {}
+            denyAnalytics();
+            hideBanner();
+          });
+        }
+
+        function track(name, params) {
+          if (typeof gtag !== 'function') return;
+          try {
+            if (localStorage.getItem(storageKey) !== 'accepted') return;
+          } catch (e) {
+            return;
+          }
+          gtag('event', name, params || {});
+        }
+
+        document.addEventListener('click', function (ev) {
+          var t = ev.target;
+          if (!(t instanceof Element)) return;
+          var tel = t.closest('a[href^="tel:"]');
+          if (tel) {
+            track('hotline_click', {
+              event_category: 'engagement',
+              link_url: tel.getAttribute('href') || '',
+              hotline: tel.getAttribute('data-tel-hotline') || 'unknown',
+            });
+            return;
+          }
+          var ref = t.closest('a[data-ref-link], .sources a[href^="http"], .trust-block a[href^="http"]');
+          if (ref && ref.hostname && ref.hostname !== location.hostname) {
+            track('outbound_ref_click', {
+              event_category: 'engagement',
+              link_url: ref.href,
+              link_text: (ref.textContent || '').trim().slice(0, 100),
+            });
+          }
+        });
+
+        document.addEventListener('petcalc:calculate', function (ev) {
+          var detail = ev.detail || {};
+          track('calculation_run', {
+            event_category: 'engagement',
+            tool_slug: detail.tool || 'unknown',
+          });
+        });
       })();
     </script>
   </body>

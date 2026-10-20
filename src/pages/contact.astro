@@ -16,8 +16,8 @@ const subject = encodeURIComponent('PetCalc Tools feedback');
   <header class="hero">
     <h1>Contact us</h1>
     <p class="lead">
-      The fastest way to reach the {siteConfig.siteName} team is email. We read every message and reply to corrections
-      and bug reports first.
+      The fastest way to reach {siteConfig.defaultAuthor.name} ({siteConfig.siteName}) is email. Corrections and bug
+      reports are handled first.
     </p>
     <div class="btn-row">
       <a class="btn btn-primary" href={`mailto:${siteConfig.contactEmail}?subject=${subject}`}>
@@ -31,8 +31,10 @@ const subject = encodeURIComponent('PetCalc Tools feedback');
     <p>
       We cannot respond in time to a pet emergency. If your animal ate something toxic, is struggling to breathe, is
       having a seizure, or is in obvious distress, call your veterinarian or the nearest emergency clinic now. In the
-      United States you can also reach the ASPCA Animal Poison Control Center at (888) 426-4435 or Pet Poison Helpline at
-      (855) 764-7661. Both services may charge a consultation fee.
+      United States you can also reach the{' '}
+      <a href="tel:+18884264435">ASPCA Animal Poison Control Center at (888) 426-4435</a>
+      {' '}or{' '}
+      <a href="tel:+18557647661">Pet Poison Helpline at (855) 764-7661</a>. Both services may charge a consultation fee.
     </p>
 
     <h2>What to email us about</h2>
@@ -54,7 +56,7 @@ const subject = encodeURIComponent('PetCalc Tools feedback');
     <h2>Response time</h2>
     <p>
       We aim to reply within a few business days. Messages about errors in medical or safety content are handled
-      first. For general feedback you may not get a personal answer, but every idea is read and weighed against the
+      first. For general feedback you may not get a personal answer, but every idea is read and weighed against the{' '}
       <a href="/methodology/">methodology</a> when we plan updates.
     </p>
   </div>

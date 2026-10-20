@@ -108,10 +108,30 @@ export function bindFormInputs(form: HTMLFormElement, keys: string[], onUpdate: 
   }
 }
 
+/** Fire a GA-friendly custom event when a calculation produces visible results. */
+export function trackCalculation(toolSlug: string): void {
+  try {
+    document.dispatchEvent(
+      new CustomEvent('petcalc:calculate', { detail: { tool: toolSlug } }),
+    );
+  } catch {
+    /* ignore */
+  }
+}
+
 export function showResults(panel: HTMLElement | null, visible: boolean): void {
   if (!panel) return;
-  if (visible) panel.removeAttribute('hidden');
-  else panel.setAttribute('hidden', '');
+  if (visible) {
+    panel.removeAttribute('hidden');
+    const form = panel.closest('form');
+    const slug =
+      form?.id?.replace(/-calc$/, '') ||
+      panel.id?.replace(/-results$/, '') ||
+      'unknown';
+    trackCalculation(slug);
+  } else {
+    panel.setAttribute('hidden', '');
+  }
 }
 
 type UnitToggleOptions<U extends string> = {

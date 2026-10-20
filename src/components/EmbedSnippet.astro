@@ -1,0 +1,88 @@
+---
+import { absoluteUrl, siteConfig } from '../config/site.ts';
+import { getTool } from '../data/tools.ts';
+
+export interface Props {
+  /** Tool slug that has an /embed/<slug>/ page */
+  slug: string;
+  /** iframe height in px */
+  height?: number;
+}
+
+const { slug, height = 520 } = Astro.props;
+const tool = getTool(slug);
+const embedUrl = absoluteUrl(`/embed/${slug}/`);
+const toolUrl = absoluteUrl(`/tools/${slug}/`);
+const title = tool?.title ?? 'Pet calculator';
+const snippet = `<iframe src="${embedUrl}" title="${title}" width="100%" height="${height}" loading="lazy" style="border:0;border-radius:8px;max-width:100%;"></iframe>
+<p style="font-size:0.85rem;margin:0.5rem 0 0;">Calculator by <a href="${toolUrl}">${siteConfig.siteName}</a></p>`;
+---
+
+<section class="embed-snippet" aria-labelledby={`embed-h-${slug}`}>
+  <h2 id={`embed-h-${slug}`}>Embed this tool</h2>
+  <p>
+    Free to embed on your site. The calculator runs in the visitor&apos;s browser; please keep the attribution
+    link so readers can see the formula and sources.
+  </p>
+  <label class="field" for={`embed-code-${slug}`}>
+    Embed code
+    <textarea id={`embed-code-${slug}`} class="embed-code" readonly rows="4" spellcheck="false"
+      >{snippet}</textarea
+    >
+  </label>
+  <div class="btn-row" style="margin-top: 0.75rem">
+    <button type="button" class="btn btn-secondary" data-copy-embed={`embed-code-${slug}`}>
+      Copy embed code
+    </button>
+    <a class="btn btn-secondary" href={`/embed/${slug}/`} target="_blank" rel="noopener noreferrer">
+      Open embed preview
+    </a>
+  </div>
+  <p class="hint" data-copy-status hidden aria-live="polite">Copied to clipboard.</p>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-copy-embed]').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const id = btn.getAttribute('data-copy-embed');
+      const el = id ? document.getElementById(id) : null;
+      if (!(el instanceof HTMLTextAreaElement)) return;
+      try {
+        await navigator.clipboard.writeText(el.value);
+        const status = btn.closest('.embed-snippet')?.querySelector<HTMLElement>('[data-copy-status]');
+        if (status) {
+          status.hidden = false;
+          window.setTimeout(() => {
+            status.hidden = true;
+          }, 2000);
+        }
+      } catch {
+        el.focus();
+        el.select();
+      }
+    });
+  });
+</script>
+
+<style>
+  .embed-snippet {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    border: 1px dashed var(--border);
+    border-radius: var(--radius);
+    background: var(--bg-accent);
+  }
+
+  .embed-code {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    line-height: 1.4;
+    resize: vertical;
+  }
+
+  .embed-snippet .hint {
+    margin: 0.5rem 0 0;
+    color: var(--ok);
+    font-size: 0.9rem;
+  }
+</style>

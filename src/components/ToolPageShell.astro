@@ -7,6 +7,8 @@ import ReviewerBox from './ReviewerBox.astro';
 import AuthorMeta from './AuthorMeta.astro';
 import SourcesList from './SourcesList.astro';
 import RelatedTools from './RelatedTools.astro';
+import TrustBlock from './TrustBlock.astro';
+import EmbedSnippet from './EmbedSnippet.astro';
 import AdSlot from './AdSlot.astro';
 import type { FaqItem } from './Faq.astro';
 import type { SourceItem } from './SourcesList.astro';
@@ -15,9 +17,9 @@ import { getTool } from '../data/tools.ts';
 
 export interface Props {
   slug: string;
-  /** SEO title, primary keyword first, under 60 characters including site name */
+  /** SEO title, primary keyword first */
   title: string;
-  /** Meta description under 155 characters */
+  /** Meta description under 160 characters */
   description: string;
   /** Answer-first paragraph, 40-60 words */
   answer: string;
@@ -25,20 +27,51 @@ export interface Props {
   faq: FaqItem[];
   sources: SourceItem[];
   adSlotId?: string;
+  /** Optional page H1 override (defaults to registry tool.title) */
+  h1?: string;
+  /** ISO date — only bump when content/formula/sources change */
+  lastReviewed?: string;
+  calculatorVersion?: string;
+  formulaSummary?: string;
+  /** Emergency layout: hotlines slot, deferred cookie, compact answer */
+  emergency?: boolean;
+  /** Show embed snippet when an /embed/<slug>/ page exists */
+  embeddable?: boolean;
+  ogImage?: string;
 }
 
-const { slug, title, description, answer, takeaways, faq, sources, adSlotId = 'tool-after-results' } =
-  Astro.props;
+const {
+  slug,
+  title,
+  description,
+  answer,
+  takeaways,
+  faq,
+  sources,
+  adSlotId = 'tool-after-results',
+  h1,
+  lastReviewed = siteConfig.buildDate,
+  calculatorVersion = '1.0',
+  formulaSummary,
+  emergency = false,
+  embeddable = false,
+  ogImage,
+} = Astro.props;
 const tool = getTool(slug);
 if (!tool) throw new Error(`Unknown tool slug: ${slug}`);
 
-const lastUpdated = siteConfig.buildDate;
 const path = `/tools/${slug}/`;
+const pageH1 = h1 ?? tool.title;
+
+function stripHtml(s: string): string {
+  return s.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+}
 
 const jsonLd: Record<string, unknown>[] = [
   {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
+    '@id': absoluteUrl(`${path}#app`),
     name: tool.title,
     description,
     url: absoluteUrl(path),
@@ -48,8 +81,27 @@ const jsonLd: Record<string, unknown>[] = [
     inLanguage: 'en-US',
     isAccessibleForFree: true,
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-    dateModified: lastUpdated,
-    publisher: { '@type': 'Organization', name: siteConfig.siteName, url: absoluteUrl('/') },
+    dateModified: lastReviewed,
+    author: {
+      '@type': 'Person',
+      '@id': siteConfig.personId,
+      name: siteConfig.defaultAuthor.name,
+      url: absoluteUrl('/about/'),
+    },
+    publisher: { '@id': absoluteUrl('/#organization') },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    '@id': absoluteUrl(`${path}#webpage`),
+    url: absoluteUrl(path),
+    name: title,
+    isPartOf: { '@id': absoluteUrl('/#website') },
+    mainEntity: { '@id': absoluteUrl(`${path}#app`) },
+    dateModified: `${lastReviewed}T00:00:00+00:00`,
+    lastReviewed,
+    author: { '@id': siteConfig.personId },
+    citation: sources.filter((s) => s.url).map((s) => s.url as string),
   },
   {
     '@context': 'https://schema.org',
@@ -57,7 +109,7 @@ const jsonLd: Record<string, unknown>[] = [
     mainEntity: faq.map((item) => ({
       '@type': 'Question',
       name: item.q,
-      acceptedAnswer: { '@type': 'Answer', text: item.a },
+      acceptedAnswer: { '@type': 'Answer', text: stripHtml(item.a) },
     })),
   },
 ];
@@ -67,17 +119,21 @@ const jsonLd: Record<string, unknown>[] = [
   title={title}
   description={description}
   canonicalPath={path}
-  lastUpdated={lastUpdated}
+  lastUpdated={lastReviewed}
   jsonLd={jsonLd}
+  deferCookieBanner={emergency}
+  ogImage={ogImage}
   breadcrumbs={[
     { name: 'Tools', path: '/tools/' },
     { name: tool.title, path },
   ]}
 >
   <article>
-    <section class="tool-shell" aria-labelledby="tool-title">
-      <h1 id="tool-title">{tool.title}</h1>
+    <section class:list={['tool-shell', emergency && 'tool-shell--emergency']} aria-labelledby="tool-title">
+      <h1 id="tool-title">{pageH1}</h1>
+      {emergency && <slot name="emergency" />}
       <p class="answer-first">{answer}</p>
+      <AuthorMeta lastUpdated={lastReviewed} lastReviewed={lastReviewed} />
       <slot name="calculator" />
     </section>
 
@@ -92,8 +148,13 @@ const jsonLd: Record<string, unknown>[] = [
     <Faq items={faq} />
     <Disclaimer />
     <ReviewerBox />
-    <AuthorMeta lastUpdated={lastUpdated} />
-    <SourcesList items={sources} />
+    <TrustBlock
+      lastReviewed={lastReviewed}
+      version={calculatorVersion}
+      sources={sources}
+      formulaSummary={formulaSummary}
+    />
+    {embeddable && <EmbedSnippet slug={slug} />}
     <RelatedTools currentSlug={slug} />
   </article>
 </BaseLayout>

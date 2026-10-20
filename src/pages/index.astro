@@ -4,19 +4,18 @@ import { siteConfig } from '../config/site.ts';
 import { tools } from '../data/tools.ts';
 import { guides } from '../data/guides.ts';
 
-const title = 'Free Pet Calculators for Dogs & Cats';
+const title = 'Free Dog & Cat Calculators: Food, Weight & Age';
 const description =
-  'Free dog and cat calculators for puppy weight, food calories (RER/MER), age by size, chocolate toxicity, water intake, and more. Private, no signup.';
+  'Free dog and cat calculators: predict puppy adult weight, work out daily food calories and cups, convert pet age to human years, and check chocolate risk.';
 ---
 
 <BaseLayout title={title} description={description} canonicalPath="/">
   <section class="hero">
-    <p class="brand-hero">{siteConfig.brandName}</p>
-    <h1>{siteConfig.siteName}</h1>
+    <h1>Free dog &amp; cat calculators: food, weight, age &amp; safety</h1>
     <p class="lead">
-      Free pet calculators that run in your browser. Predict adult puppy weight, estimate dog and cat
-      feeding calories, convert pet years with modern methods, and check chocolate risk—with
-      breed-aware options and cited veterinary nutrition sources.
+      Free pet calculators that run in your browser. Predict adult puppy weight, estimate dog and cat feeding calories,
+      convert pet years with modern methods, and check chocolate risk — with breed-aware options and cited veterinary
+      sources. Built by {siteConfig.defaultAuthor.name}.
     </p>
     <div class="btn-row">
       <a class="btn btn-primary" href="/tools/puppy-weight-calculator/">Puppy weight calculator</a>
@@ -27,17 +26,17 @@ const description =
   <section class="prose" style="margin-bottom: 1.5rem">
     <h2>What is the best free pet calculator?</h2>
     <p class="answer-first">
-      The right calculator depends on the question. To feed a dog, use the
-      <a href="/tools/dog-food-calculator/">dog food calculator</a>. To predict a puppy's adult size, use the
-      <a href="/tools/puppy-weight-calculator/">puppy weight calculator</a>. For cats, use the
-      <a href="/tools/cat-food-calculator/">cat food calculator</a>. Each shows its formula and sources, and none needs an account.
+      The right calculator depends on the question. To feed a dog, use the{' '}
+      <a href="/tools/dog-food-calculator/">dog food calculator</a>. To predict a puppy&apos;s adult size, use the{' '}
+      <a href="/tools/puppy-weight-calculator/">puppy weight calculator</a>. For cats, use the{' '}
+      <a href="/tools/cat-food-calculator/">cat food calculator</a>. Each shows its formula and sources, and none needs an
+      account.
     </p>
     <h2>What you can calculate</h2>
     <p>
-      {siteConfig.siteName} is a free toolkit for everyday dog and cat questions: how big a puppy may
-      get, how many calories to feed, how old a pet is in human years, and whether chocolate exposure
-      looks concerning. Every tool keeps data on your device, supports lb and kg, and links to the
-      formulas and sources behind the numbers.
+      {siteConfig.siteName} is a free toolkit for everyday dog and cat questions: how big a puppy may get, how many
+      calories to feed, how old a pet is in human years, and whether chocolate exposure looks concerning. Every tool keeps
+      data on your device, supports lb and kg, and links to the formulas and sources behind the numbers.
     </p>
   </section>
 
@@ -83,13 +82,3 @@ const description =
     </div>
   </section>
 </BaseLayout>
-
-<style>
-  .brand-hero {
-    font-size: clamp(1.5rem, 4vw, 2rem);
-    font-weight: 800;
-    color: var(--brand);
-    margin: 0 0 0.35rem;
-    letter-spacing: -0.02em;
-  }
-</style>

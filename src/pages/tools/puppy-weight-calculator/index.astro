@@ -45,9 +45,11 @@ const sources = [
 
 <ToolPageShell
   slug="puppy-weight-calculator"
-  title="Puppy Weight Calculator & Growth Chart"
-  description="Predict your puppy's adult weight from age in weeks, current weight, and breed size. Free growth chart in lb and kg, no signup needed."
+  title="Puppy Weight Calculator: How Big Will My Puppy Get?"
+  description="Predict your puppy's adult weight from age in weeks, current weight and breed or size class. See an estimated adult range and growth chart in lb and kg, free."
   answer="A puppy weight calculator estimates your dog's adult weight from its current weight, age in weeks, and breed or size class. Enter those values above to get a predicted adult range in pounds and kilograms plus a growth curve. Treat the result as a planning estimate, because genetics, diet, and neuter timing all shift the final number."
+  formulaSummary="Early puppies (≤16 weeks): adult ≈ (current weight ÷ age weeks) × 52. Older puppies: divide current weight by expected growth fraction for age/size, then blend with breed adult midpoint."
+  embeddable
   takeaways={[
     "Puppies under 16 weeks are predicted with current weight divided by age in weeks, multiplied by 52, then blended with the breed's typical adult range.",
     "Expect a range, not a single number. A 12-week medium-breed puppy can end up anywhere across a 30 to 40 lb span.",

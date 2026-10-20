@@ -10,23 +10,17 @@ const types: { id: ChocolateType; label: string }[] = [
 ---
 
 <form class="calc-form chocolate-toxicity-calc" id="chocolate-toxicity-calc" novalidate>
-  <div
-    class="disclaimer"
-    style="margin-top: 0; background: var(--danger-bg); border-color: #e8b4b4; color: var(--danger); font-weight: 600;"
-    role="note"
-  >
-    If your dog ate chocolate, contact a veterinarian or pet poison hotline immediately — do not wait for symptoms.
-  </div>
-
-  <div class="calc-grid cols-2" style="margin-top: 0.85rem;">
-    <label class="field">
-      Dog weight
-      <span class="unit-toggle" data-weight-toggle role="group" aria-label="Weight unit">
-        <button type="button" data-unit="lb" aria-pressed="true">lb</button>
-        <button type="button" data-unit="kg" aria-pressed="false">kg</button>
-      </span>
-      <input type="number" name="weight" inputmode="decimal" min="0.5" step="0.1" value="30" required />
-    </label>
+  <div class="calc-grid cols-2">
+    <div class="field">
+      <div class="field-label-row">
+        <label for="chocolate-weight">Dog weight</label>
+        <span class="unit-toggle" data-weight-toggle role="group" aria-label="Weight unit">
+          <button type="button" data-unit="lb" aria-pressed="true">lb</button>
+          <button type="button" data-unit="kg" aria-pressed="false">kg</button>
+        </span>
+      </div>
+      <input id="chocolate-weight" type="number" name="weight" inputmode="decimal" min="0.5" step="0.1" value="30" required />
+    </div>
     <label class="field">
       Chocolate type
       <select name="type">
@@ -37,14 +31,16 @@ const types: { id: ChocolateType; label: string }[] = [
         ))}
       </select>
     </label>
-    <label class="field">
-      Amount eaten
-      <span class="unit-toggle" data-amount-toggle role="group" aria-label="Chocolate amount unit">
-        <button type="button" data-unit="oz" aria-pressed="true">oz</button>
-        <button type="button" data-unit="g" aria-pressed="false">g</button>
-      </span>
-      <input type="number" name="amount" inputmode="decimal" min="0" step="0.1" value="2" required />
-    </label>
+    <div class="field">
+      <div class="field-label-row">
+        <label for="chocolate-amount">Amount eaten</label>
+        <span class="unit-toggle" data-amount-toggle role="group" aria-label="Chocolate amount unit">
+          <button type="button" data-unit="oz" aria-pressed="true">oz</button>
+          <button type="button" data-unit="g" aria-pressed="false">g</button>
+        </span>
+      </div>
+      <input id="chocolate-amount" type="number" name="amount" inputmode="decimal" min="0" step="0.1" value="2" required />
+    </div>
   </div>
 
   <div class="results" id="chocolate-toxicity-results" aria-live="polite" hidden>

@@ -25,6 +25,10 @@ export interface Props {
 }
 
 const { slug, title, description, answer, takeaways, faq = [], sources } = Astro.props;
+
+function stripHtml(s: string): string {
+  return s.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+}
 const guide = getGuide(slug);
 if (!guide) throw new Error(`Unknown guide slug: ${slug}`);
 
@@ -45,12 +49,18 @@ const jsonLd: Record<string, unknown>[] = [
     inLanguage: 'en-US',
     datePublished: lastUpdated,
     dateModified: lastUpdated,
-    author: { '@type': 'Organization', name: siteConfig.defaultAuthor.name, url: absoluteUrl('/authors/') },
+    author: {
+      '@type': 'Person',
+      '@id': siteConfig.personId,
+      name: siteConfig.defaultAuthor.name,
+      url: absoluteUrl('/about/'),
+    },
     publisher: {
       '@type': 'Organization',
+      '@id': absoluteUrl('/#organization'),
       name: siteConfig.siteName,
       url: absoluteUrl('/'),
-      logo: { '@type': 'ImageObject', url: absoluteUrl('/favicon.svg') },
+      logo: { '@type': 'ImageObject', url: absoluteUrl('/logo-512.png'), width: 512, height: 512 },
     },
   },
   ...(faq.length
@@ -61,7 +71,7 @@ const jsonLd: Record<string, unknown>[] = [
           mainEntity: faq.map((item) => ({
             '@type': 'Question',
             name: item.q,
-            acceptedAnswer: { '@type': 'Answer', text: item.a },
+            acceptedAnswer: { '@type': 'Answer', text: stripHtml(item.a) },
           })),
         },
       ]

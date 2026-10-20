@@ -7,7 +7,7 @@ import { DOG_MER_FACTORS, CAT_MER_FACTORS } from '../lib/formulas/energy.ts';
 import { THEOBROMINE_MG_PER_G } from '../lib/formulas/chocolate.ts';
 
 const description =
-  'How PetCalc Tools calculators work: RER and MER energy formulas, growth curves, age conversion, toxicity bands, and our editorial and review process.';
+  'How PetCalc Tools calculators work: RER/MER formulas, growth curves, age conversion, toxicity bands, AI disclosure, and the public correction log.';
 
 const dogStageLabels: Record<string, string> = {
   puppy_0_4: 'Puppy under 4 months',
@@ -63,7 +63,8 @@ const sources = [
     <h1>Methodology</h1>
     <p class="lead">
       Every calculator on {siteConfig.siteName} uses a published or widely taught formula, computed in metric units and
-      converted for display. This page lists each equation, the constants behind it, and the editorial rules we follow.
+      converted for display. This page lists each equation, what the tools leave out, how drafts are checked, and the
+      public correction log. Maintained by {siteConfig.defaultAuthor.name}.
     </p>
     <p class="meta-row"><span>Last updated: {siteConfig.buildDate}</span></p>
   </header>
@@ -72,12 +73,19 @@ const sources = [
     <h2>Editorial principles</h2>
     <ul>
       <li><strong>Answer first.</strong> Each page opens with a plain-language answer, then shows the work.</li>
-      <li><strong>Cite primary guidance.</strong> We prefer guidelines from WSAVA, AAHA, AAFP, AAFCO, the National Research Council, the ASPCA, and the MSD Veterinary Manual over blogs and forums.</li>
-      <li><strong>Show limits.</strong> Estimates are presented as ranges where the science supports a range, and every page carries a disclaimer.</li>
+      <li><strong>Cite primary guidance.</strong> Prefer WSAVA, AAHA, AAFP, AAFCO, the National Research Council, the ASPCA, Pet Poison Helpline, and the Merck / MSD Veterinary Manual over blogs and forums.</li>
+      <li><strong>Show limits.</strong> Estimates are ranges where the science supports a range; every page carries a disclaimer.</li>
       <li><strong>No paid placement.</strong> Brands cannot pay for a calculation, a ranking, or a recommendation.</li>
-      <li><strong>Dated and corrected.</strong> Pages show a last-updated date. Errors are fixed against the source, and the date changes.</li>
-      <li><strong>Review.</strong> Pages are written for independent veterinary review. Reviewer status is shown on each page and on the <a href="/authors/">authors page</a>.</li>
+      <li><strong>Dates only change when content changes.</strong> “Last reviewed” / <code>dateModified</code> move only when the formula, sources, or text actually change — not to look fresh.</li>
+      <li><strong>No invented reviewers.</strong> A “reviewed by” credit appears only when a real, named veterinarian has reviewed that page. Until then, pages cite sources and link here. See <a href="/about/#maintainer">About</a>.</li>
     </ul>
+
+    <h2 id="ai-disclosure">How drafts are made (AI disclosure)</h2>
+    <p>
+      Drafts may be written with AI assistance. Every formula, constant, threshold and reference is checked by{' '}
+      {siteConfig.defaultAuthor.name} against the sources listed on each page before publish. AI is not treated as a
+      veterinary authority.
+    </p>
 
     <h2>Units</h2>
     <p>
@@ -150,8 +158,9 @@ const sources = [
       years and the second as 9 more, then adds 4 (toy and small), 5 (medium), 6 (large), or 7 (giant) human years per
       dog year. Life stage labels follow the age bands in the AAHA Canine Life Stage Guidelines, with the senior threshold
       earlier for larger dogs (6 years for giant breeds up to 10 for small ones). An optional logarithmic curve,
-      human age ≈ 16 × ln(dog age) + 31, is shown for comparison and is inspired by DNA methylation research (Wang et al., 2020). It is
-      illustrative, not a clinical standard.
+      human age ≈ 16 × ln(dog age) + 31, is shown for comparison. It comes from Wang et al. (2020), <em>Cell Systems</em>,
+      an epigenetic-clock study of <strong>104 Labrador Retrievers</strong> (not a larger “~300” figure sometimes repeated
+      online). It is illustrative, single-breed, and not a clinical standard.
     </p>
 
     <h2>Cat age in human years</h2>
@@ -225,10 +234,31 @@ const sources = [
 
     <h2>Reporting an error</h2>
     <p>
-      If you believe a formula or constant is wrong, send the page and a source through the
-      <a href="/contact/">contact page</a>. We review reports against the cited guideline and update the page date when a
-      change is made.
+      If you believe a formula or constant is wrong, send the page and a source through the{' '}
+      <a href="/contact/">contact page</a>. Reports are checked against the cited guideline; the page date changes only
+      when a real fix ships.
     </p>
+
+    <h2 id="changelog">Correction log &amp; changelog</h2>
+    <table>
+      <thead>
+        <tr><th>Date</th><th>Change</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><time datetime="2026-10-20">2026-10-20</time></td>
+          <td>
+            Mobile SEO / E-E-A-T pass: named maintainer ({siteConfig.defaultAuthor.name}), TrustBlock references,
+            PNG OG/favicons, Consent Mode v2 GA4 loading, chocolate hotline <code>tel:</code> links, input font-size
+            ≥16px, fixed missing spaces before inline links, Wang et al. sample size corrected to 104 Labradors in copy.
+          </td>
+        </tr>
+        <tr>
+          <td><time datetime="2026-10-19">2026-10-19</time></td>
+          <td>Initial public calculator set and methodology page published.</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
   <SourcesList items={sources} heading="Sources used across the site" />
