@@ -17,8 +17,8 @@ export const DEFAULT_CONTACT_EMAIL = 'hammadiqbal117@gmail.com';
 /** IndexNow key when `INDEXNOW_KEY` is unset (must match `public/{key}.txt`). */
 export const DEFAULT_INDEXNOW_KEY = '6a232080046a9576fef903fc8f5b8279';
 
-/** Bylines when `PUBLIC_AUTHOR_NAME` is unset — brand team, not a fake person. */
-export const DEFAULT_AUTHOR_NAME = `${BRAND_NAME} Team`;
+/** Bylines when `PUBLIC_AUTHOR_NAME` is unset — named maintainer, not an anonymous team. */
+export const DEFAULT_AUTHOR_NAME = 'Hammad Iqbal';
 
 /** Role label when `PUBLIC_AUTHOR_ROLE` is unset. */
 export const DEFAULT_AUTHOR_ROLE = 'Site maintainer';
@@ -28,7 +28,19 @@ export const DEFAULT_AUTHOR_ROLE = 'Site maintainer';
  * No invented credentials; maintainer is not presented as a veterinarian.
  */
 export const DEFAULT_AUTHOR_BIO =
-  'PetCalc Tools is built and maintained by an independent developer. Formulas are implemented from cited veterinary references (such as NRC, AAHA, WSAVA, AAFCO, AAFP, ASPCA, and the MSD Veterinary Manual), explained in plain language, and checked against the published numbers in those sources. The maintainer is not a veterinarian; clinical decisions always belong with a licensed professional and the individual animal.';
+  'I build and maintain PetCalc Tools as an independent developer. Formulas are implemented from cited veterinary references (NRC, AAHA, WSAVA, AAFCO, AAFP, ASPCA, and the Merck / MSD Veterinary Manual), explained in plain language, and checked against the published numbers in those sources. I am not a veterinarian; clinical decisions always belong with a licensed professional and the individual animal.';
+
+/**
+ * Stable Person @id shared across sister tool sites so Google can tie authorship to one entity.
+ * Do not invent a personal site URL — GitHub profile is the canonical cross-site id.
+ */
+export const CANONICAL_PERSON_ID = 'https://github.com/hammadiqbal6#person';
+
+/** Public profiles for Person.sameAs (real profiles only). */
+export const AUTHOR_SAME_AS = ['https://github.com/hammadiqbal6'] as const;
+
+/** Brand theme color for theme-color meta and web manifest. */
+export const THEME_COLOR = '#1f6b4a';
 
 export type SiteReviewer = {
   name: string;
@@ -140,7 +152,7 @@ export const siteConfig = {
    */
   contactEmail: resolveContactEmail(),
   /** ISO date used for lastmod / "Last updated" defaults (YYYY-MM-DD) */
-  buildDate: '2026-10-19',
+  buildDate: '2026-10-20',
   /** Tagline for homepage and meta fallbacks */
   tagline: 'Free pet calculators for dogs and cats — weight, food, age, and more.',
   /**
@@ -170,10 +182,16 @@ export const siteConfig = {
    * Google does not use IndexNow.
    */
   indexNowKey: resolveIndexNowKey(),
+  /** Theme color for browsers / PWA chrome */
+  themeColor: THEME_COLOR,
+  /** Stable Person @id for JSON-LD across sister sites */
+  personId: CANONICAL_PERSON_ID,
   /** Social / entity sameAs URLs for Organization schema (real profiles only) */
   sameAs: [] as string[],
+  /** Author public profiles */
+  authorSameAs: [...AUTHOR_SAME_AS],
   /**
-   * Default author shown in bylines and on /authors/.
+   * Default author shown in bylines and on /about/#maintainer.
    * Override with PUBLIC_AUTHOR_NAME / PUBLIC_AUTHOR_ROLE / PUBLIC_AUTHOR_BIO.
    */
   defaultAuthor: {
@@ -204,3 +222,14 @@ export function absoluteUrl(path: string): string {
   const p = path.startsWith('/') ? path : `/${path}`;
   return `${base}${p}`;
 }
+
+export {
+  sisterSites,
+  sisterSites as SISTER_SITES,
+  sisterSiteOrigins,
+  sisterSiteUrl,
+  sisterSiteById,
+  SISTER_SITE_FALLBACKS,
+  type SisterSiteKey,
+  type SisterSiteMeta,
+} from './sisterSites.ts';

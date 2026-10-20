@@ -22,7 +22,7 @@ const { items, heading = 'Sources & references' } = Astro.props;
         {items.map((source) => (
           <li>
             {source.url ? (
-              <a href={source.url} rel="noopener noreferrer">
+              <a href={source.url} rel="noopener noreferrer" data-ref-link>
                 {source.title}
               </a>
             ) : (

@@ -4,11 +4,39 @@
   "redirects": [
     {
       "source": "/:path(.*)",
-      "has": [{ "type": "host", "value": "petcalctools.example" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "petcalctools.example"
+        }
+      ],
       "destination": "https://www.petcalctools.example/:path",
       "permanent": true
     },
-    { "source": "/tools/dog-years-calculator", "destination": "/tools/dog-age-calculator/", "permanent": true },
-    { "source": "/tools/puppy-growth-calculator", "destination": "/tools/puppy-weight-calculator/", "permanent": true }
+    {
+      "source": "/tools/dog-years-calculator",
+      "destination": "/tools/dog-age-calculator/",
+      "permanent": true
+    },
+    {
+      "source": "/tools/puppy-growth-calculator",
+      "destination": "/tools/puppy-weight-calculator/",
+      "permanent": true
+    },
+    {
+      "source": "/authors",
+      "destination": "/about/",
+      "permanent": true
+    },
+    {
+      "source": "/authors/",
+      "destination": "/about/",
+      "permanent": true
+    },
+    {
+      "source": "/sitemap.xml",
+      "destination": "/sitemap-index.xml",
+      "permanent": true
+    }
   ]
 }

@@ -15,7 +15,7 @@ export const tools: ToolMeta[] = [
     title: 'Puppy Weight Calculator',
     shortTitle: 'Puppy Weight',
     description:
-      'Predict adult dog weight from breed size and current age with growth chart estimates. Free, private, no signup.',
+      'Predict adult weight from age in weeks, current weight and breed or size. Growth chart in lb and kg; free, private.',
     category: 'dog',
     keywords: ['puppy weight calculator', 'adult dog weight predictor', 'puppy growth chart'],
     related: ['dog-food-calculator', 'puppy-food-calculator', 'dog-bmi-calculator'],
@@ -25,7 +25,7 @@ export const tools: ToolMeta[] = [
     title: 'Dog Food Calculator',
     shortTitle: 'Dog Food',
     description:
-      'Estimate daily calories (RER/MER) and cups of food by weight, age, and activity. Based on NRC/AAFCO guidance.',
+      'Daily calories and cups from weight, life stage and label kcal per cup. RER/MER factors; lb or kg; free.',
     category: 'dog',
     keywords: ['dog food calculator', 'dog calorie calculator', 'how much to feed a dog'],
     related: ['puppy-food-calculator', 'homemade-dog-food-calculator', 'dog-water-intake-calculator'],
@@ -55,7 +55,7 @@ export const tools: ToolMeta[] = [
     title: 'Dog Age Calculator',
     shortTitle: 'Dog Age',
     description:
-      'Convert dog years to human years by breed size using modern research methods — not the old 7:1 rule.',
+      'Dog years to human years by size with AAHA-style life stages and an optional log curve — not the 7:1 myth.',
     category: 'dog',
     keywords: ['dog age calculator', 'dog years to human years', 'dog age by breed'],
     related: ['cat-age-calculator', 'puppy-weight-calculator', 'dog-bmi-calculator'],
@@ -85,7 +85,7 @@ export const tools: ToolMeta[] = [
     title: 'Dog BMI & Body Condition Helper',
     shortTitle: 'Dog BMI / BCS',
     description:
-      'Screen relative body condition with a dog BMI-style index and BCS guidance. Not a diagnosis.',
+      'Screen body condition with a BMI-style index and the 1–9 BCS scale. Educational helper, not a diagnosis.',
     category: 'dog',
     keywords: ['dog BMI calculator', 'dog body condition score', 'is my dog overweight'],
     related: ['dog-food-calculator', 'dog-water-intake-calculator', 'puppy-weight-calculator'],
@@ -105,7 +105,7 @@ export const tools: ToolMeta[] = [
     title: 'Dog Chocolate Toxicity Calculator',
     shortTitle: 'Chocolate Toxicity',
     description:
-      'Estimate methylxanthine exposure from chocolate type and amount vs dog weight. Seek emergency care if concerned.',
+      'Estimate theobromine dose from chocolate type, amount and weight. Call a vet or poison hotline if your dog ate chocolate.',
     category: 'dog',
     keywords: ['dog chocolate toxicity calculator', 'chocolate poisoning dog', 'how much chocolate is toxic'],
     related: ['dog-water-intake-calculator', 'dog-bmi-calculator'],

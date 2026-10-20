@@ -3,12 +3,14 @@ import { siteConfig } from '../config/site.ts';
 
 export interface Props {
   lastUpdated?: string;
+  lastReviewed?: string;
   authorName?: string;
   authorRole?: string;
 }
 
 const {
   lastUpdated = siteConfig.buildDate,
+  lastReviewed = lastUpdated,
   authorName = siteConfig.defaultAuthor.name,
   authorRole = siteConfig.defaultAuthor.role,
 } = Astro.props;
@@ -16,11 +18,19 @@ const {
 
 <p class="meta-row author-meta">
   <span>
-    <strong>Author:</strong> {authorName}
+    <strong>Author:</strong>{' '}
+    <a href="/about/#maintainer" rel="author">{authorName}</a>
     {authorRole ? ` (${authorRole})` : ''}
   </span>
   <span>
-    <strong>Last updated:</strong>
-    <time datetime={lastUpdated}>{lastUpdated}</time>
+    <strong>Last reviewed:</strong>{' '}
+    <time datetime={lastReviewed}>{lastReviewed}</time>
   </span>
+  {
+    lastUpdated !== lastReviewed ? (
+      <span>
+        <strong>Last updated:</strong> <time datetime={lastUpdated}>{lastUpdated}</time>
+      </span>
+    ) : null
+  }
 </p>

@@ -36,7 +36,7 @@ export const SRC = {
   },
   aahaNutrition: {
     title: 'AAHA Nutrition and Weight Management Guidelines for Dogs and Cats',
-    url: 'https://www.aaha.org/resources/2021-aaha-nutrition-and-weight-management-guidelines-for-dogs-and-cats/',
+    url: 'https://www.aaha.org/resources/2021-aaha-nutrition-and-weight-management-guidelines/',
     publisher: 'American Animal Hospital Association (AAHA)',
     accessed,
   },
@@ -104,6 +104,24 @@ export const SRC = {
     title: 'Selecting and Providing a Home for a Dog',
     url: 'https://www.msdvetmanual.com/dog-owners/selecting-and-providing-a-home-for-a-dog',
     publisher: 'MSD Veterinary Manual (owner edition)',
+    accessed,
+  },
+  merckMer: {
+    title: 'Daily Maintenance Energy Requirements for Dogs and Cats',
+    url: 'https://www.merckvetmanual.com/multimedia/table/daily-maintenance-energy-requirements-for-dogs-and-cats',
+    publisher: 'Merck Veterinary Manual',
+    accessed,
+  },
+  tuftsNutrition: {
+    title: 'Clinical Nutrition service — Foster Hospital for Small Animals',
+    url: 'https://vet.tufts.edu/foster-hospital-small-animals/specialty-services/nutrition',
+    publisher: 'Tufts Cummings School of Veterinary Medicine',
+    accessed,
+  },
+  wangDogAgingPmc: {
+    title: 'Quantitative translation of dog-to-human aging (PMC full text; 104 Labradors)',
+    url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC7484147/',
+    publisher: 'Wang et al., Cell Systems (2020) via PMC',
     accessed,
   },
   wangDogAging: {

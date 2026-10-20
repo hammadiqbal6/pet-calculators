@@ -4,3 +4,6 @@
 # Status codes are plain numbers (e.g. 301). Do not use Netlify's `301!` syntax.
 /tools/dog-years-calculator/    /tools/dog-age-calculator/   301
 /tools/puppy-growth-calculator/ /tools/puppy-weight-calculator/ 301
+/authors/                       /about/                      301
+/authors                        /about/                      301
+/sitemap.xml                    /sitemap-index.xml           301

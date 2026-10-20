@@ -11,7 +11,7 @@ A **static Astro 7 site of free dog and cat calculators** (puppy weight, dog/cat
 3. **Get and stay AdSense-approved** with real content, trust pages, a clean ad layout and consent.
 4. **Be fast**: plain HTML, light vanilla TypeScript, Lighthouse mobile >= 95.
 
-Brand/domain/IDs live in one file: `src/config/site.ts` (`siteName`, `siteUrl`, `buildDate`, GA4, Search Console/Bing verification, `adsensePublisherId`, `indexNowKey`, author/reviewer, `contactEmail`). Build-time env (`PUBLIC_SITE_URL`, `PUBLIC_GA4_MEASUREMENT_ID`, `PUBLIC_GSC_VERIFICATION`, `PUBLIC_CONTACT_EMAIL`, `PUBLIC_AUTHOR_*`, `PUBLIC_REVIEWER_*`, `PUBLIC_ADSENSE_*`, `INDEXNOW_KEY` — see `.env.example`) overrides those fields; never hard-code the domain or brand elsewhere — use `absoluteUrl()`. Deploy as static-assets Worker `pet-calculators` via `wrangler.jsonc`.
+Brand/domain/IDs live in one file: `src/config/site.ts` (`siteName`, `siteUrl`, `buildDate`, GA4, Search Console/Bing verification, `adsensePublisherId`, `indexNowKey`, author/reviewer, `contactEmail`). Sister-site origins live in `src/config/sisterSites.ts`. Build-time env (`PUBLIC_SITE_URL`, `PUBLIC_SITE_URL_PAYMENT_FEES` / `_BUSINESS_DOCS` / `_HOME_GARDEN` / `_FIBER_ARTS` / `_PET`, `PUBLIC_GA4_MEASUREMENT_ID`, `PUBLIC_GSC_VERIFICATION`, `PUBLIC_CONTACT_EMAIL`, `PUBLIC_AUTHOR_*`, `PUBLIC_REVIEWER_*`, `PUBLIC_ADSENSE_*`, `INDEXNOW_KEY` — see `.env.example`) overrides those fields; never hard-code the domain, brand, or sister URLs elsewhere — use `absoluteUrl()` / `sisterSiteUrl()`. Deploy as static-assets Worker `pet-calculators` via `wrangler.jsonc`.
 
 ### Governing guidelines (binding)
 

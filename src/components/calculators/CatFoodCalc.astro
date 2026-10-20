@@ -13,14 +13,16 @@ const stages: { id: CatLifeStage; label: string }[] = [
 
 <form class="calc-form cat-food-calc" id="cat-food-calc" novalidate>
   <div class="calc-grid cols-2">
-    <label class="field">
-      Cat weight
-      <span class="unit-toggle" data-weight-toggle role="group" aria-label="Weight unit">
-        <button type="button" data-unit="lb" aria-pressed="true">lb</button>
-        <button type="button" data-unit="kg" aria-pressed="false">kg</button>
-      </span>
-      <input type="number" name="weight" inputmode="decimal" min="0.5" step="0.1" value="10" required />
-    </label>
+    <div class="field">
+      <div class="field-label-row">
+        <label for="catfood-weight">Cat weight</label>
+        <span class="unit-toggle" data-weight-toggle role="group" aria-label="Weight unit">
+          <button type="button" data-unit="lb" aria-pressed="true">lb</button>
+          <button type="button" data-unit="kg" aria-pressed="false">kg</button>
+        </span>
+      </div>
+      <input id="catfood-weight" type="number" name="weight" inputmode="decimal" min="0.5" step="0.1" value="10" required />
+    </div>
     <label class="field">
       Life stage
       <select name="stage">

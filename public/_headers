@@ -17,6 +17,30 @@
 /favicon.ico
   Cache-Control: public, max-age=86400
 
+/favicon-*.png
+  Cache-Control: public, max-age=86400
+
+/apple-touch-icon.png
+  Cache-Control: public, max-age=86400
+
+/site.webmanifest
+  Cache-Control: public, max-age=86400
+
+/og-default.png
+  Cache-Control: public, max-age=86400
+
+/logo-512.png
+  Cache-Control: public, max-age=86400
+
+/web-app-manifest-*.png
+  Cache-Control: public, max-age=86400
+
+/maskable-icon-512x512.png
+  Cache-Control: public, max-age=86400
+
+/images/*
+  Cache-Control: public, max-age=86400
+
 /robots.txt
   Cache-Control: public, max-age=3600
 

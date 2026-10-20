@@ -17,7 +17,7 @@ const faq = [
   },
   {
     q: 'What is the logarithmic curve option?',
-    a: 'It is a popular-science adaptation of epigenetic clock work, roughly human age = 16 × ln(dog age) + 31. It is illustrative, was derived from a single breed in the original research, and is not a clinical standard.',
+    a: 'It is a popular-science adaptation of epigenetic clock work, roughly human age = 16 × ln(dog age) + 31, from Wang et al. 2020 (104 Labrador Retrievers). It is illustrative, single-breed, and not a clinical standard.',
   },
   {
     q: 'What life stage is my dog in?',
@@ -50,9 +50,10 @@ const sources = [
 
 <ToolPageShell
   slug="dog-age-calculator"
-  title="Dog Age Calculator: Dog Years by Breed Size"
-  description="Convert dog years to human years by size using AAHA-style life stages. Includes an illustrative log curve; not the old 7:1 rule."
+  title="Dog Age Calculator: Years to Human Age by Size"
+  description="Convert your dog's age to human years by size, not the old 7:1 rule. See the life stage (puppy, adult, senior) based on AAHA guidance and a modern aging curve."
   answer="A dog age calculator converts your dog’s age into an approximate human-year equivalent. This one uses a size-aware life-stage model aligned with AAHA guidance instead of the old 7:1 rule, because dogs age fastest early on and large breeds reach their senior years sooner than small ones."
+  formulaSummary="Default: year 1 ≈ 15 human years, year 2 ≈ +9, then +4/+5/+6/+7 per year for toy–small / medium / large / giant. Optional log curve: human ≈ 16 × ln(dog age) + 31 (Wang et al. 2020; 104 Labradors; illustrative only)."
   takeaways={[
     'The 7:1 rule is a myth; dogs age about 15 human years in year one and about 9 in year two.',
     'After age two, larger dogs add more human years per calendar year than smaller dogs.',
@@ -100,14 +101,26 @@ const sources = [
 
   <h2>About the logarithmic curve (illustrative)</h2>
   <p>
-    In 2020, researchers compared DNA methylation patterns, a kind of molecular aging marker, in
-    Labrador Retrievers and humans. A logarithmic fit of the data produced the widely shared formula
+    In 2020, Wang et al. compared DNA methylation patterns in <strong>104 Labrador Retrievers</strong> and
+    humans (<em>Cell Systems</em>). A logarithmic fit produced the widely shared formula
     <code>human age ≈ 16 × ln(dog age) + 31</code>. The calculator offers this as a comparison option
-    because it illustrates the key idea that early aging is fast and later aging is slower.
-    <strong>Treat the log curve as illustrative.</strong> It came from one breed, a modest sample, and
-    it was not meant to be a veterinary standard or to predict health or lifespan for an individual
-    dog.
+    because it illustrates that early aging is fast and later aging is slower.
+    <strong>Treat the log curve as illustrative.</strong> It is single-breed, not a veterinary standard,
+    and does not predict health or lifespan for an individual dog. For the myth vs science narrative, see
+    the <a href="/guides/dog-years-myth/">dog years myth guide</a>.
   </p>
+  <figure>
+    <img
+      class="content-figure"
+      src="/images/dog-age-curve.png"
+      width="900"
+      height="520"
+      alt="Chart comparing the Wang et al. 2020 dog-to-human age curve with the old 7:1 rule across dog ages 1 to 16 years"
+    />
+    <figcaption>
+      Illustrative redraw of the Wang et al. (2020) epigenetic clock curve vs the old 7:1 rule. Based on 104 Labradors.
+    </figcaption>
+  </figure>
 
   <h2>Worked example</h2>
   <p>
@@ -124,14 +137,14 @@ const sources = [
     and growth-appropriate food. Mature adults benefit from annual exams and dental checks. Seniors
     typically do better with exams every six months, bloodwork, and attention to mobility, weight, and
     cognition. Giant breeds reach that stage years before toy breeds, so screening should start
-    earlier for them. If you track growth earlier in life, our
-    <a href="/tools/puppy-weight-calculator/">puppy weight calculator</a> and the
+    earlier for them. If you track growth earlier in life, our{' '}
+    <a href="/tools/puppy-weight-calculator/">puppy weight calculator</a> and the{' '}
     <a href="/tools/dog-bmi-calculator/">body condition helper</a> are good companions.
   </p>
 
   <h2>Cats are different</h2>
   <p>
-    Cats follow their own life-stage pattern, with a longer prime and less size variation. Use the
+    Cats follow their own life-stage pattern, with a longer prime and less size variation. Use the{' '}
     <a href="/tools/cat-age-calculator/">cat age calculator</a> for feline age conversion rather than
     applying a dog formula.
   </p>

@@ -57,17 +57,18 @@ Intent legend: **T** = transactional/tool (user wants a result now), **I** = inf
 
 ### 1d. Trust and utility pages (no ranking target)
 
+> `/authors/` 301-redirects to `/about/#maintainer` (single author URL). Do not recreate an Authors page that duplicates About.
+
+
 These pages exist for E-E-A-T and AdSense. They must not target commercial keywords. Their only keyword is the brand name.
 
 | Route | Page type | Primary keyword | Secondary cluster | Intent | Notes |
 |---|---|---|---|---|---|
 | `/about/` | Trust | `petcalc tools` | who runs PetCalc, about PetCalc | N | Brand/entity page. Real people, mission, editorial standards. |
 | `/methodology/` | Trust | `how petcalc calculators work` | pet calculator formulas, pet calculator sources, editorial policy | N | Formula index with sources. Link every tool's formula section here. |
-| `/authors/` | Trust | `petcalc tools editorial team` | petcalc authors, petcalc veterinary reviewers | N | Byline/reviewer credits page; linked from every `Article` author. |
 | `/contact/` | Trust | `none` | n/a | N | `mailto:` or form. No keyword target. |
 | `/privacy/` | Trust | `none` | n/a | N | Must contain the AdSense/cookie/opt-out disclosures (`npm run audit:adsense`). |
 | `/terms/` | Trust | `none` | n/a | N | Includes the veterinary disclaimer. |
-| `/authors/` | Trust | `none` | n/a | N | Author and reviewer bios; no commercial keyword target. |
 
 ### 1e. Excluded from the index
 

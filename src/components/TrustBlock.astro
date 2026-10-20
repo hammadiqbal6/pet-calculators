@@ -1,0 +1,120 @@
+---
+import type { SourceItem } from './SourcesList.astro';
+import { siteConfig } from '../config/site.ts';
+
+export interface Props {
+  /** ISO date YYYY-MM-DD — only changes when formula, sources, or page text actually change */
+  lastReviewed?: string;
+  /** Calculator version string shown in the footer line */
+  version?: string;
+  sources: SourceItem[];
+  /** Optional one-line formula summary (plain text) */
+  formulaSummary?: string;
+}
+
+const {
+  lastReviewed = siteConfig.buildDate,
+  version = '1.0',
+  sources,
+  formulaSummary,
+} = Astro.props;
+
+const author = siteConfig.defaultAuthor;
+const reviewedLabel = new Date(`${lastReviewed}T12:00:00Z`).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  timeZone: 'UTC',
+});
+---
+
+<section class="trust-block" aria-labelledby="trust-sources-h">
+  <p class="byline">
+    Built and maintained by{' '}
+    <a href="/about/#maintainer" rel="author">{author.name}</a>
+    {' '}· Last reviewed <time datetime={lastReviewed}>{reviewedLabel}</time>
+    {' '}· <a href="/methodology/">How this tool works</a>
+  </p>
+
+  {
+    formulaSummary ? (
+      <>
+        <h2 id="trust-formula-h">How it&apos;s calculated</h2>
+        <p>{formulaSummary}</p>
+      </>
+    ) : null
+  }
+
+  {
+    sources.length > 0 && (
+      <>
+        <h2 id="trust-sources-h">References</h2>
+        <ol class="refs">
+          {sources.map((source) => (
+            <li>
+              {source.url ? (
+                <a href={source.url} rel="noopener noreferrer" data-ref-link>
+                  {source.publisher ? `${source.publisher} — ${source.title}` : source.title}
+                </a>
+              ) : (
+                <span>{source.publisher ? `${source.publisher} — ${source.title}` : source.title}</span>
+              )}
+              {source.accessed && (
+                <>
+                  {' '}
+                  Checked <time datetime={source.accessed}>{source.accessed}</time>.
+                </>
+              )}
+            </li>
+          ))}
+        </ol>
+      </>
+    )
+  }
+
+  <p class="disclaimer-line">
+    Estimates only — not veterinary advice. Results are a starting point for discussion with your veterinarian,
+    not a diagnosis or feeding prescription. Found an error?{' '}
+    <a href="/contact/">Tell me</a>.
+  </p>
+  <p class="version">
+    Calculator version {version} · <a href="/methodology/#changelog">Changelog</a>
+  </p>
+</section>
+
+<style>
+  .trust-block {
+    margin: 1.5rem 0;
+    padding: 1rem 1.1rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+  }
+
+  .trust-block .byline {
+    margin: 0 0 1rem;
+    color: var(--ink-muted);
+    font-size: 0.95rem;
+  }
+
+  .trust-block h2 {
+    font-size: 1.15rem;
+    margin: 1rem 0 0.5rem;
+  }
+
+  .trust-block .refs {
+    margin: 0;
+    padding-left: 1.25rem;
+  }
+
+  .trust-block .refs li {
+    margin: 0.45rem 0;
+  }
+
+  .trust-block .disclaimer-line,
+  .trust-block .version {
+    margin: 0.85rem 0 0;
+    font-size: 0.9rem;
+    color: var(--ink-muted);
+  }
+</style>

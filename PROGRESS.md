@@ -14,3 +14,7 @@ Updated: 2026-10-19T18:40:00Z
 - [x] Skills, rules, agents, auditors & CI
 - [x] Final verification & PR ready for review
 - [x] Cloudflare Workers static assets (`wrangler.jsonc`, `PUBLIC_SITE_URL` / GA4 env, headers/redirects)
+
+## 2026-10-20 — Mobile SEO + E-E-A-T playbook
+
+Shipped named maintainer (Hammad Iqbal), TrustBlock, PNG OG/favicons/manifest, Consent Mode v2 GA4, chocolate tel: emergency UX, link-space CI, mobile CSS fixes. See PR.
