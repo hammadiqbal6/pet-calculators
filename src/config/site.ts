@@ -42,43 +42,6 @@ export const AUTHOR_SAME_AS = ['https://github.com/hammadiqbal6'] as const;
 /** Brand theme color for theme-color meta and web manifest. */
 export const THEME_COLOR = '#1f6b4a';
 
-/**
- * Sister free-tool sites by the same maintainer (sparing cross-links on /about/ only,
- * plus rare topical tool-page links — never a sitewide footer block of every site).
- */
-export const SISTER_SITES = [
-  {
-    id: 'payment-fee-calculators',
-    name: 'FeeCalc',
-    label: 'Payment fee calculators',
-    path: '/',
-  },
-  {
-    id: 'business-document-generators',
-    name: 'DocuForge Tools',
-    label: 'Business document generators',
-    path: '/',
-  },
-  {
-    id: 'home-garden-calculators',
-    name: 'YardCalc',
-    label: 'Home & garden calculators',
-    path: '/',
-  },
-  {
-    id: 'fiber-arts-calculators',
-    name: 'FiberCalc',
-    label: 'Fiber arts calculators',
-    path: '/',
-  },
-  {
-    id: 'pet-calculators',
-    name: 'PetCalc Tools',
-    label: 'Pet calculators',
-    path: '/',
-  },
-] as const;
-
 export type SiteReviewer = {
   name: string;
   credentials: string;
@@ -260,9 +223,13 @@ export function absoluteUrl(path: string): string {
   return `${base}${p}`;
 }
 
-/** Absolute URL for a sister Workers.dev site (same owner naming pattern). */
-export function sisterSiteUrl(siteId: string, path = '/'): string {
-  const base = `https://${siteId}.hammadiqbal117.workers.dev`;
-  const p = path.startsWith('/') ? path : `/${path}`;
-  return `${base}${p}`;
-}
+export {
+  sisterSites,
+  sisterSites as SISTER_SITES,
+  sisterSiteOrigins,
+  sisterSiteUrl,
+  sisterSiteById,
+  SISTER_SITE_FALLBACKS,
+  type SisterSiteKey,
+  type SisterSiteMeta,
+} from './sisterSites.ts';

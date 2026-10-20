@@ -139,6 +139,7 @@ All owner-specific values live in **`src/config/site.ts`** (not scattered in pag
 |---|---|
 | `siteName`, `brandName`, `tagline` | UI and schema branding |
 | `PUBLIC_SITE_URL` → `siteUrl` | Canonical origin (`https://…`, no trailing slash); required in production |
+| `PUBLIC_SITE_URL_PAYMENT_FEES` / `_BUSINESS_DOCS` / `_HOME_GARDEN` / `_FIBER_ARTS` / `_PET` | Sister-site origins (`src/config/sisterSites.ts`); workers.dev fallbacks if unset; same names on all five repos |
 | `PUBLIC_CONTACT_EMAIL` → `contactEmail` | Contact/privacy/terms `mailto:`, footer, Organization schema; default `hammadiqbal117@gmail.com` |
 | `buildDate` | `lastmod`, “Last updated”, JSON-LD `dateModified` |
 | `PUBLIC_GA4_MEASUREMENT_ID` → `ga4MeasurementId` | Google Analytics 4 (`G-…`); empty = no analytics code |

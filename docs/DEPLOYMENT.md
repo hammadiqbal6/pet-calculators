@@ -35,6 +35,11 @@ Set on the Worker (Production; Preview if used):
 | Name | Required | Purpose |
 |---|---|---|
 | `PUBLIC_SITE_URL` | yes (prod) | Canonical origin, e.g. `https://pet-calculators.<account>.workers.dev` or the custom domain |
+| `PUBLIC_SITE_URL_PAYMENT_FEES` | no | Sister site origin (FeeCalc); fallback workers.dev — same name on all five repos |
+| `PUBLIC_SITE_URL_BUSINESS_DOCS` | no | Sister site origin (DocuForge); fallback workers.dev |
+| `PUBLIC_SITE_URL_HOME_GARDEN` | no | Sister site origin (YardCalc); fallback workers.dev |
+| `PUBLIC_SITE_URL_FIBER_ARTS` | no | Sister site origin (FiberCalc); fallback workers.dev |
+| `PUBLIC_SITE_URL_PET` | no | Sister site origin (PetCalc); usually matches `PUBLIC_SITE_URL`; fallback workers.dev |
 | `PUBLIC_GA4_MEASUREMENT_ID` | no | `G-…`; empty/unset emits no GA4 script |
 | `PUBLIC_GSC_VERIFICATION` | no | Search Console HTML-tag `content` value; empty/unset omits the meta tag |
 | `PUBLIC_CONTACT_EMAIL` | no | Public contact mailbox; empty/unset → `hammadiqbal117@gmail.com` |
@@ -74,6 +79,7 @@ Prefer Workers Builds (section 2) for this repo. Pages remains a valid static ho
 |---|---|---|
 | `NODE_VERSION` | `22.22.0` (or newer 22.x) | matches `engines` |
 | `PUBLIC_SITE_URL` | production origin | canonicals / sitemap / robots / llms |
+| `PUBLIC_SITE_URL_PAYMENT_FEES` / `_BUSINESS_DOCS` / `_HOME_GARDEN` / `_FIBER_ARTS` / `_PET` | sister origins or empty | cross-site About links via `src/config/sisterSites.ts`; empty → workers.dev fallbacks |
 | `PUBLIC_GA4_MEASUREMENT_ID` | `G-…` or empty | GA4; empty disables |
 | `PUBLIC_GSC_VERIFICATION` | token or empty | GSC HTML meta; empty omits |
 
@@ -215,6 +221,7 @@ Committed template: **`.env.example`**. Copy to `.env` for local builds (gitigno
 | Name / field | Needed at | Notes |
 |---|---|---|
 | `PUBLIC_SITE_URL` | production build | → `siteConfig.siteUrl`; canonicals, sitemap, robots, llms.txt |
+| `PUBLIC_SITE_URL_PAYMENT_FEES` / `PUBLIC_SITE_URL_BUSINESS_DOCS` / `PUBLIC_SITE_URL_HOME_GARDEN` / `PUBLIC_SITE_URL_FIBER_ARTS` / `PUBLIC_SITE_URL_PET` | optional | → `src/config/sisterSites.ts`; About (and any) cross-links; workers.dev fallbacks if unset. Same names on all five repos — update when custom domains arrive. |
 | `PUBLIC_GA4_MEASUREMENT_ID` | optional | → `siteConfig.ga4MeasurementId`; empty = no gtag |
 | `PUBLIC_GSC_VERIFICATION` | optional | → `siteConfig.googleSiteVerification`; empty = no meta tag |
 | `PUBLIC_BING_SITE_VERIFICATION` | optional | → `siteConfig.bingSiteVerification`; empty = no meta tag |

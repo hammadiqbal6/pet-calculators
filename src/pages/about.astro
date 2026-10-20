@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { siteConfig, absoluteUrl, sisterSiteUrl, SISTER_SITES, hasConfiguredReviewer } from '../config/site.ts';
+import { siteConfig, absoluteUrl, hasConfiguredReviewer } from '../config/site.ts';
+import { sisterSites } from '../config/sisterSites.ts';
 import { tools } from '../data/tools.ts';
 import { guides } from '../data/guides.ts';
 
@@ -11,7 +12,8 @@ const showReviewer = hasConfiguredReviewer(reviewer);
 const description =
   'About PetCalc Tools: free dog and cat calculators built by Hammad Iqbal, with cited veterinary sources, honest limits, and no invented credentials.';
 
-const otherSites = SISTER_SITES.filter((s) => s.id !== 'pet-calculators');
+/** Other sister sites (exclude this repo); URLs from PUBLIC_SITE_URL_* env. */
+const otherSites = sisterSites.filter((s) => s.key !== 'pet');
 
 const jsonLd = [
   {
@@ -131,7 +133,7 @@ const jsonLd = [
       {
         otherSites.map((s) => (
           <li>
-            <a href={sisterSiteUrl(s.id, s.path)} rel="noopener noreferrer">
+            <a href={`${s.origin}${s.path === '/' ? '/' : s.path}`} rel="noopener noreferrer">
               {s.label}
             </a>
           </li>
