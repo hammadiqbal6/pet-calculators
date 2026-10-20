@@ -781,6 +781,14 @@ textarea {
   cursor: pointer;
   font-weight: 600;
   white-space: nowrap;
+  background: #fff;
+  color: var(--ink);
+}
+
+.cookie-banner button[data-cookie-reject] {
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.45);
 }
 
 @media (max-width: 600px) {
@@ -801,8 +809,8 @@ textarea {
 .emergency-hotlines {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  margin: 0 0 0.85rem;
+  gap: 0.4rem;
+  margin: 0 0 0.35rem;
 }
 
 .emergency-hotlines a {
@@ -811,13 +819,14 @@ textarea {
   justify-content: center;
   gap: 0.35rem;
   min-height: 48px;
-  padding: 0.5rem 0.85rem;
+  padding: 0.4rem 0.65rem;
   border-radius: 8px;
   background: var(--danger);
   color: #fff;
   font-weight: 700;
   text-decoration: none;
-  flex: 1 1 12rem;
+  flex: 1 1 10rem;
+  font-size: 0.9rem;
 }
 
 .emergency-hotlines a:hover {
@@ -826,19 +835,38 @@ textarea {
 }
 
 .emergency-lead {
-  margin: 0 0 0.75rem;
-  padding: 0.65rem 0.75rem;
+  margin: 0 0 0.4rem;
+  padding: 0.45rem 0.6rem;
   border-radius: 8px;
   background: var(--danger-bg);
   border: 1px solid #e8b4b4;
   color: var(--danger);
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
+}
+
+.tool-shell--emergency {
+  padding-top: 0.75rem;
+}
+
+.tool-shell--emergency h1 {
+  margin-bottom: 0.35rem;
+  font-size: clamp(1.25rem, 3vw, 1.7rem);
 }
 
 .tool-shell--emergency .answer-first {
-  margin-bottom: 0.65rem;
-  font-size: 0.95rem;
+  margin: 0.75rem 0 0.5rem;
+  font-size: 0.9rem;
+}
+
+.tool-shell--emergency .calc-grid {
+  gap: 0.55rem;
+}
+
+@media (max-width: 480px) {
+  .tool-shell--emergency .breadcrumbs {
+    margin-bottom: 0.35rem;
+  }
 }
 
 .brand-hero {

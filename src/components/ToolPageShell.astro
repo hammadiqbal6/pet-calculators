@@ -132,9 +132,17 @@ const jsonLd: Record<string, unknown>[] = [
     <section class:list={['tool-shell', emergency && 'tool-shell--emergency']} aria-labelledby="tool-title">
       <h1 id="tool-title">{pageH1}</h1>
       {emergency && <slot name="emergency" />}
-      <p class="answer-first">{answer}</p>
-      <AuthorMeta lastUpdated={lastReviewed} lastReviewed={lastReviewed} />
+      {emergency ? null : <p class="answer-first">{answer}</p>}
+      {emergency ? null : (
+        <AuthorMeta lastUpdated={lastReviewed} lastReviewed={lastReviewed} />
+      )}
       <slot name="calculator" />
+      {emergency ? (
+        <>
+          <p class="answer-first">{answer}</p>
+          <AuthorMeta lastUpdated={lastReviewed} lastReviewed={lastReviewed} />
+        </>
+      ) : null}
     </section>
 
     <AdSlot slotId={adSlotId} />
