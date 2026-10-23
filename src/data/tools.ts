@@ -87,7 +87,7 @@ export const tools: ToolMeta[] = [
     description:
       'Screen body condition with a BMI-style index and the 1–9 BCS scale. Educational helper, not a diagnosis.',
     category: 'dog',
-    keywords: ['dog BMI calculator', 'dog body condition score', 'is my dog overweight'],
+    keywords: ['dog BMI calculator', 'dog body condition score calculator', 'ideal dog weight calculator'],
     related: ['dog-food-calculator', 'dog-water-intake-calculator', 'puppy-weight-calculator'],
   },
   {
@@ -117,7 +117,7 @@ export const tools: ToolMeta[] = [
     description:
       'Estimate typical daily water needs from body weight and activity. Sudden changes warrant a vet visit.',
     category: 'dog',
-    keywords: ['dog water intake calculator', 'how much water should a dog drink'],
+    keywords: ['dog water intake calculator', 'dog water intake by weight', 'daily water for dogs'],
     related: ['dog-food-calculator', 'dog-bmi-calculator'],
   },
 ];

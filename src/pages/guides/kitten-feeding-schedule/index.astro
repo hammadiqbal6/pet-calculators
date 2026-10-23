@@ -1,0 +1,295 @@
+---
+import GuidePageShell from '../../../components/GuidePageShell.astro';
+import { SRC } from '../../../data/sources.ts';
+
+const faq = [
+  {
+    q: 'How often should I feed a kitten by age?',
+    a: 'Very young weaned kittens often need three to four meals per day; many households continue three meals until about six months, then move toward two measured meals as they approach adulthood. Nursing kittens feed on demand from the queen. Orphaned neonates need veterinary-guided bottle schedules—not cow’s milk. Exact timing depends on age, health, and your veterinarian’s advice.',
+  },
+  {
+    q: 'How much should a kitten eat per day?',
+    a: 'Amount follows calories more than bowl size. A common teaching approach multiplies Resting Energy Requirement (70 × kg^0.75) by a kitten factor around 2.5. A 1.5 kg (3.3 lb) kitten lands near 95 kcal RER × 2.5 ≈ 237 kcal/day as a starting estimate. Adjust by body condition and growth; free-feeding calorie-dense dry food easily causes obesity.',
+  },
+  {
+    q: 'When do kittens switch to adult cat food?',
+    a: 'Most cats stay on a complete growth (“kitten”) diet until about 12 months of age. Large-breed cats such as Maine Coons may benefit from longer growth feeding while they fill out—ask your veterinarian. Transition gradually over about seven to ten days. Do not switch early just to save money; adult maintenance food is not formulated for growth.',
+  },
+  {
+    q: 'Can I free-feed my kitten?',
+    a: 'Some kittens self-regulate, but many overeat dry food left out all day, especially after neutering. Measured meals make appetite changes visible and protect against early obesity. If you free-feed, weigh weekly and feel for ribs. Wet food measured meals plus puzzle feeders often work better for indoor kittens.',
+  },
+  {
+    q: 'What if my kitten is orphaned or not gaining weight?',
+    a: 'Failure to thrive, diarrhea, or constant crying needs prompt veterinary care. Kitten milk replacer type, volume, and frequency must be individualized; homemade milk recipes and cow’s milk cause problems. Do not attempt tube feeding unless a clinician has trained you. Underweight kittens are emergencies more often than owners expect.',
+  },
+  {
+    q: 'Should kittens eat wet food, dry food, or both?',
+    a: 'Either can work if the label states complete and balanced for growth (or all life stages including growth). Wet food adds moisture; dry food is convenient for frequent small meals. Many veterinarians like a mix. Keep total daily calories inside the target and ensure fresh water is always available.',
+  },
+  {
+    q: 'Do nursing mother cats need a kitten feeding schedule too?',
+    a: 'Queens in late pregnancy and lactation usually need free access to a growth/lactation diet because energy needs soar. That is different from measured kitten meals. Coordinate queen and litter feeding with your veterinarian so kittens wean smoothly without the mother losing unsafe amounts of weight.',
+  },
+];
+
+const sources = [
+  SRC.aahaFeline,
+  SRC.aafp,
+  SRC.aafco,
+  SRC.msdCatNutrition,
+  SRC.wsavaNutrition,
+  SRC.nrc,
+  SRC.aspcaCatCare,
+];
+---
+
+<GuidePageShell
+  slug="kitten-feeding-schedule"
+  title="Kitten Feeding Schedule by Age"
+  description="Kitten feeding schedule by age: meals per day, weaning notes, calorie multipliers, and when orphan or underweight kittens need a vet."
+  answer="A kitten feeding schedule matches meal frequency and calories to age: nursing on demand early, then about three to four meals daily after weaning, often stepping toward two meals by adulthood. Use a growth-diet label and a kitten energy factor (commonly ~2.5 × RER) as a starting calorie estimate. Weigh often, feel for ribs, and call your veterinarian for poor weight gain, diarrhea, or orphans needing milk replacer guidance."
+  takeaways={[
+    'Weaned kittens commonly need 3–4 meals/day; many taper toward 2 meals near adulthood.',
+    'Feed complete growth diets until about 12 months (ask your vet about large breeds).',
+    'Starting calories: RER ≈ 70 × kg^0.75, then × ~2.5 for many kittens.',
+    'Example: 1.5 kg kitten ≈ 95 kcal RER → ~237 kcal/day before treat adjustments.',
+    'Do not give cow’s milk; orphan feeding plans belong with a veterinarian.',
+    'Neutering lowers needs—recalculate portions instead of free-feeding forever.',
+    'Use the cat food calculator (kitten stage) and cat age calculator alongside this schedule.',
+  ]}
+  faq={faq}
+  sources={sources}
+>
+  <h2>Why a kitten feeding schedule beats an always-full bowl</h2>
+  <p>
+    A <strong>kitten feeding schedule</strong> answers how often and how much to feed as the body
+    grows, not which brand has the cutest packaging. Kittens have small stomachs, high energy needs,
+    and a short window where nutrition mistakes show up as poor growth or early obesity. Start with the{' '}
+    <a href="/tools/cat-food-calculator/">cat food calculator</a> set to the kitten life stage for a
+    daily kilocalorie estimate, and use the{' '}
+    <a href="/tools/cat-age-calculator/">cat age calculator</a> to place your kitten on the life-stage
+    map. For adult texture and calorie habits later, keep the{' '}
+    <a href="/guides/cat-feeding-guide/">cat feeding guide</a> handy, and read{' '}
+    <a href="/guides/cat-life-stages/">cat life stages</a> so you know when “kitten” ends and mature
+    care begins.
+  </p>
+  <p>
+    AAFP/AAHA feline life stage guidelines treat the first year as a distinct growth period with
+    frequent wellness visits. AAFCO nutritional adequacy statements separate growth/reproduction foods
+    from adult maintenance—those labels are the schedule’s foundation. MSD owner nutrition pages and
+    ASPCA cat-care guidance both stress complete diets and clean water, not table scraps.
+  </p>
+
+  <h2>Meal frequency by age (practical table)</h2>
+  <p>
+    Nursing neonates feed frequently from the queen; the table below focuses on orphan-aware notes and
+    typical weaned pet-kitten meal counts. Individuals vary—follow your veterinarian if your kitten was
+    premature, ill, or is underweight.
+  </p>
+  <table>
+    <caption>
+      Educational kitten feeding schedule by age (meal frequency and diet focus; not a prescription)
+    </caption>
+    <thead>
+      <tr>
+        <th scope="col">Age</th>
+        <th scope="col">Typical meals / day</th>
+        <th scope="col">Diet focus</th>
+        <th scope="col">Owner notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>0–4 weeks</td>
+        <td>Nursing on demand (or vet-guided replacer)</td>
+        <td>Queen’s milk or kitten milk replacer only</td>
+        <td>No cow’s milk; orphans need clinic protocols</td>
+      </tr>
+      <tr>
+        <td>4–8 weeks (weaning)</td>
+        <td>4+ small offerings while weaning</td>
+        <td>Gruel of growth wet food + gradual dry if used</td>
+        <td>Wean gradually; watch litter mates’ weights</td>
+      </tr>
+      <tr>
+        <td>2–4 months</td>
+        <td>3–4 measured meals</td>
+        <td>Complete kitten / growth diet</td>
+        <td>High growth rate; keep fresh water available</td>
+      </tr>
+      <tr>
+        <td>4–6 months</td>
+        <td>3 meals (some kittens still prefer 4)</td>
+        <td>Growth diet; portion control after neuter</td>
+        <td>Recalculate calories after spay/neuter</td>
+      </tr>
+      <tr>
+        <td>6–12 months</td>
+        <td>2–3 meals</td>
+        <td>Continue growth diet until ~12 months</td>
+        <td>Prevent “teenage” fat; feel ribs monthly</td>
+      </tr>
+      <tr>
+        <td>12+ months</td>
+        <td>Often 2 adult meals</td>
+        <td>Transition to adult maintenance if appropriate</td>
+        <td>Large breeds may need longer growth feeding</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Worked example: 1.5 kg (3.3 lb) kitten calories</h2>
+  <p>
+    Luna is a healthy 1.5 kg (3.3 lb) domestic shorthair kitten, about 14 weeks old, eating a complete
+    kitten wet food. Resting Energy Requirement: 70 × 1.5<sup>0.75</sup> ≈ <strong>95 kcal/day</strong>.
+    Applying the calculator’s kitten factor of 2.5: 95 × 2.5 ≈ <strong>237 kcal/day</strong>. If each
+    pouch provides 80 kcal, Luna needs about three pouches daily split into four meals of roughly
+    three-quarters of a pouch—or three meals with slightly larger servings—rather than an overflowing
+    bowl. Her owner weighs her weekly on a kitchen scale, feels for an easy rib outline, and adjusts by
+    about 10% if she is getting round or ribby.
+  </p>
+  <p>
+    After spay surgery at a veterinarian-chosen age, energy needs often fall. The same 1.5 kg body
+    might later need a lower factor as she approaches adult weight; the owner re-runs the cat food
+    calculator instead of keeping kitten free-feeding habits into adulthood.
+  </p>
+
+  <h2>Weaning without chaos</h2>
+  <p>
+    Weaning usually begins around four weeks as kittens nibble gruel and continues over several weeks
+    while nursing decreases. Offer shallow dishes, keep the area calm, and separate food from litter.
+    Multi-kitten litters need enough stations so shy kittens eat. Queens should have their own
+    growth/lactation calories so they do not compete with kittens for the same bowl.
+  </p>
+  <p>
+    Abrupt early weaning, dirty bowls, or sudden food changes drive diarrhea. Transition foods over
+    days, not hours. If stools turn watery or a kitten stops gaining, call your veterinarian—do not
+    stack over-the-counter remedies without guidance.
+  </p>
+
+  <h2>Wet, dry, and water</h2>
+  <p>
+    Growth diets must meet AAFCO growth (or all life stages) statements. Wet food supports hydration in
+    a species with a modest thirst drive; dry food can be measured into puzzle toys for enrichment.
+    Mixed feeding works when you count both toward the same daily kcal target. Place multiple water
+    bowls or a fountain away from the litter box. Treats and “just a lick” of tuna should stay inside
+    roughly 10% of calories.
+  </p>
+  <p>
+    Homemade kitten diets and unbalanced raw feeding are high risk during growth. If you want
+    home-prepared food, insist on a recipe from a board-certified veterinary nutritionist—WSAVA
+    guidance is clear that incomplete diets harm pets quickly, and kittens have less reserve than
+    adults.
+  </p>
+
+  <h2>Orphans, underweight kittens, and red flags</h2>
+  <p>
+    Orphaned or rejected neonates need warmth, correct milk replacer, and a feeding schedule set by a
+    veterinarian or experienced rehabilitation protocol. Tube feeding, homemade milk recipes, and
+    cow’s milk are common ways well-meaning owners cause injury or diarrhea. Underweight weaned
+    kittens with potbellies may have parasites and need fecal testing—not more free-choice carbs.
+  </p>
+  <p>
+    Seek veterinary care urgently for kittens that will not eat for more than a few hours when young,
+    have labored breathing, continuous vomiting or diarrhea, bloating, lethargy, or a cold body.
+    Kittens hide illness poorly and decompensate fast compared with adult cats.
+  </p>
+
+  <h2>From kitten schedule to adult routine</h2>
+  <p>
+    Around twelve months, many cats transition to adult maintenance food over seven to ten days while
+    meal frequency settles at two measured feedings. Keep the habit of weighing and body-condition
+    checks; indoor neutered cats gain weight quietly. Align checkup timing with life stage—see the cat
+    life stages guide—so dental care and vaccine boosters are not forgotten in the excitement of the
+    “final” growth spurt.
+  </p>
+
+  <h2>Common schedule mistakes</h2>
+  <ul>
+    <li>Leaving calorie-dense dry food out 24/7 after neutering.</li>
+    <li>Switching to adult food at four months to “save money.”</li>
+    <li>Using dog food, milk, or meat-only bowls as the main diet.</li>
+    <li>Ignoring the shy kitten in a litter while the bold one gets round.</li>
+    <li>Changing foods every week for boredom, causing GI upset.</li>
+    <li>Skipping weigh-ins because “she looks fine in photos.”</li>
+  </ul>
+
+  <h2>When to call your veterinarian</h2>
+  <p>
+    Call for feeding-plan help before adopting an orphan, when growth charts stall, when diarrhea lasts
+    more than a day, or when you are unsure about spay/neuter timing relative to diet changes. Bring
+    the brand, kcal information, and your meal schedule. Urgent warning signs—breathing trouble,
+    collapse, unproductive straining in the litter box, or refusal to eat—need same-day care. This
+    schedule is educational; your veterinarian individualizes it for parasites, congenital disease, and
+    breed.
+  </p>
+
+  <h2>Using the calculators on a real schedule</h2>
+  <p>
+    Each Sunday, weigh the kitten, enter weight into the cat food calculator on the kitten setting, and
+    rewrite meal sizes for the week. Enter age into the cat age calculator when you are unsure whether
+    you are still in the growth year. If the household also has an adult cat, calculate that cat
+    separately—do not average bowls. After veterinary deworming or diet changes for diarrhea, expect a
+    temporary schedule tweak and ask whether probiotics or a temporary GI diet are advised rather than
+    inventing broth recipes.
+  </p>
+  <p>
+    Photo-document body condition monthly alongside weights. Kittens can look fluffy while packing fat
+    or look long while under-muscled. Your veterinarian’s hands on the ribs at vaccine visits remain the
+    gold standard for adjusting the schedule you keep at home.
+  </p>
+  <p>
+    Socialization and play belong on the same daily planner as meals. Short play before a meal can
+    reduce boredom begging; exhausting a kitten then skipping a meal is not training. Keep water bowls
+    fresh whenever you set food down so drinking habits form early—especially if dry food is part of
+    the plan.
+  </p>
+
+  <h2>Sample day: 14-week kitten on four meals</h2>
+  <p>
+    Using Luna’s ~237 kcal target, a sample day might look like: breakfast 60 kcal, midday 60 kcal,
+    late afternoon 60 kcal, evening 57 kcal, with water refreshed at each meal. If a pouched food is 80
+    kcal each, that is roughly three pouches divided across four sittings (about 0.75 pouch per meal).
+    Skip free-choice dry left out between meals unless your veterinarian has cleared it for a specific
+    underweight kitten. Note stool quality once daily; soft stools after a brand change warrant slowing
+    the transition, not adding another new protein the same week.
+  </p>
+  <p>
+    Weekend guests and children should know the schedule so “extra treats” do not silently add 100 kcal.
+    Keep the feeding chart on the fridge next to the poison-control numbers you already post for
+    household safety.
+  </p>
+
+  <h2>Linking schedule, age stage, and adult calories</h2>
+  <p>
+    When the cat age calculator still says kitten or junior, keep growth food and the higher meal
+    count. As you approach the young-adult stage near one year, re-run the cat food calculator with an
+    adult neutered factor and step meal frequency down if weight is ideal. The{' '}
+    <a href="/guides/cat-life-stages/">cat life stages</a> guide explains why mature and senior cats
+    later need different checkup rhythms even if meal count stays at two. The{' '}
+    <a href="/guides/cat-feeding-guide/">cat feeding guide</a> covers wet-versus-dry tradeoffs once the
+    growth year ends.
+  </p>
+
+  <h2>Assumptions and limits</h2>
+  <p>
+    Meal counts and the 2.5 × RER kitten factor match common teaching values used in our cat food
+    calculator. Real kittens differ by breed, health, and environment. Bottle-feeding volumes are not
+    listed here because incorrect home protocols are dangerous—those belong in a veterinary consult.
+    Growth-diet duration near twelve months is typical, not absolute for every large-breed cat.
+    Human-food calorie guessing is not a substitute for complete kitten food. When in doubt, prefer
+    clinic guidance over internet schedules.
+  </p>
+
+  <h2>Bottom line</h2>
+  <p>
+    Build a kitten feeding schedule from age-based meal frequency, a complete growth diet, and a
+    calorie target near 2.5 × RER—about 237 kcal/day for a 1.5 kg kitten as a worked starting point.
+    Measure meals, weigh weekly, recalculate after neutering, and transition to adult food only when
+    growth is essentially complete. Use the cat calculators for numbers, the life-stage guides for
+    context, and your veterinarian for anything that looks like failure to thrive. A calm, written
+    schedule shared by everyone in the house prevents the most common kitten nutrition problem of all:
+    accidental double-feeding by loving people with full scoops.
+  </p>
+</GuidePageShell>

@@ -1,0 +1,317 @@
+---
+import GuidePageShell from '../../../components/GuidePageShell.astro';
+import { SRC } from '../../../data/sources.ts';
+
+const faq = [
+  {
+    q: 'When is a cat considered a senior?',
+    a: 'In AAFP/AAHA-style feline life stage guidelines, many cats enter the senior band around 11 years of age. Some charts also label cats 15 years and older as geriatric. Individual health matters more than the birthday: a lean, active 12-year-old may need different care than a 9-year-old with kidney disease. Ask your veterinarian how often to schedule exams for your cat’s age and findings.',
+  },
+  {
+    q: 'How old is a 1-year-old cat in human years?',
+    a: 'A common educational chart treats the first year as about 15 human years, so a 1-year-old cat is roughly a mid-teen in human terms. That comparison is a teaching aid, not a medical diagnosis. Use it to remember that “just a year old” still means rapid early-life change, then slower aging afterward.',
+  },
+  {
+    q: 'Is a 7-year-old cat old?',
+    a: 'Seven often marks the start of the mature adult stage, not automatic “old age.” Many cats stay active for years after that. Mature cats benefit from closer monitoring of weight, thirst, appetite, and dental care because chronic disease can begin quietly. Your veterinarian can set a checkup and screening plan.',
+  },
+  {
+    q: 'Do indoor cats age differently than outdoor cats?',
+    a: 'Lifestyle affects risk more than the calendar. Outdoor cats face trauma and infectious disease risk; indoor cats more often face obesity and boredom-related behavior issues. Life stage labels still follow age, but care priorities—vaccines, parasite control, diet—depend on environment. Discuss your cat’s actual routine with your veterinarian.',
+  },
+  {
+    q: 'Should senior cats eat kitten food?',
+    a: 'Not by default. Kitten food is higher in calories and nutrients for growth. Healthy seniors often need measured adult or senior diets that protect muscle while matching kidney and weight status. Some medical conditions need therapeutic diets. Do not switch life-stage foods based on age alone without veterinary guidance.',
+  },
+  {
+    q: 'How often should kittens see the vet compared with seniors?',
+    a: 'Kittens typically need a series of wellness visits for vaccines, parasite control, and growth checks. Healthy young adults may visit yearly; mature and senior cats often benefit from exams every six months because disease can progress faster. Your veterinarian sets the schedule for your cat.',
+  },
+  {
+    q: 'Can I use dog-years rules for cats?',
+    a: 'No. Cats and dogs age on different curves, and the old “multiply by seven” rule is a myth for both species. Feline life stages and cat-to-human charts are separate from canine charts. Compare cats with feline guidelines, and dogs with canine ones.',
+  },
+];
+
+const sources = [
+  SRC.aahaFeline,
+  SRC.aafp,
+  SRC.msdCatNutrition,
+  SRC.aspcaCatCare,
+  SRC.aafco,
+  SRC.wsavaNutrition,
+];
+---
+
+<GuidePageShell
+  slug="cat-life-stages"
+  title="Cat Life Stages: Kitten to Geriatric"
+  description="AAFP/AAHA-style cat life stages with a cat-years-to-human-years chart, care focus by age, and when to adjust diet or vet visits."
+  answer="Cat life stages group cats by age so care, diet, and checkup timing match biology—not a single “multiply by seven” rule. Common AAFP/AAHA-style bands run kitten, young adult, mature, senior, and geriatric. A simple chart treats year one as about 15 human years, year two as about 24, then roughly four human years per calendar year. Use stages as planning guides and confirm plans with your veterinarian."
+  takeaways={[
+    'Life stages (kitten → young adult → mature → senior → geriatric) guide exams and feeding—not birthday party math alone.',
+    'A common educational chart: ~15 human years at 1, ~24 at 2, then ~4 human years per additional year.',
+    'Kittens need growth diets and frequent meals; adults need calorie control to stay lean.',
+    'Mature and senior cats often need more frequent wellness visits and earlier screening for chronic disease.',
+    'Use the cat age calculator for a stage label, then the cat food calculator for a starting calorie range.',
+    'Individual health can move a cat “ahead” or “behind” the calendar—your veterinarian decides clinical priorities.',
+  ]}
+  faq={faq}
+  sources={sources}
+>
+  <h2>What cat life stages mean</h2>
+  <p>
+    <strong>Cat life stages</strong> are age bands used in feline medicine to match vaccines, nutrition,
+    dental care, and screening to typical risk. They answer questions like “Is my cat still a kitten?” and
+    “When should we start senior bloodwork?” better than a single human-years number. The 2021
+    AAHA/AAFP feline life stage guidelines organize care around these bands so owners and clinics share
+    a vocabulary. Start with the{' '}
+    <a href="/tools/cat-age-calculator/">cat age calculator</a> to map calendar age to a stage label and
+    an approximate human-years figure, then use the{' '}
+    <a href="/tools/cat-food-calculator/">cat food calculator</a> when you are ready to estimate daily
+    calories for that stage. For meal texture and portion habits, pair this page with our{' '}
+    <a href="/guides/cat-feeding-guide/">cat feeding guide</a> and the{' '}
+    <a href="/guides/kitten-feeding-schedule/">kitten feeding schedule</a>.
+  </p>
+  <p>
+    Stages are educational ranges, not diagnoses. A 10-year-old cat with newly diagnosed kidney disease
+    may need “senior-style” monitoring even if another 10-year-old is thriving. Always treat your
+    veterinarian’s exam and lab findings as the authority for your cat.
+  </p>
+
+  <h2>Cat years to human years chart</h2>
+  <p>
+    Veterinary teaching charts often use a non-linear comparison: the first year counts as about 15
+    human years, the second year adds about 9 (reaching roughly 24), and each year after that adds
+    about 4 human years. That pattern matches the conversion used in our cat age calculator. It is a
+    communication tool—useful for remembering that early life moves fast—not a claim that a cat “is”
+    a 44-year-old person at age 7.
+  </p>
+  <table>
+    <caption>
+      Approximate cat-to-human years and AAFP/AAHA-style life stages (educational; individuals vary)
+    </caption>
+    <thead>
+      <tr>
+        <th scope="col">Cat age</th>
+        <th scope="col">Approx. human years</th>
+        <th scope="col">Life stage (guideline style)</th>
+        <th scope="col">Care focus (talk with your vet)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>3 months (0.25 yr)</td>
+        <td>~4</td>
+        <td>Kitten</td>
+        <td>Vaccines, parasites, socialization, growth diet</td>
+      </tr>
+      <tr>
+        <td>6 months</td>
+        <td>~8</td>
+        <td>Kitten / junior</td>
+        <td>Spay/neuter timing, continued growth meals</td>
+      </tr>
+      <tr>
+        <td>1 year</td>
+        <td>~15</td>
+        <td>Young adult (end of kitten year)</td>
+        <td>Transition toward adult calories; dental start</td>
+      </tr>
+      <tr>
+        <td>2 years</td>
+        <td>~24</td>
+        <td>Young adult</td>
+        <td>Maintain lean weight; annual wellness</td>
+      </tr>
+      <tr>
+        <td>4 years</td>
+        <td>~32</td>
+        <td>Young adult</td>
+        <td>Weight control; enrichment; dental care</td>
+      </tr>
+      <tr>
+        <td>7 years</td>
+        <td>~44</td>
+        <td>Mature adult</td>
+        <td>Closer weight/thirst watch; discuss screening</td>
+      </tr>
+      <tr>
+        <td>10 years</td>
+        <td>~56</td>
+        <td>Mature adult</td>
+        <td>Often twice-yearly exams; early disease screen</td>
+      </tr>
+      <tr>
+        <td>12 years</td>
+        <td>~64</td>
+        <td>Senior</td>
+        <td>Labs, pain check, appetite and litter habits</td>
+      </tr>
+      <tr>
+        <td>15 years</td>
+        <td>~76</td>
+        <td>Geriatric</td>
+        <td>Comfort, hydration, tailored diet and meds</td>
+      </tr>
+      <tr>
+        <td>18 years</td>
+        <td>~88</td>
+        <td>Geriatric</td>
+        <td>Frequent rechecks; quality-of-life planning</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    Guideline names vary slightly by publication. Many AAFP/AAHA summaries use kitten (through about 1
+    year), young adult (about 1–6), mature adult (about 7–10), and senior (11+), with geriatric often
+    describing the oldest seniors (around 15+). Our calculator also shows intermediate labels such as
+    junior and prime for finer teaching bands. If two charts disagree by a year, use your veterinarian’s
+    preferred language for your clinic’s reminders.
+  </p>
+
+  <h2>Worked example: a 7-year-old indoor cat</h2>
+  <p>
+    Maya is a spayed indoor cat who just turned 7. Using the chart above, she is about 44 in human
+    years and entering the mature adult stage. That does not mean she is “old,” but it is a cue to
+    stop treating her like a 3-year-old who can absorb diet mistakes. Her owner enters 7 years into
+    the cat age calculator and sees a mature-stage label plus the human-years estimate. Next they
+    weigh her: 5 kg (11 lb). The cat food calculator, with a typical neutered-adult factor, suggests a
+    starting daily calorie range; the owner then feels for ribs and waist rather than trusting the bowl
+    forever.
+  </p>
+  <p>
+    At the next wellness visit they ask about baseline bloodwork and urine testing appropriate for a
+    mature cat, mention that Maya drinks from the fountain more than last year, and bring a photo of
+    the food label. None of those steps require panic—they are what mature-stage planning looks like.
+    If labs are normal and body condition is ideal, the plan may simply be measured meals, enrichment,
+    and a six-to-twelve-month recheck interval chosen by the veterinarian.
+  </p>
+
+  <h2>Kitten and young adult priorities</h2>
+  <p>
+    Kittens grow quickly, need complete growth diets, and usually eat more frequent meals than adults.
+    Underfeeding stunts growth; free-feeding calorie-dense food can create early obesity that is hard
+    to reverse. Socialization, parasite prevention, and vaccine series dominate the first year. By
+    young adulthood the goal shifts: keep muscle, prevent fat gain, and establish dental and litter-box
+    baselines so later changes are obvious. ASPCA general cat-care guidance and MSD owner nutrition
+    pages both emphasize complete diets matched to life stage rather than random human leftovers.
+  </p>
+  <p>
+    Neutering often lowers energy needs. After surgery, recalculate portions instead of keeping kitten
+    free-choice feeding. Wet food or multiple water stations support cats with a weak thirst drive—a
+    habit worth building before urinary problems appear in adulthood.
+  </p>
+
+  <h2>Mature, senior, and geriatric priorities</h2>
+  <p>
+    From roughly seven years onward, quiet chronic diseases—kidney disease, hyperthyroidism, dental
+    disease, arthritis, diabetes—become more common. Weight loss with a big appetite, weight gain with
+    less play, increased thirst, or litter-box changes deserve a prompt call, not a wait-and-see month.
+    Senior and geriatric cats may need softer food textures, warmer resting spots, easier litter-box
+    entry, and diets adjusted for labs—not simply “more kitten food for extra calories.”
+  </p>
+  <p>
+    Muscle loss can hide under a pot belly. Body condition and muscle condition scoring at the clinic
+    catch problems home scales miss. WSAVA nutrition tools remind clinicians to assess diet at every
+    visit; owners can help by bringing the brand, flavor, and daily amount written down.
+  </p>
+
+  <h2>Feeding across stages without guessing</h2>
+  <p>
+    Life-stage labels on AAFCO complete-and-balanced statements exist for a reason. Growth and
+    reproduction statements differ from adult maintenance. Moving a kitten to adult food too early, or
+    leaving an inactive adult on kitten food, both create problems. Use calculator estimates as a
+    starting point, then adjust by body condition every two to four weeks. Therapeutic diets for kidney,
+    urinary, or gastrointestinal disease are medical decisions—do not crowdsource them from social
+    media when your cat already has a diagnosis.
+  </p>
+  <p>
+    Homemade and unbalanced raw diets are especially risky for cats because they are obligate
+    carnivores with strict needs for nutrients such as taurine. If you want a home-prepared plan, ask
+    your veterinarian for referral to a board-certified veterinary nutritionist rather than inventing
+    recipes online.
+  </p>
+
+  <h2>Common myths</h2>
+  <ul>
+    <li>
+      <strong>“One cat year equals seven human years.”</strong> That flattens early growth and late
+      life. Use a staged chart instead—the same lesson as the{' '}
+      <a href="/guides/dog-years-myth/">dog years myth</a> guide for dogs.
+    </li>
+    <li>
+      <strong>“Seniors should automatically eat less protein.”</strong> Many healthy older cats need
+      enough high-quality protein to hold muscle; phosphorus and other limits depend on kidney status.
+      Lab work guides that choice.
+    </li>
+    <li>
+      <strong>“Indoor cats do not need dental care until they are old.”</strong> Dental disease often
+      starts in young adults. Stage-based checkups catch it earlier.
+    </li>
+    <li>
+      <strong>“If she is eating, she is fine.”</strong> Hyperthyroid and diabetic cats may eat well
+      while losing muscle. Trends in weight and thirst matter.
+    </li>
+  </ul>
+
+  <h2>When to call your veterinarian</h2>
+  <p>
+    Contact your veterinarian promptly for refusal of food lasting more than about 24 hours, repeated
+    vomiting, labored breathing, inability to urinate, sudden collapse, or seizures—these are urgent
+    regardless of age. For non-emergency but important signals—drinking much more, urinating outside
+    the box, hiding, limping, or a half-pound weight change in a small cat—book a visit rather than
+    waiting for the next annual reminder. Bring your stage chart notes and feeding math so the team
+    can adjust quickly.
+  </p>
+
+  <h2>How to use the cat age and food calculators together</h2>
+  <p>
+    Enter calendar age in the cat age calculator first so you and your clinic share a stage label.
+    Write that label on the food bag or a phone note. Next weigh the cat (a baby scale or clinic scale
+    beats guessing) and run the cat food calculator with the matching life-stage or lifestyle factor.
+    Compare the suggested kcal range with the label’s kcal per can or cup, divide into meals, and
+    schedule a two-week body-condition check. If the stage is kitten, keep growth food and more meals;
+    if mature or senior, ask whether baseline labs are due before chasing a new “senior” marketing bag.
+  </p>
+  <p>
+    Recalculate after neuter surgery, after a 10 percent weight change, or when you switch brands.
+    Calculators do not know about hyperthyroidism, chronic kidney disease, or recovery from dental
+    extractions—those situations need veterinary calorie and diet orders layered on top of the math.
+  </p>
+
+  <h2>Breed, lifestyle, and “calendar vs biology”</h2>
+  <p>
+    Maine Coons and other large breeds may still look lanky at twelve months while a domestic shorthair
+    of the same age looks finished. Outdoor access, multi-cat stress, and chronic low-grade dental pain
+    also change how “old” a cat acts. Use life stages as a planning scaffold: book the conversation
+    earlier for mature cats, but let examination findings decide vaccines, diets, and pain control.
+    A calm 14-year-old with normal labs may need less intervention than a restless 8-year-old with
+    rising kidney values.
+  </p>
+  <p>
+    Keep a simple home log—weight, appetite score (normal/up/down), water bowl refills, and litter-box
+    clumps—especially from mature adulthood onward. Patterns across two weeks are more useful than a
+    single anxious day. Bring the log to appointments so stage-based screening stays efficient.
+  </p>
+
+  <h2>Assumptions and limits</h2>
+  <p>
+    This guide summarizes common educational life-stage bands and a widely taught human-years
+    comparison. It does not replace AAFP/AAHA clinical guidelines for veterinarians, and it cannot
+    account for breed (for example, large Maine Coons may mature on a slightly different timeline),
+    prior illness, or medication effects. Human-years numbers are analogies. Calorie tools estimate
+    needs for typical healthy cats; pregnancy, lactation, recovery, and disease need individualized
+    veterinary plans. When charts disagree, prefer your veterinarian’s definition for reminders and
+    diet changes.
+  </p>
+
+  <h2>Bottom line</h2>
+  <p>
+    Knowing your cat’s life stage turns vague worry into a checklist: growth care for kittens, lean
+    maintenance for young adults, earlier screening for mature cats, and comfort-focused medicine for
+    seniors and geriatrics. Run the age calculator for a shared label, keep feeding honest with measured
+    calories, and let your veterinarian translate stage into vaccines, labs, and diet. Age is
+    information—not a destiny—and early, calm conversations beat late emergencies.
+  </p>
+</GuidePageShell>

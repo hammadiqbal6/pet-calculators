@@ -152,7 +152,7 @@ export const siteConfig = {
    */
   contactEmail: resolveContactEmail(),
   /** ISO date used for lastmod / "Last updated" defaults (YYYY-MM-DD) */
-  buildDate: '2026-10-20',
+  buildDate: '2026-10-23',
   /** Tagline for homepage and meta fallbacks */
   tagline: 'Free pet calculators for dogs and cats — weight, food, age, and more.',
   /**
@@ -216,10 +216,21 @@ export const siteConfig = {
 
 export type SiteConfig = typeof siteConfig;
 
-/** Absolute URL helper */
+/**
+ * Absolute URL helper. Canonical origin is always `siteConfig.siteUrl`
+ * (`PUBLIC_SITE_URL` or `FALLBACK_SITE_URL`) — never hard-code a host.
+ *
+ * Pass page paths with a trailing slash; pass file assets (og:image, icons,
+ * IndexNow `.txt`) **without** a trailing slash. This helper never appends `/`
+ * to paths that look like files (see docs/SEO-GUARDRAILS.md).
+ */
 export function absoluteUrl(path: string): string {
   const base = siteConfig.siteUrl.replace(/\/$/, '');
-  const p = path.startsWith('/') ? path : `/${path}`;
+  let p = path.startsWith('/') ? path : `/${path}`;
+  // Never force a trailing slash onto file-like paths (og:image must not end in /)
+  if (/\.[a-zA-Z0-9]{1,16}$/.test(p)) {
+    p = p.replace(/\/+$/, '');
+  }
   return `${base}${p}`;
 }
 
