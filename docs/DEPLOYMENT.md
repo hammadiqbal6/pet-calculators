@@ -43,6 +43,7 @@ Set on the Worker (Production; Preview if used):
 | `PUBLIC_GA4_MEASUREMENT_ID` | no | `G-…`; empty/unset emits no GA4 script |
 | `PUBLIC_GSC_VERIFICATION` | no | Search Console HTML-tag `content` value; empty/unset omits the meta tag |
 | `PUBLIC_CONTACT_EMAIL` | no | Public contact mailbox; empty/unset → `hammadiqbal117@gmail.com` |
+| `PUBLIC_EMAILJS_SERVICE_ID` / `PUBLIC_EMAILJS_TEMPLATE_ID` / `PUBLIC_EMAILJS_PUBLIC_KEY` | no | All three required for the `/contact/` EmailJS form; otherwise mailto-only. Public key only — see [CONTACT-EMAILJS.md](./CONTACT-EMAILJS.md) |
 | `PUBLIC_AUTHOR_*` / `PUBLIC_REVIEWER_*` | no | Author defaults to PetCalc Team; reviewer empty → neutral ReviewerBox |
 | `PUBLIC_ADSENSE_*` | no | Leave empty until AdSense approval |
 | `INDEXNOW_KEY` | no | Defaults to committed key; must match `public/<key>.txt` |
@@ -56,7 +57,7 @@ Copied into `dist/` and applied by Workers static assets:
 
 - Detach headers with `! Header-Name` (never an empty value — Cloudflare rejects empty header values).
 - `_redirects` is **path-only** with numeric status codes (`301`). No host-based rules and no Netlify `301!` syntax (unsupported on Workers). Apex→www belongs in a Cloudflare Redirect Rule / Bulk Redirects when a custom domain is attached.
-- Site-wide CSP allows `googletagmanager.com` / `google-analytics.com` (and AdSense hosts) so GA4 works when `PUBLIC_GA4_MEASUREMENT_ID` is set. `/embed/*` replaces CSP with `frame-ancestors *` and detaches `X-Frame-Options`.
+- Site-wide CSP allows `googletagmanager.com` / `google-analytics.com` (and AdSense hosts) so GA4 works when `PUBLIC_GA4_MEASUREMENT_ID` is set, and `connect-src https://api.emailjs.com` for the optional `/contact/` form. `/embed/*` replaces CSP with `frame-ancestors *` and detaches `X-Frame-Options`.
 - Do **not** add a host-based `X-Robots-Tag: noindex` for `*.workers.dev` in `public/_headers` while the production canonical is `*.workers.dev` — Cloudflare’s `:version.:subdomain.workers.dev` pattern also matches the production hostname and would de-index the live site. Preview/noindex belongs in a Cloudflare dashboard rule scoped to version hosts only, or wait until a custom domain is the canonical.
 
 Local check: `PUBLIC_SITE_URL=… npm run build && npx wrangler deploy --dry-run`.
@@ -212,7 +213,7 @@ curl -s -A "Claude-SearchBot" -o /dev/null -w "%{http_code}\n" https://www.<doma
 
 ## 8. GA4 and AdSense with a Content-Security-Policy
 
-`public/_headers` ships a site-wide CSP that already allow-lists GA4 (`googletagmanager.com`, `google-analytics.com`, `analytics.google.com`) and AdSense hosts, plus `'unsafe-inline'` for Astro’s inlined CSS and the small gtag bootstrap in `BaseLayout.astro`. `/embed/*` overrides CSP to `frame-ancestors *` only. If you tighten CSP later, keep those GA/AdSense hosts (and a CMP host if you add one) or analytics will fail silently. Re-run `npm run audit:budgets` (third-party scripts are allow-listed by hostname there).
+`public/_headers` ships a site-wide CSP that already allow-lists GA4 (`googletagmanager.com`, `google-analytics.com`, `analytics.google.com`) and AdSense hosts, plus `connect-src https://api.emailjs.com` for the optional contact form, plus `'unsafe-inline'` for Astro’s inlined CSS and the small gtag bootstrap in `BaseLayout.astro`. `/embed/*` overrides CSP to `frame-ancestors *` only. If you tighten CSP later, keep those GA/AdSense/EmailJS hosts (and a CMP host if you add one) or analytics/contact will fail silently. Re-run `npm run audit:budgets` (third-party scripts are allow-listed by hostname there).
 
 ## 9. Environment and configuration reference
 
@@ -226,6 +227,7 @@ Committed template: **`.env.example`**. Copy to `.env` for local builds (gitigno
 | `PUBLIC_GSC_VERIFICATION` | optional | → `siteConfig.googleSiteVerification`; empty = no meta tag |
 | `PUBLIC_BING_SITE_VERIFICATION` | optional | → `siteConfig.bingSiteVerification`; empty = no meta tag |
 | `PUBLIC_CONTACT_EMAIL` | optional | → `siteConfig.contactEmail`; empty = `hammadiqbal117@gmail.com` |
+| `PUBLIC_EMAILJS_SERVICE_ID` / `PUBLIC_EMAILJS_TEMPLATE_ID` / `PUBLIC_EMAILJS_PUBLIC_KEY` | optional | → `siteConfig.emailjs`; all three required or `/contact/` stays mailto-only ([CONTACT-EMAILJS.md](./CONTACT-EMAILJS.md)) |
 | `PUBLIC_AUTHOR_NAME` / `PUBLIC_AUTHOR_ROLE` / `PUBLIC_AUTHOR_BIO` | optional | → `siteConfig.defaultAuthor`; defaults to PetCalc Team + honest bio |
 | `PUBLIC_REVIEWER_NAME` / `PUBLIC_REVIEWER_CREDENTIALS` / `PUBLIC_REVIEWER_NOTE` | optional | → `siteConfig.reviewer`; both name+credentials required or ReviewerBox stays neutral (never invent a vet) |
 | `PUBLIC_ADSENSE_PUBLISHER_ID` / `PUBLIC_ADSENSE_AUTO_ADS` | after AdSense approval | leave empty until approved; [ADSENSE.md](./ADSENSE.md) |
