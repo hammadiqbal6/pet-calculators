@@ -1,6 +1,6 @@
 # AdSense readiness evidence
 
-Generated: 2026-10-19T06:46:45.439Z
+Generated: 2026-10-23T10:19:15.215Z
 
 Automated: `npm run audit:adsense` (see seo-audit pipeline). Manual approval still required.
 

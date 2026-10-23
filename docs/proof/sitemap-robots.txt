@@ -1,7 +1,7 @@
-Generated: 2026-10-19T06:46:45.439Z
-HTML pages in dist/: 31
-Indexable pages (excl. embed, 404): 28
-sitemap-0.xml URLs: 28
+Generated: 2026-10-23T10:19:15.215Z
+HTML pages in dist/: 30
+Indexable pages (excl. embed, 404): 27
+sitemap-0.xml URLs: 27
 OK: sitemap URL count matches indexable pages
 
 --- robots.txt ---
@@ -46,7 +46,7 @@ Allow: /
 # Disallow: /
 #
 
-Sitemap: https://www.petcalctools.example/sitemap-index.xml
+Sitemap: https://pet-calculators.hammadiqbal117.workers.dev/sitemap-index.xml
 OK: Googlebot mentioned
 OK: Bingbot mentioned
 OK: OAI-SearchBot mentioned

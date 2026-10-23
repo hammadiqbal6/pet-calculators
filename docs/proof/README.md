@@ -1,6 +1,6 @@
 # Proof index (generated)
 
-**Generated:** 2026-10-19T06:46:45.439Z
+**Generated:** 2026-10-23T10:19:15.215Z
 
 Regenerate everything:
 
@@ -12,7 +12,7 @@ npm run proof
 
 | Tool | Version |
 |---|---|
-| node | v22.23.3 |
+| node | v22.23.4 |
 | npm | 10.9.9 |
 | astro | ^7.4.0 |
 | lighthouse | 13.5.0 |
@@ -37,17 +37,17 @@ Targets: Perf/A11y/SEO ≥ 95; LCP ≤ 2000 ms; CLS ≤ 0.05; TBT ≤ 150 ms; sc
 
 | Page | Perf | A11y | BP | SEO | LCP | CLS | TBT | JS (B) | Pass |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| home (mobile) | 100 | 100 | 100 | 100 | 754 | 0.000 | 0 | 0 | yes |
-| tools-hub (mobile) | 100 | 100 | 100 | 100 | 754 | 0.000 | 0 | 0 | yes |
-| dogs-hub (mobile) | 100 | 100 | 100 | 100 | 753 | 0.000 | 0 | 0 | yes |
-| cats-hub (mobile) | 100 | 100 | 100 | 100 | 752 | 0.000 | 0 | 0 | yes |
-| guides-hub (mobile) | 100 | 100 | 100 | 100 | 753 | 0.000 | 0 | 0 | yes |
-| puppy-weight (mobile) | 100 | 100 | 100 | 100 | 1053 | 0.000 | 0 | 5244 | yes |
-| dog-food (mobile) | 100 | 100 | 100 | 100 | 1054 | 0.000 | 0 | 3518 | yes |
-| cat-age (mobile) | 100 | 100 | 100 | 100 | 902 | 0.000 | 0 | 2562 | yes |
-| chocolate (mobile) | 100 | 100 | 100 | 100 | 902 | 0.000 | 0 | 3131 | yes |
-| dog-bmi (mobile) | 100 | 100 | 100 | 100 | 960 | 0.000 | 0 | 2965 | yes |
-| home (desktop) | 100 | 100 | 100 | 100 | 203 | 0.000 | 0 | 0 | yes |
+| home (mobile) | 100 | 100 | 100 | 100 | 904 | 0.000 | 0 | 0 | yes |
+| tools-hub (mobile) | 100 | 100 | 100 | 100 | 907 | 0.000 | 0 | 0 | yes |
+| dogs-hub (mobile) | 100 | 100 | 100 | 100 | 904 | 0.000 | 0 | 0 | yes |
+| cats-hub (mobile) | 100 | 100 | 100 | 100 | 903 | 0.000 | 0 | 0 | yes |
+| guides-hub (mobile) | 100 | 100 | 100 | 100 | 909 | 0.000 | 0 | 0 | yes |
+| puppy-weight (mobile) | 100 | 100 | 100 | 100 | 1394 | 0.000 | 0 | 5350 | yes |
+| dog-food (mobile) | 100 | 100 | 100 | 100 | 1205 | 0.000 | 0 | 3622 | yes |
+| cat-age (mobile) | 100 | 100 | 100 | 100 | 1113 | 0.000 | 0 | 2666 | yes |
+| chocolate (mobile) | 100 | 100 | 100 | 100 | 908 | 0.000 | 0 | 3238 | yes |
+| dog-bmi (mobile) | 100 | 100 | 100 | 100 | 1206 | 0.000 | 0 | 3071 | yes |
+| home (desktop) | 100 | 100 | 100 | 100 | 244 | 0.000 | 0 | 0 | yes |
 
 ## Artifacts
 

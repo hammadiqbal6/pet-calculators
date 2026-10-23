@@ -1,8 +1,7 @@
-OK / (home): 2 JSON-LD block(s)
-OK /about/ (legal): 3 JSON-LD block(s)
-OK /authors/ (other): 4 JSON-LD block(s)
-OK /cats/ (hub): 3 JSON-LD block(s)
-OK /guides/cat-feeding-guide/ (guide): 5 JSON-LD block(s)
-OK /tools/cat-age-calculator/ (tool): 5 JSON-LD block(s)
+OK / (home): 3 JSON-LD block(s)
+OK /about/ (legal): 5 JSON-LD block(s)
+OK /cats/ (hub): 4 JSON-LD block(s)
+OK /guides/cat-feeding-guide/ (guide): 6 JSON-LD block(s)
+OK /tools/cat-age-calculator/ (tool): 7 JSON-LD block(s)
 
 Note: Re-run Google Rich Results Test on production URLs after deploy (placeholder domain in local proof).

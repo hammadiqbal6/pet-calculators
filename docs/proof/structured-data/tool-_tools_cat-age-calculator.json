@@ -5,18 +5,47 @@
     {
       "@context": "https://schema.org",
       "@type": "Organization",
+      "@id": "https://pet-calculators.hammadiqbal117.workers.dev/#organization",
       "name": "PetCalc Tools",
-      "url": "https://www.petcalctools.example/",
-      "logo": "https://www.petcalctools.example/favicon.svg",
-      "email": "hammadiqbal117@gmail.com"
+      "alternateName": "PetCalc",
+      "url": "https://pet-calculators.hammadiqbal117.workers.dev/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://pet-calculators.hammadiqbal117.workers.dev/logo-512.png",
+        "width": 512,
+        "height": 512
+      },
+      "email": "hammadiqbal117@gmail.com",
+      "founder": {
+        "@id": "https://github.com/hammadiqbal6#person"
+      },
+      "publishingPrinciples": "https://pet-calculators.hammadiqbal117.workers.dev/methodology/"
     },
     {
       "@context": "https://schema.org",
       "@type": "WebSite",
+      "@id": "https://pet-calculators.hammadiqbal117.workers.dev/#website",
       "name": "PetCalc Tools",
-      "url": "https://www.petcalctools.example/",
+      "alternateName": [
+        "PetCalc"
+      ],
+      "url": "https://pet-calculators.hammadiqbal117.workers.dev/",
       "description": "Free pet calculators for dogs and cats — weight, food, age, and more.",
-      "inLanguage": "en-US"
+      "inLanguage": "en-US",
+      "publisher": {
+        "@id": "https://pet-calculators.hammadiqbal117.workers.dev/#organization"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "@id": "https://github.com/hammadiqbal6#person",
+      "name": "Hammad Iqbal",
+      "url": "https://pet-calculators.hammadiqbal117.workers.dev/about/",
+      "description": "I build and maintain PetCalc Tools as an independent developer. Formulas are implemented from cited veterinary references (NRC, AAHA, WSAVA, AAFCO, AAFP, ASPCA, and the Merck / MSD Veterinary Manual), explained in plain language, and checked against the published numbers in those sources. I am not a veterinarian; clinical decisions always belong with a licensed professional and the individual animal.",
+      "sameAs": [
+        "https://github.com/hammadiqbal6"
+      ]
     },
     {
       "@context": "https://schema.org",
@@ -26,22 +55,23 @@
           "@type": "ListItem",
           "position": 1,
           "name": "Tools",
-          "item": "https://www.petcalctools.example/tools/"
+          "item": "https://pet-calculators.hammadiqbal117.workers.dev/tools/"
         },
         {
           "@type": "ListItem",
           "position": 2,
           "name": "Cat Age Calculator",
-          "item": "https://www.petcalctools.example/tools/cat-age-calculator/"
+          "item": "https://pet-calculators.hammadiqbal117.workers.dev/tools/cat-age-calculator/"
         }
       ]
     },
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
+      "@id": "https://pet-calculators.hammadiqbal117.workers.dev/tools/cat-age-calculator/#app",
       "name": "Cat Age Calculator",
       "description": "Convert your cat’s age to human years and see its AAFP/AAHA-style life stage, from kitten to geriatric. Free and private.",
-      "url": "https://www.petcalctools.example/tools/cat-age-calculator/",
+      "url": "https://pet-calculators.hammadiqbal117.workers.dev/tools/cat-age-calculator/",
       "applicationCategory": "HealthApplication",
       "operatingSystem": "Any",
       "browserRequirements": "Requires JavaScript",
@@ -52,12 +82,39 @@
         "price": "0",
         "priceCurrency": "USD"
       },
-      "dateModified": "2026-10-19",
+      "dateModified": "2026-10-20",
+      "author": {
+        "@type": "Person",
+        "@id": "https://github.com/hammadiqbal6#person",
+        "name": "Hammad Iqbal",
+        "url": "https://pet-calculators.hammadiqbal117.workers.dev/about/"
+      },
       "publisher": {
-        "@type": "Organization",
-        "name": "PetCalc Tools",
-        "url": "https://www.petcalctools.example/"
+        "@id": "https://pet-calculators.hammadiqbal117.workers.dev/#organization"
       }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "@id": "https://pet-calculators.hammadiqbal117.workers.dev/tools/cat-age-calculator/#webpage",
+      "url": "https://pet-calculators.hammadiqbal117.workers.dev/tools/cat-age-calculator/",
+      "name": "Cat Age Calculator: Human Years & Stage",
+      "isPartOf": {
+        "@id": "https://pet-calculators.hammadiqbal117.workers.dev/#website"
+      },
+      "mainEntity": {
+        "@id": "https://pet-calculators.hammadiqbal117.workers.dev/tools/cat-age-calculator/#app"
+      },
+      "dateModified": "2026-10-20T00:00:00+00:00",
+      "lastReviewed": "2026-10-20",
+      "author": {
+        "@id": "https://github.com/hammadiqbal6#person"
+      },
+      "citation": [
+        "https://www.aaha.org/resources/2021-aaha-aafp-feline-life-stage-guidelines/",
+        "https://catvets.com/guidelines/practice-guidelines/senior-care-guidelines",
+        "https://www.vet.cornell.edu/departments-centers-and-institutes/cornell-feline-health-center"
+      ]
     },
     {
       "@context": "https://schema.org",

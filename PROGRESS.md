@@ -18,3 +18,7 @@ Updated: 2026-10-19T18:40:00Z
 ## 2026-10-20 — Mobile SEO + E-E-A-T playbook
 
 Shipped named maintainer (Hammad Iqbal), TrustBlock, PNG OG/favicons/manifest, Consent Mode v2 GA4, chocolate tel: emergency UX, link-space CI, mobile CSS fixes. See PR.
+
+## 2026-10-23 — CI proof fix after PR #7
+
+Main CI failed on **Generate proof bundle** (home/chocolate Lighthouse CLS/TBT flake). Reserved `.results` layout space; proof now median-retries a missed first run. Workers Builds deploy was not blocked by GitHub Actions.
