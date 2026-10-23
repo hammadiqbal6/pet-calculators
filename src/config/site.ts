@@ -85,6 +85,19 @@ function resolveContactEmail(): string {
   return publicEnv('PUBLIC_CONTACT_EMAIL') || DEFAULT_CONTACT_EMAIL;
 }
 
+/** EmailJS public IDs — all three required or the contact form falls back to mailto. */
+function resolveEmailjsServiceId(): string {
+  return publicEnv('PUBLIC_EMAILJS_SERVICE_ID');
+}
+
+function resolveEmailjsTemplateId(): string {
+  return publicEnv('PUBLIC_EMAILJS_TEMPLATE_ID');
+}
+
+function resolveEmailjsPublicKey(): string {
+  return publicEnv('PUBLIC_EMAILJS_PUBLIC_KEY');
+}
+
 function resolveAdsensePublisherId(): string {
   return publicEnv('PUBLIC_ADSENSE_PUBLISHER_ID');
 }
@@ -151,6 +164,16 @@ export const siteConfig = {
    * Override with `PUBLIC_CONTACT_EMAIL` at build time; defaults to `DEFAULT_CONTACT_EMAIL`.
    */
   contactEmail: resolveContactEmail(),
+  /**
+   * EmailJS browser send (contact form). All three must be non-empty or the form
+   * is omitted and /contact/ shows mailto only. Public key only — never a private key.
+   * See docs/CONTACT-EMAILJS.md.
+   */
+  emailjs: {
+    serviceId: resolveEmailjsServiceId(),
+    templateId: resolveEmailjsTemplateId(),
+    publicKey: resolveEmailjsPublicKey(),
+  },
   /** ISO date used for lastmod / "Last updated" defaults (YYYY-MM-DD) */
   buildDate: '2026-10-23',
   /** Tagline for homepage and meta fallbacks */
@@ -215,6 +238,14 @@ export const siteConfig = {
 };
 
 export type SiteConfig = typeof siteConfig;
+
+/** True when EmailJS public IDs are all set at build time (safe to render the contact form). */
+export function isEmailjsConfigured(
+  cfg: Pick<SiteConfig, 'emailjs'> = siteConfig,
+): boolean {
+  const { serviceId, templateId, publicKey } = cfg.emailjs;
+  return Boolean(serviceId && templateId && publicKey);
+}
 
 /**
  * Absolute URL helper. Canonical origin is always `siteConfig.siteUrl`

@@ -11,6 +11,8 @@
  *   PUBLIC_SITE_URL_HOME_GARDEN, PUBLIC_SITE_URL_FIBER_ARTS, PUBLIC_SITE_URL_PET
  *   (optional; src/config/sisterSites.ts falls back to *.workers.dev)
  *   PUBLIC_GA4_MEASUREMENT_ID, PUBLIC_GSC_VERIFICATION, PUBLIC_CONTACT_EMAIL, …
+ *   PUBLIC_EMAILJS_SERVICE_ID, PUBLIC_EMAILJS_TEMPLATE_ID, PUBLIC_EMAILJS_PUBLIC_KEY
+ *   (optional; all three required for the /contact/ form — see docs/CONTACT-EMAILJS.md)
  * Astro inlines PUBLIC_* at `npm run build`; the Worker itself only serves dist/.
  *
  * Do NOT put PUBLIC_* in top-level wrangler `vars` — that breaks `npx wrangler preview`

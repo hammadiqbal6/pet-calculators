@@ -30,6 +30,19 @@ const description =
       those values, so do not share a link if you would rather keep them private.
     </p>
 
+    <h2>Contact form</h2>
+    <p>
+      If the <a href="/contact/">contact page</a> shows a form, messages you submit (name, email address, and message
+      text) are sent through EmailJS to our mailbox so we can reply. That is voluntary and separate from the calculators.
+      You can always email us directly at{' '}
+      <a href={`mailto:${siteConfig.contactEmail}`}>{siteConfig.contactEmail}</a> instead. We do not use contact
+      messages for advertising.
+    </p>
+    <p>
+      A short timestamp may be stored in your browser's local storage after a successful send so the form can limit
+      repeat submissions (about one message per minute). That flag never leaves your device.
+    </p>
+
     <h2>Information collected automatically</h2>
     <p>
       Like most websites, our hosting provider and logging tools receive standard request data: IP address, browser and
@@ -41,7 +54,7 @@ const description =
     <ul>
       <li>
         <strong>Essential.</strong> We store a small flag in your browser's local storage so the cookie notice does not
-        reappear after you accept it.
+        reappear after you accept it. The contact form may also store a short send-throttle timestamp (see above).
       </li>
       <li>
         <strong>Analytics.</strong> If enabled, we use Google Analytics 4 (GA4) to measure page views, approximate

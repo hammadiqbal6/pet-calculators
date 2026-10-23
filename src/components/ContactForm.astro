@@ -1,0 +1,197 @@
+---
+/**
+ * Accessible contact form that POSTs to the EmailJS REST API (no SDK).
+ * Only import on /contact/ so the tiny client bundle stays off other pages.
+ */
+interface Props {
+  serviceId: string;
+  templateId: string;
+  publicKey: string;
+  siteName: string;
+  pageUrl: string;
+  contactEmail: string;
+}
+
+const { serviceId, templateId, publicKey, siteName, pageUrl, contactEmail } = Astro.props;
+const maxMessage = 4000;
+const throttleMs = 60_000;
+---
+
+<form
+  class="calc-form contact-form"
+  id="contact-form"
+  novalidate
+  data-service-id={serviceId}
+  data-template-id={templateId}
+  data-public-key={publicKey}
+  data-site-name={siteName}
+  data-page-url={pageUrl}
+  data-max-message={String(maxMessage)}
+  data-throttle-ms={String(throttleMs)}
+>
+  <div class="calc-grid">
+    <label class="field">
+      Your name
+      <input type="text" name="from_name" autocomplete="name" maxlength="120" required />
+    </label>
+    <label class="field">
+      Your email
+      <span class="hint">We use this only to reply</span>
+      <input type="email" name="reply_to" autocomplete="email" maxlength="254" required />
+    </label>
+    <label class="field">
+      Message
+      <span class="hint">Up to {maxMessage.toLocaleString('en-US')} characters</span>
+      <textarea name="message" rows="6" maxlength={maxMessage} required></textarea>
+    </label>
+  </div>
+
+  {/* Honeypot: hidden from people; bots that fill it are rejected client-side. */}
+  <div class="hp" aria-hidden="true">
+    <label>
+      Company
+      <input type="text" name="company" tabindex="-1" autocomplete="off" />
+    </label>
+  </div>
+
+  <div class="btn-row contact-form-actions">
+    <button type="submit" class="btn btn-primary" data-submit>
+      Send message
+    </button>
+  </div>
+
+  <p class="form-status" id="contact-form-status" role="status" aria-live="polite" data-tone=""></p>
+</form>
+
+<p class="contact-alt">
+  Prefer email?{' '}
+  <a href={`mailto:${contactEmail}?subject=${encodeURIComponent(`${siteName} feedback`)}`}>
+    {contactEmail}
+  </a>
+</p>
+
+<script>
+  const THROTTLE_KEY = 'petcalc-contact-sent-at';
+
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  if (form) {
+    const statusEl = document.getElementById('contact-form-status') as HTMLElement | null;
+    const submitBtn = form.querySelector('[data-submit]') as HTMLButtonElement | null;
+    const serviceId = form.dataset.serviceId || '';
+    const templateId = form.dataset.templateId || '';
+    const publicKey = form.dataset.publicKey || '';
+    const siteName = form.dataset.siteName || '';
+    const pageUrl = form.dataset.pageUrl || '';
+    const maxMessage = Number(form.dataset.maxMessage || 4000);
+    const throttleMs = Number(form.dataset.throttleMs || 60_000);
+
+    function setStatus(message: string, tone: 'ok' | 'err' | '') {
+      if (!statusEl) return;
+      statusEl.textContent = message;
+      statusEl.dataset.tone = tone;
+    }
+
+    function setSending(busy: boolean) {
+      if (!submitBtn) return;
+      submitBtn.disabled = busy;
+      submitBtn.textContent = busy ? 'Sending…' : 'Send message';
+    }
+
+    function readThrottleRemaining(): number {
+      try {
+        const raw = localStorage.getItem(THROTTLE_KEY);
+        if (!raw) return 0;
+        const last = Number(raw);
+        if (!Number.isFinite(last)) return 0;
+        const left = throttleMs - (Date.now() - last);
+        return left > 0 ? left : 0;
+      } catch {
+        return 0;
+      }
+    }
+
+    function markSent() {
+      try {
+        localStorage.setItem(THROTTLE_KEY, String(Date.now()));
+      } catch {
+        /* private mode / blocked storage — throttle is best-effort */
+      }
+    }
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      setStatus('', '');
+
+      const honeypot = (form.elements.namedItem('company') as HTMLInputElement | null)?.value?.trim();
+      if (honeypot) {
+        setStatus('Thanks — your message was received.', 'ok');
+        form.reset();
+        return;
+      }
+
+      const remaining = readThrottleRemaining();
+      if (remaining > 0) {
+        const secs = Math.ceil(remaining / 1000);
+        setStatus(`Please wait ${secs}s before sending another message.`, 'err');
+        return;
+      }
+
+      const fromName = (form.elements.namedItem('from_name') as HTMLInputElement).value.trim();
+      const replyTo = (form.elements.namedItem('reply_to') as HTMLInputElement).value.trim();
+      const message = (form.elements.namedItem('message') as HTMLTextAreaElement).value.trim();
+
+      if (!fromName || !replyTo || !message) {
+        setStatus('Please fill in your name, email, and message.', 'err');
+        return;
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(replyTo)) {
+        setStatus('Please enter a valid email address.', 'err');
+        return;
+      }
+      if (message.length > maxMessage) {
+        setStatus(`Message is too long (max ${maxMessage} characters).`, 'err');
+        return;
+      }
+      if (!serviceId || !templateId || !publicKey) {
+        setStatus('The contact form is not configured. Please use the email link below.', 'err');
+        return;
+      }
+
+      setSending(true);
+      try {
+        const res = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            service_id: serviceId,
+            template_id: templateId,
+            user_id: publicKey,
+            template_params: {
+              from_name: fromName,
+              reply_to: replyTo,
+              message,
+              page_url: pageUrl,
+              site_name: siteName,
+            },
+          }),
+        });
+
+        if (!res.ok) {
+          const detail = (await res.text().catch(() => '')).slice(0, 200);
+          throw new Error(detail || `HTTP ${res.status}`);
+        }
+
+        markSent();
+        form.reset();
+        setStatus('Message sent. We aim to reply within a few business days.', 'ok');
+      } catch {
+        setStatus(
+          'Could not send right now. Please try again later or use the email link below.',
+          'err',
+        );
+      } finally {
+        setSending(false);
+      }
+    });
+  }
+</script>
