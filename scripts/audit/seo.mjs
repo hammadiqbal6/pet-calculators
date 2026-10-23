@@ -184,8 +184,9 @@ for (const page of pages) {
     report.error('thin-tool', where, `tool page has ${page.words} words of body copy (min ${LIMITS.toolMinWords})`);
   }
   if (type === 'guide') {
-    if (page.words < LIMITS.guideHardMinWords) report.error('thin-guide', where, `guide has ${page.words} words (hard min ${LIMITS.guideHardMinWords})`);
-    else if (page.words < LIMITS.guideMinWords) report.warn('thin-guide', where, `guide has ${page.words} words (target >= ${LIMITS.guideMinWords})`);
+    if (page.words < LIMITS.guideMinWords) {
+      report.error('thin-guide', where, `guide has ${page.words} words (min ${LIMITS.guideMinWords})`);
+    }
   }
 
   // tool page structure
@@ -204,7 +205,11 @@ for (const page of pages) {
     const related = $('main a[href^="/tools/"], main a[href^="/guides/"]').toArray().map((a) => $(a).attr('href'));
     const unique = new Set(related.filter((h) => trailSlash(h) !== route));
     if (unique.size < LIMITS.minRelatedLinks) {
-      report.warn('tool-related', where, `only ${unique.size} contextual links to other tools/guides in <main> (min ${LIMITS.minRelatedLinks})`);
+      report.error('tool-related', where, `only ${unique.size} contextual links to other tools/guides in <main> (min ${LIMITS.minRelatedLinks})`);
+    }
+    const guideLinks = related.filter((h) => (h || '').startsWith('/guides/'));
+    if (!guideLinks.length) {
+      report.error('tool-guide-link', where, 'tool page has no link to a /guides/ URL (add Learn more / contextual guide)');
     }
   }
 }

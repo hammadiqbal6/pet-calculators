@@ -1,25 +1,38 @@
 /**
- * Pure static-assets Worker (no Astro Cloudflare adapter, no KV/Images bindings).
+ * Pure static-assets Worker with a run-first entry for 308 trailing-slash
+ * redirects (see src/worker.ts). No Astro Cloudflare adapter, no KV/Images.
+ *
  * Workers Builds: branch main, root /, build `npm run build`,
  * deploy `npx wrangler deploy && node scripts/indexnow.mjs` (or `npm run deploy:indexnow`).
  *
  * Build-time env (Workers Builds Variables / Secrets — same names as `.env.example`):
- *   PUBLIC_SITE_URL (required in prod)
+ *   PUBLIC_SITE_URL (required in prod; single canonical origin for sitemap/robots/OG/JSON-LD)
  *   PUBLIC_SITE_URL_PAYMENT_FEES, PUBLIC_SITE_URL_BUSINESS_DOCS,
  *   PUBLIC_SITE_URL_HOME_GARDEN, PUBLIC_SITE_URL_FIBER_ARTS, PUBLIC_SITE_URL_PET
  *   (optional; src/config/sisterSites.ts falls back to *.workers.dev)
  *   PUBLIC_GA4_MEASUREMENT_ID, PUBLIC_GSC_VERIFICATION, PUBLIC_CONTACT_EMAIL, …
  * Astro inlines PUBLIC_* at `npm run build`; the Worker itself only serves dist/.
+ *
+ * Do NOT put PUBLIC_* in top-level wrangler `vars` — that breaks `npx wrangler preview`
+ * unless mirrored under `previews.vars`, and still will not bake Astro HTML. Keep
+ * build-time env in the Workers Builds dashboard. Empty `"previews": {}` is required
+ * for PR preview deploys.
  */
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "pet-calculators",
   "compatibility_date": "2026-10-19",
+  "main": "src/worker.ts",
   "assets": {
     "directory": "./dist",
-    // Astro uses trailingSlash: 'always' — keep URLs like /tools/x/
+    "binding": "ASSETS",
+    "run_worker_first": true,
+    // Astro uses trailingSlash: 'always' — slash redirects handled in worker as 308
     "html_handling": "force-trailing-slash",
     // Serve dist/404.html for unknown paths (multi-page static site, not an SPA)
     "not_found_handling": "404-page"
-  }
+  },
+  // Required by `npx wrangler preview` (Workers Builds PR command). Keep empty —
+  // PUBLIC_* belong in dashboard build env, not runtime vars.
+  "previews": {}
 }

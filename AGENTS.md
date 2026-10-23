@@ -11,7 +11,7 @@ A **static Astro 7 site of free dog and cat calculators** (puppy weight, dog/cat
 3. **Get and stay AdSense-approved** with real content, trust pages, a clean ad layout and consent.
 4. **Be fast**: plain HTML, light vanilla TypeScript, Lighthouse mobile >= 95.
 
-Brand/domain/IDs live in one file: `src/config/site.ts` (`siteName`, `siteUrl`, `buildDate`, GA4, Search Console/Bing verification, `adsensePublisherId`, `indexNowKey`, author/reviewer, `contactEmail`). Sister-site origins live in `src/config/sisterSites.ts`. Build-time env (`PUBLIC_SITE_URL`, `PUBLIC_SITE_URL_PAYMENT_FEES` / `_BUSINESS_DOCS` / `_HOME_GARDEN` / `_FIBER_ARTS` / `_PET`, `PUBLIC_GA4_MEASUREMENT_ID`, `PUBLIC_GSC_VERIFICATION`, `PUBLIC_CONTACT_EMAIL`, `PUBLIC_AUTHOR_*`, `PUBLIC_REVIEWER_*`, `PUBLIC_ADSENSE_*`, `INDEXNOW_KEY` — see `.env.example`) overrides those fields; never hard-code the domain, brand, or sister URLs elsewhere — use `absoluteUrl()` / `sisterSiteUrl()`. Deploy as static-assets Worker `pet-calculators` via `wrangler.jsonc`.
+Brand/domain/IDs live in one file: `src/config/site.ts` (`siteName`, `siteUrl`, `buildDate`, GA4, Search Console/Bing verification, `adsensePublisherId`, `indexNowKey`, author/reviewer, `contactEmail`). Sister-site origins live in `src/config/sisterSites.ts`. Build-time env (`PUBLIC_SITE_URL`, `PUBLIC_SITE_URL_PAYMENT_FEES` / `_BUSINESS_DOCS` / `_HOME_GARDEN` / `_FIBER_ARTS` / `_PET`, `PUBLIC_GA4_MEASUREMENT_ID`, `PUBLIC_GSC_VERIFICATION`, `PUBLIC_CONTACT_EMAIL`, `PUBLIC_AUTHOR_*`, `PUBLIC_REVIEWER_*`, `PUBLIC_ADSENSE_*`, `INDEXNOW_KEY` — see `.env.example`) overrides those fields; never hard-code the domain, brand, or sister URLs elsewhere — use `absoluteUrl()` / `sisterSiteUrl()`. **Canonical origin is a single setting** (`PUBLIC_SITE_URL` / `FALLBACK_SITE_URL`); cutover steps live in [docs/CUSTOM-DOMAIN.md](docs/CUSTOM-DOMAIN.md). Hard SEO do/don't rules: [docs/SEO-GUARDRAILS.md](docs/SEO-GUARDRAILS.md) (enforced by `npm run audit:seo-guardrails`). Deploy as static-assets Worker `pet-calculators` via `wrangler.jsonc` + run-first `src/worker.ts` (308 trailing-slash).
 
 ### Governing guidelines (binding)
 
@@ -25,7 +25,9 @@ These documents define the strategy and outrank any agent's own preferences. Whe
 | [docs/KEYWORD-MAP.md](docs/KEYWORD-MAP.md) | One primary keyword per page, no cannibalization. Machine-checked by `audit:seo`. |
 | [docs/SEO-GUIDE.md](docs/SEO-GUIDE.md) | Launch checklist, GSC/Bing/IndexNow/GA4, content calendar (next 20 articles), link building, GEO, 90-day plan. |
 | [docs/ADSENSE.md](docs/ADSENSE.md) | Eligibility, when to apply, publisher ID, `ads.txt`, CMP, pitfalls. |
-| [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | Cloudflare Pages (primary), Vercel, Netlify, domain/HTTPS/redirects, env/config. |
+| [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | Cloudflare Workers (primary), Pages/Vercel/Netlify, domain/HTTPS/redirects, env/config. |
+| [docs/SEO-GUARDRAILS.md](docs/SEO-GUARDRAILS.md) | Hard do/don't from the multi-site audit; CI fails on regressions. |
+| [docs/CUSTOM-DOMAIN.md](docs/CUSTOM-DOMAIN.md) | Single-origin setting + custom-domain cutover checklist (do not change domain until ready). |
 | [PROGRESS.md](PROGRESS.md) | Live build status; update it on milestones. |
 
 Also in `docs/ideas/`: [ideas.csv](docs/ideas/ideas.csv) and [MORE-IDEAS.md](docs/ideas/MORE-IDEAS.md).
@@ -183,11 +185,13 @@ Node `>= 22.22.0` is required (`engines`). If `node` is missing from `PATH`, use
 | `npm run build` | Static build to `dist/` (must run before any audit) |
 | `npm run preview` | Serve `dist/` locally |
 | `npm test` | Vitest: formula unit tests (`src/**/*.test.ts`) |
-| `npm run audit:seo` | Titles/meta, H1, canonical, JSON-LD, OG, alt, word counts, sitemap/robots, orphans, keyword map |
+| `npm run audit:seo` | Titles/meta, H1, canonical, JSON-LD, OG, alt, word counts, sitemap/robots, orphans, keyword map, tool→guide links |
+| `npm run audit:seo-guardrails` | example.com / hard-coded workers.dev, og:image slash, title≤60, desc 50–165, IndexNow, wrangler preview/308 worker, inline `import` |
 | `npm run audit:adsense` | Required pages, privacy, ads.txt, thin/duplicate pages, ad placement, CMP |
 | `npm run audit:budgets` | JS/CSS/HTML/image size budgets from `dist/` |
 | `npm run check:links` | Broken internal links, assets and fragments (`-- --external` also checks outbound links) |
-| `npm run audit` | `build` + `test` + all audits above |
+| `npm run audit` | `build` + `test` + all audits above (including seo-guardrails) |
+| `npm run generate:og` | Per-page OG PNGs under `public/og/` (runs automatically before `astro build`) |
 | `npm run lhci` | Lighthouse CI (mobile): Perf >= 95, LCP <= 2.5 s, CLS <= 0.1, TBT <= 200 ms (build first; set `CHROME_PATH` if Chrome is not found) |
 | `npm run proof` | Regenerate committed evidence under `docs/proof/` (audits, Lighthouse HTML/JSON, screenshots, JSON-LD extract) |
 | `AUDIT_PROD=1 npm run audit` | Same as `audit` but placeholder domain/reviewer/IndexNow become errors; use for the production deploy |

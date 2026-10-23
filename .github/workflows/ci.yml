@@ -45,6 +45,9 @@ jobs:
       - name: SEO audit
         run: npm run audit:seo
 
+      - name: SEO guardrails
+        run: npm run audit:seo-guardrails
+
       - name: AdSense readiness audit
         run: npm run audit:adsense
 

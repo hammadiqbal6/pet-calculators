@@ -14,8 +14,8 @@ Source of truth: `docs/SEO-PLAYBOOK.md` (sections 2, 3, 6), `docs/KEYWORD-MAP.md
 - Do not create per-breed, per-city, per-phrasing or per-food pages without unique, sourced data (scaled-content abuse). Use options on the one tool page.
 
 ## Head
-- Title: <= 65 characters **including** the ` | PetCalc Tools` suffix added by `BaseLayout.astro` (hard max 80); unique; not stuffed.
-- Meta description: 70-160 characters, unique, states what the user gets and "free"; no quotes that break the attribute.
+- Title: <= **60** characters **including** the ` | PetCalc Tools` suffix added by `BaseLayout.astro` (hard max 60; `audit:seo-guardrails` fails over); unique; not stuffed.
+- Meta description: **50-165** characters, unique, states what the user gets and "free"; no quotes that break the attribute.
 - Exactly one `<h1>`; heading levels never skip; H2s are descriptive ("Worked example", "Formula and method").
 - Canonical: exactly one, absolute `https`, self-referencing, built from `absoluteUrl()`; never `pages.dev`; query-string calculator state never changes it. Trailing slash always.
 - Open Graph/Twitter complete (`og:title/description/url/type/image`); `og:image` is a raster file (PNG/JPG/WebP) 1200x630; `og:url` equals canonical.
