@@ -416,12 +416,20 @@ textarea {
   margin-top: 1rem;
   padding: 1rem;
   border-radius: 8px;
+  /* Reserve space before JS reveals results so siblings below (answer-first on
+     emergency tools, AdSlot, etc.) do not shift — performance-budget.mdc. */
+  min-height: 12.5rem;
   background: var(--ok-bg);
   border: 1px solid #b7d8c8;
 }
 
 .results[hidden] {
-  display: none !important;
+  /* Keep the reserved box in layout; hide visually until compute() runs. */
+  display: block !important;
+  visibility: hidden;
+  pointer-events: none;
+  background: transparent;
+  border-color: transparent;
 }
 
 .results .big {
