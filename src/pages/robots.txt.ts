@@ -1,9 +1,12 @@
 import type { APIRoute } from 'astro';
 import { absoluteUrl } from '../config/site.ts';
 
+/** Explicit allow groups for search + AI answer bots (siblings parity; not only *). */
 const searchBots = [
   'Googlebot',
   'Bingbot',
+  'DuckDuckBot',
+  'Applebot',
   'OAI-SearchBot',
   'ChatGPT-User',
   'PerplexityBot',

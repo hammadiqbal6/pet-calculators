@@ -1,0 +1,274 @@
+---
+import GuidePageShell from '../../../components/GuidePageShell.astro';
+import { SRC } from '../../../data/sources.ts';
+
+const faq = [
+  {
+    q: 'What is a dog body condition score chart?',
+    a: 'A dog body condition score (BCS) chart rates fat cover on a 1–9 scale (some clinics use 1–5). Score 4–5 is typically ideal: ribs easy to feel under a thin fat layer, a waist when viewed from above, and an abdominal tuck from the side. Lower scores mean too thin; higher scores mean overweight or obese. BCS is a screening tool, not a lab diagnosis.',
+  },
+  {
+    q: 'Is my dog overweight if I cannot feel the ribs?',
+    a: 'Difficulty feeling ribs under a thick fat pad often lands around BCS 7–9 and suggests excess weight, but thick coats and breed shape can confuse beginners. Ask your veterinarian to demonstrate scoring on your dog. Confirm with weight trends and, when needed, diagnostic workups for disease—not internet photos alone.',
+  },
+  {
+    q: 'How is BCS different from dog BMI?',
+    a: 'Human-style BMI uses weight and height and is only a rough index in dogs. BCS uses hands-on and visual fat-cover cues that map better to clinical teaching charts such as WSAVA’s. Our dog BMI calculator offers an educational index plus a suggested BCS band; the chart on this page explains what each score looks and feels like in words.',
+  },
+  {
+    q: 'How fast should an overweight dog lose weight?',
+    a: 'Safe rates are individualized. Many veterinary weight programs aim for gradual loss with measured calories, not crash starvation. Too-fast loss can be unhealthy. Your veterinarian should set the target weight, diet, and recheck schedule—especially for dogs with medical conditions.',
+  },
+  {
+    q: 'Can a dog be skinny but still unhealthy?',
+    a: 'Yes. Low BCS can reflect underfeeding, parasites, dental pain, diabetes, cancer, or other disease. Sudden weight loss needs a veterinary visit even if you hoped for a “leaner look.” Puppies that stay ribby with pot bellies need parasite and diet checks.',
+  },
+  {
+    q: 'Do greyhounds and bulldogs score the same way?',
+    a: 'The 1–9 ideas (ribs, waist, tummy tuck) still apply, but breed silhouette differs. Sight hounds naturally look leaner; some brachycephalic or deep-chested breeds hide waists. Ask a clinician familiar with your breed to calibrate your eye.',
+  },
+  {
+    q: 'Should I use treats if my dog is overweight?',
+    a: 'Training treats can stay in the plan if they count inside the daily calorie budget—often keeping extras near 10% of calories. Swap to tiny pieces of regular kibble when possible. Recalculate meals with the dog food calculator after your veterinarian sets a target.',
+  },
+];
+
+const sources = [
+  SRC.wsavaBcs,
+  SRC.wsavaNutrition,
+  SRC.aahaNutrition,
+  SRC.nrc,
+  SRC.aspcaDogCare,
+];
+---
+
+<GuidePageShell
+  slug="dog-body-condition-score-chart"
+  title="Dog Body Condition Score Chart"
+  description="Dog body condition score chart (BCS 1–9) in plain words: ribs, waist, and abdomen cues to screen if your dog is overweight."
+  answer="A dog body condition score chart rates fat cover from 1 (emaciated) to 9 (severely obese). Ideal dogs usually sit near 4–5: ribs easy to feel, a visible waist from above, and a belly tuck from the side. Use BCS to screen whether your dog looks overweight—not to diagnose disease. Confirm scoring and any weight plan with your veterinarian."
+  takeaways={[
+    'BCS 1–9 describes fat cover by feel and shape; 4–5 is the usual ideal band.',
+    'Ribs, waist (top view), and abdominal tuck (side view) are the three home checks.',
+    '“Is my dog overweight?” often means BCS 6–9—verify with your veterinarian.',
+    'Coat thickness and breed shape can hide cues; hands beat eyeballing from photos.',
+    'Pair BCS with measured calories and the dog BMI helper for screening only.',
+    'Weight-loss and medical diets belong under veterinary supervision.',
+  ]}
+  faq={faq}
+  sources={sources}
+>
+  <h2>Why a body condition score chart beats the scale alone</h2>
+  <p>
+    The scale tells you kilograms; a <strong>dog body condition score chart</strong> tells you whether
+    those kilograms are reasonable for your dog’s frame. Two 25 kg dogs can look completely different—one
+    lean athlete, one soft and rectangular. WSAVA publishes a widely used 1–9 BCS chart for dogs;
+    clinics worldwide teach the same rib, waist, and tummy-tuck story. This page translates those ideas
+    into original wording (no copied diagrams). For a numeric screening index, open the{' '}
+    <a href="/tools/dog-bmi-calculator/">dog BMI calculator</a>, then set portions with the{' '}
+    <a href="/tools/dog-food-calculator/">dog food calculator</a>. Growing dogs also need age-aware
+    feeding—see <a href="/guides/how-much-to-feed-a-puppy/">how much to feed a puppy</a>.
+  </p>
+  <p>
+    BCS is a screening language. It does not replace bloodwork, orthopedic exams, or a clinician’s
+    hands on your dog. If you are asking “is my dog overweight?” after holiday treats, score calmly,
+    write the number down, and book a visit before starting an extreme diet.
+  </p>
+
+  <h2>Dog BCS 1–9 chart (words only)</h2>
+  <p>
+    Stand your dog on a non-slip surface. Feel the rib cage with light fingertip pressure, look down
+    from above for a waist behind the ribs, and check the side profile for an abdominal tuck. Long
+    hair? Wet the fingers and part the coat or ask your groomer/vet to demo.
+  </p>
+  <table>
+    <caption>
+      Educational 1–9 body condition descriptions for dogs (plain-language paraphrase of common WSAVA-style teaching; not a copied chart)
+    </caption>
+    <thead>
+      <tr>
+        <th scope="col">BCS</th>
+        <th scope="col">Label</th>
+        <th scope="col">Ribs, waist, and abdomen (what you feel/see)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>Emaciated</td>
+        <td>Ribs, spine, and hip bones jut out with almost no fat. Waist and tuck extreme. Seek veterinary care.</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>Very thin</td>
+        <td>Bones easy to see; minimal fat cover. Veterinary assessment recommended.</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>Thin</td>
+        <td>Ribs easily felt with little padding; waist obvious. May need calorie review with your vet.</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>Underweight lean</td>
+        <td>Ribs palpable with slight fat; clear waist. Some fit working dogs live here.</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>Ideal</td>
+        <td>Ribs felt under a thin fat layer without pressing hard; waist visible from above; gentle belly tuck.</td>
+      </tr>
+      <tr>
+        <td>6</td>
+        <td>Slightly overweight</td>
+        <td>Ribs felt under a mild fat cover; waist just visible. Time to measure meals.</td>
+      </tr>
+      <tr>
+        <td>7</td>
+        <td>Overweight</td>
+        <td>Ribs hard to feel; fat deposits over loin; waist faint or gone.</td>
+      </tr>
+      <tr>
+        <td>8</td>
+        <td>Obese</td>
+        <td>Ribs not palpable under heavy fat; no waist; abdomen may sag. Veterinary weight plan advised.</td>
+      </tr>
+      <tr>
+        <td>9</td>
+        <td>Severely obese</td>
+        <td>Massive fat deposits; clinical risks elevated. Seek veterinary care promptly.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    Some hospitals compress the scale to 1–5 (ideal around 3). If your clinic uses 1–5, ask them to
+    show the conversion so home notes match the record.
+  </p>
+
+  <h2>Worked example: screening a 30 kg dog</h2>
+  <p>
+    Sam weighs his Labrador mix: 30 kg (66 lb). Height at the withers measures 55 cm. The dog BMI
+    helper’s educational index is about 99, which our mapping suggests as BCS 7 (overweight)—ribs
+    difficult to feel, fat over the loin, waist minimal. Sam does not start a raw cabbage diet. He
+    books a veterinary exam to rule out thyroid or other issues, asks for a target weight, and uses the
+    dog food calculator to draft a lower daily calorie starting point only after the veterinarian
+    agrees. He also checks water habits with the{' '}
+    <a href="/guides/how-much-water-should-a-dog-drink/">daily water guide</a>, because thirst changes
+    can accompany endocrine disease.
+  </p>
+  <p>
+    Two months later, ribs are easier to feel and a waist returns—closer to BCS 5–6—so the plan is
+    working under supervision. The chart gave language; the clinic gave safety.
+  </p>
+
+  <h2>How to check at home without obsessing</h2>
+  <ul>
+    <li>Score every two to four weeks, same time of day, before a meal.</li>
+    <li>Write BCS next to weight; photos from above and the side help your veterinarian.</li>
+    <li>Feel, do not just look—fluffy coats hide BCS 7 under “cute round.”</li>
+    <li>Remember muscle loss in seniors: a skinny spine with a pot belly still needs a vet visit.</li>
+  </ul>
+  <p>
+    AAHA nutrition and weight-management guidance frames obesity as a clinical issue worth structured
+    plans, not jokes about “big boned” pets. NRC energy equations explain why neutered, sedentary dogs
+    need fewer calories than bag marketing implies.
+  </p>
+
+  <h2>If the chart says overweight</h2>
+  <p>
+    First, confirm with your veterinarian. Then expect measured food (a kitchen scale beats a heaping
+    scoop), treat budgets, gradual activity changes appropriate for joints, and scheduled weigh-ins.
+    Homemade diets for weight loss still need complete nutrient balance—see{' '}
+    <a href="/guides/homemade-dog-food-calories/">homemade dog food calories</a> for portion math
+    caveats. Do not withhold water to create weight loss. Do not give human diet pills.
+  </p>
+
+  <h2>When thin is a red flag</h2>
+  <p>
+    BCS 1–3 with fatigue, diarrhea, vomiting, or a ravenous appetite needs prompt care. Puppies that
+    fail to gain, seniors that melt away, and any dog with sudden rib prominence deserve diagnostics.
+    “We want him lean for showing” is never an excuse for emaciation.
+  </p>
+
+  <h2>Building a simple home BCS routine</h2>
+  <p>
+    Pick one weekday each month. Weigh the dog, score BCS, and snap top and side photos on the same
+    mat. Store them in an album labeled with the date. When the score creeps from 5 toward 6, tighten
+    measuring cups before the jump to 7. When the score falls toward 3 without a planned diet, call
+    your veterinarian rather than adding random oils. Share the album at wellness visits—clinicians
+    appreciate trends more than “he seems bigger.”
+  </p>
+  <p>
+    Multi-dog homes should score each dog separately. The thief who finishes every bowl may be BCS 8
+    while a timid housemate sits at BCS 3 on the same bag of food. Separate feeding stations fix more
+    “mystery metabolism” problems than supplement shopping.
+  </p>
+
+  <h2>Connecting BCS to calories and water</h2>
+  <p>
+    BCS tells you whether the current calorie plan is working; it does not set the first calorie
+    number by itself. After your veterinarian agrees on a goal, use the dog food calculator for a
+    starting MER estimate, weigh food for two weeks, and rescore. Thirst changes during weight loss
+    deserve attention—see the daily water guide—because endocrine disease can look like “just fat.”
+    Homemade diets used for weight control still need complete nutrient profiles; calorie cuts on an
+    unbalanced recipe can worsen deficiencies.
+  </p>
+
+  <h2>Puppies, pregnancy, and seniors</h2>
+  <p>
+    Growing puppies should stay lean, not ribby and not soft. Large-breed developmental orthopedic risk
+    rises with excess weight. Pregnant dogs normally gain through fetal and fluid mass—interpret BCS
+    with your veterinarian rather than dieting a late-gestation dam. Seniors may lose muscle (sarcopenia)
+    while keeping a belly; ask about muscle condition scoring in addition to fat BCS. Painful joints
+    reduce activity and quietly push BCS upward unless meals are adjusted.
+  </p>
+
+  <h2>Worked numbers behind the Labrador example</h2>
+  <p>
+    Returning to the 30 kg (66 lb) dog with 55 cm withers height: the educational index is weight ÷
+    height in meters squared → 30 ÷ (0.55 × 0.55) ≈ <strong>99</strong>, which our mapping treats as
+    suggesting <strong>BCS 7</strong>. The same weight at 60 cm withers yields about 83 and maps nearer
+    BCS 6—illustrating why height and feel both matter. These indexes are screening aids only; a
+    clinician’s hands beat any website number. If the chart and the clinic disagree, trust the clinic
+    and ask them to show you how they scored your dog so home follow-up matches the record.
+  </p>
+
+  <h2>Breed and coat caveats</h2>
+  <p>
+    Sight hounds often look “thin” to owners used to Labrador silhouettes even at ideal BCS. Bulldogs
+    and some mastiff types may hide a waist. Double coats in winter fluff can fake a BCS 6 photo while
+    ribs still feel ideal—or hide fat under a show coat. Always combine fingertip rib feel with the top
+    and side views. When adopting a mix with unknown parents, re-score monthly through the first year
+    as the frame fills out.
+  </p>
+
+  <h2>Talking with your veterinarian about BCS</h2>
+  <p>
+    Bring your home score, photos, and food diary. Ask the clinician to demonstrate rib feel on your
+    dog so your hands match theirs. Clarify whether the hospital chart is 1–9 or 1–5. If a weight-loss
+    plan is prescribed, ask for a target BCS, a target weight range, a recheck date, and whether training
+    treats fit inside the calorie budget. Request joint-safe activity guidance for dogs starting at BCS
+    7–9—sudden long runs are not a kindness.
+  </p>
+  <p>
+    If BCS is not improving after honest measuring, recheck with the clinic instead of slashing food
+    again. Medication effects and endocrine disease can blunt progress. Praise steady movement from 7
+    toward 5; crash diets that drop too fast need medical review too.
+  </p>
+
+  <h2>Assumptions and limits</h2>
+  <p>
+    Descriptions here paraphrase common 1–9 teaching points for education. They are not WSAVA’s PDF
+    images and are not validated as a diagnostic instrument for your dog. Pregnancy, ascites, tumors,
+    and breed conformation can distort visual cues. BMI-style indexes in dogs are interpretive only.
+    Weight-loss calorie targets must be individualized—especially in dogs with medical disease. Never
+    withhold water to create weight loss, and never use human diet medications.
+  </p>
+
+  <h2>Bottom line</h2>
+  <p>
+    Use the dog body condition score chart to answer “is my dog overweight?” with ribs, waist, and tuck—
+    aiming near BCS 4–5 for most pets. Screen at home, decide with your veterinarian, and let measured
+    feeding tools support the plan. Shape is health data, not a moral score.
+  </p>
+</GuidePageShell>

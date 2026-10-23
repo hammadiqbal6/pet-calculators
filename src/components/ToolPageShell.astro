@@ -7,6 +7,7 @@ import ReviewerBox from './ReviewerBox.astro';
 import AuthorMeta from './AuthorMeta.astro';
 import SourcesList from './SourcesList.astro';
 import RelatedTools from './RelatedTools.astro';
+import RelatedGuides from './RelatedGuides.astro';
 import TrustBlock from './TrustBlock.astro';
 import EmbedSnippet from './EmbedSnippet.astro';
 import AdSlot from './AdSlot.astro';
@@ -37,6 +38,7 @@ export interface Props {
   emergency?: boolean;
   /** Show embed snippet when an /embed/<slug>/ page exists */
   embeddable?: boolean;
+  /** Override OG image path (defaults to per-tool /og/tool-<slug>.png) */
   ogImage?: string;
 }
 
@@ -55,7 +57,7 @@ const {
   formulaSummary,
   emergency = false,
   embeddable = false,
-  ogImage,
+  ogImage = `/og/tool-${slug}.png`,
 } = Astro.props;
 const tool = getTool(slug);
 if (!tool) throw new Error(`Unknown tool slug: ${slug}`);
@@ -163,6 +165,7 @@ const jsonLd: Record<string, unknown>[] = [
       formulaSummary={formulaSummary}
     />
     {embeddable && <EmbedSnippet slug={slug} />}
+    <RelatedGuides toolSlug={slug} />
     <RelatedTools currentSlug={slug} />
   </article>
 </BaseLayout>

@@ -1,0 +1,284 @@
+---
+import GuidePageShell from '../../../components/GuidePageShell.astro';
+import { SRC } from '../../../data/sources.ts';
+
+const faq = [
+  {
+    q: 'How do I calculate homemade dog food calories?',
+    a: 'Start from Resting Energy Requirement (RER ≈ 70 × kg^0.75), multiply by a maintenance factor (often about 1.6 for a typical neutered adult), then portion ingredients so the day’s as-fed grams deliver that calorie target. The homemade dog food calculator estimates grams as a percent of body weight; you still need calorie density of each ingredient from labels or a nutritionist. Unbalanced recipes are not fixed by calorie math alone.',
+  },
+  {
+    q: 'Is 2–3% of body weight enough homemade food?',
+    a: 'The 2–3% of body weight per day rule is a common as-fed portion estimate for adult maintenance raw or fresh diets—not a complete nutrition plan. A 20 kg (44 lb) dog at 2–3% needs about 400–600 g of food daily. Calorie density varies widely between lean meat and fatty mixes, so weigh your dog and adjust. Ask a veterinarian or board-certified veterinary nutritionist before relying on percent rules long term.',
+  },
+  {
+    q: 'Can I use human calorie apps for dog recipes?',
+    a: 'Human databases miss canine nutrient requirements (calcium, phosphorus, essential fatty acids, vitamins) and often mis-handle raw meat moisture. They may give a rough kcal guess for a single cooked ingredient, but they do not balance a dog diet. WSAVA and veterinary nutrition services warn that incomplete homemade diets cause disease. Use professional formulation for ongoing feeding.',
+  },
+  {
+    q: 'Do homemade calories replace commercial dog food labels?',
+    a: 'Commercial complete foods list kcal per cup or kg and carry an AAFCO nutritional adequacy statement. Homemade mixes only have the calories you calculate yourself, and they lack that adequacy statement unless a nutritionist designed them to meet profiles. Treat homemade feeding as a veterinary nutrition project, not a kitchen shortcut.',
+  },
+  {
+    q: 'How many calories does a 20 kg dog need?',
+    a: 'RER for 20 kg is about 662 kcal/day. A common neutered-adult MER factor of 1.6 yields roughly 1,060 kcal/day as a starting estimate. Active, working, puppy, pregnant, or underweight dogs need different factors. Confirm the plan with your veterinarian and adjust by body condition every two to four weeks.',
+  },
+  {
+    q: 'Is raw homemade food lower calorie than kibble?',
+    a: 'Not reliably. Raw and fresh diets are mostly water by weight, so a cup of raw mix often has fewer calories than a cup of dense kibble—but dogs eat more grams. Compare kilocalories per day, not bowl volume. Pathogen and balance risks for raw feeding are separate from calorie math; see our raw feeding basics guide.',
+  },
+  {
+    q: 'Should puppies eat homemade food?',
+    a: 'Growing dogs have strict calcium, phosphorus, and energy needs. Improvised homemade puppy diets are a common cause of developmental orthopedic disease and deficiencies. If you pursue home preparation for a puppy, it must be formulated by a veterinary nutritionist for growth—not adapted from an adult blog recipe.',
+  },
+];
+
+const sources = [
+  SRC.nrc,
+  SRC.wsavaNutrition,
+  SRC.aahaNutrition,
+  SRC.aafco,
+  SRC.tuftsNutrition,
+  SRC.merckMer,
+];
+---
+
+<GuidePageShell
+  slug="homemade-dog-food-calories"
+  title="Homemade Dog Food Calories Guide"
+  description="Estimate homemade dog food calories with RER/MER maths, portion percent rules, and why a veterinary nutritionist must balance recipes."
+  answer="Homemade dog food calories start with energy needs—not a random scoop of meat. RER is about 70 × (body weight in kg)^0.75; multiply by a life-stage factor for daily kilocalories, then match ingredient kcal to that target. A common as-fed portion estimate is about 2–3% of adult body weight daily. Work with your veterinarian or a veterinary nutritionist for balance."
+  takeaways={[
+    'Daily calories ≈ RER (70 × kg^0.75) × a maintenance or life-stage factor.',
+    'Example: 20 kg neutered adult ≈ 662 kcal RER × 1.6 ≈ 1,060 kcal/day starting point.',
+    'As-fed portion rule of thumb for many adult homemade/raw plans: ~2–3% of body weight (400–600 g for 20 kg).',
+    'Weigh food and the dog; cup volume lies when moisture and fat change.',
+    'AAFCO “complete and balanced” statements apply to formulated products—not kitchen improvisation.',
+    'Use the homemade calculator for gram ranges; confirm calories and nutrients with a professional.',
+    'Puppies, pregnancy, disease, and elimination diets need individualized veterinary nutrition plans.',
+  ]}
+  faq={faq}
+  sources={sources}
+>
+  <h2>What “homemade dog food calories” actually means</h2>
+  <p>
+    Owners searching for <strong>homemade dog food calories</strong> usually want two numbers: how many
+    kilocalories their dog should eat each day, and how many grams of a home-prepared mix deliver that
+    energy. Those are related but not identical. Energy needs come from body weight and lifestyle.
+    Energy density comes from fat, protein, carbohydrate, and moisture in each ingredient. The{' '}
+    <a href="/tools/homemade-dog-food-calculator/">homemade dog food calculator</a> estimates daily
+    as-fed grams from percent-of-body-weight ranges; the{' '}
+    <a href="/tools/dog-food-calculator/">dog food calculator</a> estimates daily kilocalories from the
+    RER/MER method used in veterinary nutrition teaching. For pathogen and balance risks of raw
+    patterns, read <a href="/guides/raw-feeding-basics/">raw feeding basics</a>. For whether the dog is
+    even the right shape for the calorie target, use the{' '}
+    <a href="/guides/dog-body-condition-score-chart/">dog body condition score chart</a>.
+  </p>
+  <p>
+    Critical safety frame: calories prevent under- or over-feeding in the short term; they do not add
+    calcium, essential fatty acids, or vitamins that missing from meat-and-rice bowls. WSAVA nutrition
+    guidance and teaching hospitals such as Tufts Clinical Nutrition emphasize that home-prepared diets
+    should be formulated by qualified professionals. This page teaches the arithmetic so you can talk
+    with your veterinarian—not so you can invent a forever recipe from a blog.
+  </p>
+
+  <h2>RER, MER, and why cups fail</h2>
+  <p>
+    Resting Energy Requirement (RER) in kilocalories per day is commonly estimated as{' '}
+    <strong>70 × (body weight in kilograms)<sup>0.75</sup></strong>, a relationship summarized in NRC
+    <em>Nutrient Requirements of Dogs and Cats</em> and used widely in clinical nutrition. Maintenance
+    Energy Requirement (MER) multiplies RER by a factor for neutered adults, intact adults, activity,
+    growth, or weight loss. Merck Veterinary Manual tables of daily maintenance energy requirements
+    present the same family of estimates clinicians use when translating weight into feeding plans.
+  </p>
+  <p>
+    Commercial kibbles print kcal per cup so you can convert MER into scoops. Homemade mixes rarely
+    have a stable “per cup” value because moisture and fat swing with each batch. Weighing grams on a
+    kitchen scale and knowing approximate kcal per 100 g of the finished mix is the honest approach.
+    If you cannot state both the dog’s daily kcal target and the mix’s kcal density, you are guessing.
+  </p>
+
+  <h2>Portion percent table (as-fed educational ranges)</h2>
+  <p>
+    The homemade calculator uses percent-of-body-weight bands that many raw and fresh-feeding educators
+    teach as starting points. They assume a typical moisture-rich mix—not dehydrated concentrates. They
+    are not AAFCO feeding trials.
+  </p>
+  <table>
+    <caption>
+      Educational as-fed homemade/raw portion ranges by goal (matches PetCalc homemade calculator)
+    </caption>
+    <thead>
+      <tr>
+        <th scope="col">Goal</th>
+        <th scope="col">% of body weight / day</th>
+        <th scope="col">Example for 20 kg (44 lb)</th>
+        <th scope="col">Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Adult maintain</td>
+        <td>2–3%</td>
+        <td>400–600 g</td>
+        <td>Most common teaching band for adult maintenance</td>
+      </tr>
+      <tr>
+        <td>Active adult</td>
+        <td>3–4%</td>
+        <td>600–800 g</td>
+        <td>Still verify with body condition and kcal density</td>
+      </tr>
+      <tr>
+        <td>Puppy / growth</td>
+        <td>2.5–5%</td>
+        <td>500–1,000 g</td>
+        <td>Wide band—growth diets need professional balance</td>
+      </tr>
+      <tr>
+        <td>Weight loss</td>
+        <td>1.5–2%</td>
+        <td>300–400 g</td>
+        <td>Only under veterinary supervision; nutrient density still matters</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    A fatty 3% ration can overshoot calories while a lean 3% ration undershoots them. Percent rules are
+    volume proxies; kilocalories are the real currency.
+  </p>
+
+  <h2>Worked example: 20 kg (44 lb) neutered adult</h2>
+  <p>
+    Riley is a 20 kg (44 lb) neutered mixed-breed adult at ideal body condition, moderately active.
+    Step 1 — RER: 70 × 20<sup>0.75</sup> ≈ <strong>662 kcal/day</strong>. Step 2 — MER with a common
+    neutered-adult factor of 1.6: 662 × 1.6 ≈ <strong>1,060 kcal/day</strong>. That matches the dog food
+    calculator’s energy path for the same inputs. Step 3 — as-fed grams: the homemade calculator’s
+    maintain band of 2–3% gives <strong>400–600 g/day</strong> of mixed food. Step 4 — check density: if
+    the finished batch averages about 175 kcal per 100 g, then 600 g supplies about 1,050 kcal—near the
+    MER target—while 400 g would supply only about 700 kcal and likely cause weight loss.
+  </p>
+  <p>
+    Riley’s owner weighs the bowl contents for a week, rechecks ribs and waist, and brings the recipe
+    and numbers to the veterinarian. If weight creeps up, they reduce grams or fat—not random vegetable
+    fillers that unbalance calcium and amino acids. If they want a long-term homemade plan, they ask for
+    referral to a board-certified veterinary nutritionist rather than copying a social-media “ratio.”
+  </p>
+
+  <h2>Turning ingredients into kilocalories</h2>
+  <p>
+    Each ingredient contributes metabolizable energy. Fat is energy-dense; water-rich muscle meat and
+    vegetables dilute calories per gram. USDA-style human databases can approximate cooked chicken or
+    rice, but canine diets also require calcium sources, essential fatty acids, and vitamin/mineral
+    premixes in correct amounts. Adding a spoon of oil “for shine” can add hundreds of kilocalories and
+    skew the calcium-to-phosphorus ratio. Subtract training treats from the daily budget the same way
+    you would on kibble—often keeping extras near 10% of calories.
+  </p>
+  <p>
+    Batch cooking helps consistency: cook or prepare a large batch, weigh the total yield, assign total
+    kcal from the recipe spreadsheet your nutritionist provides, then divide into daily grams. Freezing
+    in weighed portions beats scooping from a family-sized tub by eye.
+  </p>
+
+  <h2>Homemade versus commercial labels</h2>
+  <p>
+    AAFCO nutrient profiles and nutritional adequacy statements tell you a commercial food is formulated
+    or feeding-trialed for a life stage. Homemade food you invent in a skillet has no such statement.
+    AAHA nutrition and weight-management guidance treats diet history as a medical assessment—owners
+    should bring brand names, amounts, and treats to appointments. If you rotate proteins weekly without
+    a balanced base mix, both calories and micronutrients drift.
+  </p>
+  <p>
+    Grain-free, “ancestral,” or boutique marketing does not equal complete. Neither does feeding only
+    muscle meat because it looks species-appropriate. Cats are obligate carnivores with even narrower
+    tolerances; this guide focuses on dogs, but the same professional-formulation rule applies even more
+    tightly to feline homemade diets.
+  </p>
+
+  <h2>Common calorie mistakes</h2>
+  <ul>
+    <li>Matching a neighbor’s Labrador portions to a Beagle because “dogs are dogs.”</li>
+    <li>Ignoring oil, peanut butter, and cheese used in training.</li>
+    <li>Switching from kibble to wet homemade overnight without recounting kcal and fiber.</li>
+    <li>Using weight-loss percent bands without veterinary oversight or a nutrient-complete recipe.</li>
+    <li>Assuming raw is automatically low-calorie because it looks watery in the bowl.</li>
+    <li>Feeding puppy percent ranges to adults “to be generous.”</li>
+  </ul>
+
+  <h2>When to call your veterinarian</h2>
+  <p>
+    Contact your veterinarian before starting homemade feeding if your dog is a puppy, senior, pregnant,
+    lactating, underweight, obese, or living with kidney, liver, pancreatic, or urinary disease. Call
+    promptly for vomiting, diarrhea, refusal to eat, sudden weight change, lethargy, or signs of
+    deficiency (poor coat, fractures in growing dogs, weakness). Bring your calorie math, ingredient
+    list, and body-condition notes. Emergency symptoms—collapse, unproductive retching, bloated tight
+    abdomen—need emergency care regardless of diet type.
+  </p>
+
+  <h2>Putting the homemade calculator and MER side by side</h2>
+  <p>
+    A practical workflow: (1) agree on daily kcal with your veterinarian using RER/MER; (2) open the
+    homemade calculator for a gram range at about 2–3% of body weight if you are feeding a moist mix;
+    (3) multiply grams by your recipe’s kcal per gram from the nutritionist sheet; (4) compare to the
+    MER target and adjust grams until they match; (5) rescore BCS in two to four weeks. If percent-based
+    grams deliver far more kcal than MER predicts, the mix is denser than you thought—trust the calorie
+    sum. If grams under-deliver, the dog will lose weight even though the bowl looks full.
+  </p>
+  <p>
+    Keep commercial backup food that matches the calorie target for travel or recipe shortages. Abrupt
+    swaps without recounting energy create GI upset and silent calorie gaps. Treat the spreadsheet as a
+    living document whenever fat trim, cooking yield, or treat habits change.
+  </p>
+
+  <h2>Worked comparison: kibble cup vs homemade grams</h2>
+  <p>
+    Suppose Riley’s previous kibble provided 350 kcal per cup and the household fed about three cups
+    daily (~1,050 kcal)—close to the 1,060 kcal MER estimate. Switching to a homemade mix at 175 kcal
+    per 100 g means the dog still needs about 600 g of food to match calories, not “three cups” of
+    chunky stew by eye. If the new mix is fattier at 250 kcal per 100 g, only about 420 g delivers the
+    same energy—near the low end of the 2–3% band. Without that density check, owners often overfeed
+    homemade food because the bowl looks less full than kibble.
+  </p>
+  <p>
+    Write density on the batch container: total batch kcal ÷ total batch grams × 100 = kcal per 100 g.
+    Recalculate when you change oils, cuts of meat, or add oatmeal. Training treats still subtract from
+    the daily budget.
+  </p>
+
+  <h2>When homemade calories are the wrong first step</h2>
+  <p>
+    Skip DIY calorie experiments and call your veterinarian first if the dog has pancreatitis history,
+    chronic diarrhea, kidney or liver disease, food allergy workups in progress, or is a growing puppy
+    without a formulated growth recipe. Weight-loss plans on unbalanced home diets can strip muscle
+    while fat remains. Raw feeding adds pathogen handling questions on top of maths—read the raw
+    feeding guide and still insist on professional balance.
+  </p>
+  <p>
+    AAHA nutrition guidance frames diet history as part of every assessment; bring your spreadsheet,
+    not only a verbal “chicken and rice.” Tufts and similar clinical nutrition services exist
+    specifically because internet ratios fail micronutrient tests.
+  </p>
+
+  <h2>Assumptions and limits</h2>
+  <p>
+    RER/MER factors here mirror common clinical teaching values used in our calculators; individual dogs
+    vary with lean mass, temperature, and disease. Percent-of-body-weight bands are educational as-fed
+    estimates for moisture-rich mixes, not universal laws. Ingredient calorie values must come from
+    reliable data or a formulated recipe—do not invent them. This page does not provide recipes, calcium
+    doses, or medication advice. It does not claim homemade feeding is safer or better than complete
+    commercial diets. When sources disagree on multipliers, prefer your veterinarian’s target and
+    recheck weight on a schedule.
+  </p>
+
+  <h2>Bottom line</h2>
+  <p>
+    Homemade dog food calories are a two-step problem: set daily energy with RER/MER, then deliver those
+    kilocalories with weighed portions whose density you actually know. Use 2–3% of body weight only as
+    a starting gram range for many adult mixes, verify against ~1,060 kcal/day for a typical 20 kg
+    neutered adult, and keep body condition—not bowl aesthetics—as the judge. Let veterinary
+    nutritionists balance the nutrients; let calculators handle the arithmetic; let your veterinarian
+    supervise anything that looks like a diet change with medical stakes. If you cannot afford
+    formulation help, a complete commercial diet remains the safer default—homemade is not required for
+    a healthy dog, and incomplete home cooking is riskier than a labeled bag.
+  </p>
+</GuidePageShell>

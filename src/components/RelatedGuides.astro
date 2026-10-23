@@ -1,0 +1,55 @@
+---
+/**
+ * Topical "Learn more" guides for a tool page (reverse index of guides.relatedTools).
+ * Keeps the global nav; this block is topic-specific.
+ */
+import { getGuidesForTool } from '../data/guides.ts';
+import { getTool } from '../data/tools.ts';
+
+export interface Props {
+  toolSlug: string;
+  /** Optional heading override */
+  heading?: string;
+}
+
+const { toolSlug, heading = 'Learn more' } = Astro.props;
+const related = getGuidesForTool(toolSlug);
+const tool = getTool(toolSlug);
+---
+
+{
+  related.length > 0 && (
+    <section class="related" aria-labelledby="related-guides-heading">
+      <h2 id="related-guides-heading">{heading}</h2>
+      {tool && (
+        <p>
+          Guides that explain the numbers behind {tool.shortTitle.toLowerCase()} — read after you
+          run the calculator.
+        </p>
+      )}
+      <ul class="related-guide-list">
+        {related.map((guide) => (
+          <li>
+            <a href={`/guides/${guide.slug}/`}>{guide.title}</a>
+            <span class="muted"> — {guide.description}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}
+
+<style>
+  .related-guide-list {
+    list-style: disc;
+    padding-left: 1.25rem;
+    margin: 0.75rem 0 0;
+  }
+  .related-guide-list li {
+    margin: 0.4rem 0;
+  }
+  .related-guide-list .muted {
+    color: var(--color-muted, #5c6b63);
+    font-size: 0.95em;
+  }
+</style>

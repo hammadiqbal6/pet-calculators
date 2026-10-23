@@ -1,10 +1,17 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
-import { siteConfig } from './src/config/site.ts';
+import { FALLBACK_SITE_URL, siteConfig } from './src/config/site.ts';
+
+/** Canonical origin: PUBLIC_SITE_URL wins; otherwise siteConfig / FALLBACK_SITE_URL. */
+const siteOrigin = (
+  (typeof process !== 'undefined' && process.env.PUBLIC_SITE_URL) ||
+  siteConfig.siteUrl ||
+  FALLBACK_SITE_URL
+).replace(/\/$/, '');
 
 export default defineConfig({
-  site: siteConfig.siteUrl,
+  site: siteOrigin,
   trailingSlash: 'always',
   build: {
     inlineStylesheets: 'always',

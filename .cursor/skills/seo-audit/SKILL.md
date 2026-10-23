@@ -5,7 +5,7 @@ description: Run a full technical and on-page SEO audit of the built pet calcula
 
 # SEO audit
 
-Governing documents: `docs/SEO-PLAYBOOK.md` sections 2, 3, 6, 7; `docs/SEO-GUIDE.md` section 1 (launch checklist); `docs/KEYWORD-MAP.md`; rules `.cursor/rules/seo-pages.mdc`.
+Governing documents: `docs/SEO-PLAYBOOK.md` sections 2, 3, 6, 7; `docs/SEO-GUIDE.md` section 1 (launch checklist); `docs/KEYWORD-MAP.md`; `docs/SEO-GUARDRAILS.md`; `docs/CUSTOM-DOMAIN.md`; rules `.cursor/rules/seo-pages.mdc` and `.cursor/rules/seo-guardrails.mdc`.
 
 The audit always runs on the **built output** (`dist/`), never on source, because titles, canonicals, JSON-LD and sitemap are produced at build time.
 
@@ -16,25 +16,28 @@ export PATH=$HOME/.nvm/versions/node/v22.23.3/bin:$PATH   # if node is not on PA
 npm ci
 npm run build
 npm run audit:seo
+npm run audit:seo-guardrails
 npm run check:links              # add -- --external to verify outbound links (network)
 AUDIT_PROD=1 npm run audit:seo   # what the production deploy will enforce
 ```
 
-What `scripts/audit/seo.mjs` checks (code in parentheses appears in the output):
+What `scripts/audit/seo.mjs` + `seo-guardrails.mjs` check (code in parentheses appears in the output):
 
 | Area | Checks |
 |---|---|
-| Head | `<title>` present, 30-65 chars (hard max 80), unique (`title-duplicate`); meta description 70-160 chars (hard max 200), unique-ish; `lang`, viewport, charset |
+| Head | `<title>` present, ≤60 chars (hard max 60), unique (`title-duplicate`); meta description 50-165 chars, unique-ish; `lang`, viewport, charset |
 | Headings | exactly one `<h1>`, not empty; no skipped heading levels |
-| Canonical | exactly one, absolute `https`, **self-referencing** (equals `siteUrl` + route); `noindex` pages must not declare conflicting canonicals; embeds `noindex` or canonical |
-| Social | `og:title/description/url/type`; `og:url` equals canonical; `og:image` present, not SVG, absolute https; `twitter:card` |
+| Canonical | exactly one, absolute `https`, **self-referencing** (equals `siteUrl` + route); host must match `PUBLIC_SITE_URL` / fallback; embeds `noindex` or canonical |
+| Social | `og:title/description/url/type`; `og:url` equals canonical; `og:image` present, not SVG, absolute https, **must not end with `/`**; `twitter:card` |
 | Images | every `<img>` has `alt` (empty only if decorative); width/height present (CLS) |
 | JSON-LD | every block parses; `@context` and `@type`; Organization on home; `BreadcrumbList` on non-home; tool pages `WebApplication`/`SoftwareApplication` with `offers.price = "0"`; guides `Article` with headline/dates/author; **fails on `aggregateRating`/`review`** |
-| Content | tool pages >= 600 words; guides >= 800 (warn) / >= 600 (error); tool structure: calculator form, Sources section, FAQ, formula heading, disclaimer, "Last updated", >= 2 contextual links |
+| Content | tool pages >= 600 words; guides >= 800 (**error**); tool structure: calculator form, Sources, FAQ, formula heading, disclaimer, "Last updated", ≥2 contextual links **including ≥1 `/guides/` link** |
+| Origin | no `example.com`; no hard-coded `*.workers.dev` outside allowlisted config/docs; IndexNow not placeholder |
+| Worker | `src/worker.ts` 308 + FILE_EXT `{1,16}`; wrangler `previews: {}`, no top-level `vars` for PUBLIC_* |
 | Links | broken internal links/assets (`broken-link`), missing trailing slash |
 | Graph | orphan pages (no inbound link from another non-embed page), weak inbound (only 1 linker) |
 | Sitemap | `sitemap-index.xml` + children parse; every URL maps to a built page, same host as `siteUrl`, trailing slash, `lastmod`; every indexable page is listed; no `noindex`/embed/404 URLs |
-| robots.txt | exists, `Sitemap:` line with the right host, no global disallow, search/answer bots (Googlebot, Bingbot, OAI-SearchBot, PerplexityBot, Claude-SearchBot) not blocked, CSS/JS not blocked |
+| robots.txt | exists, `Sitemap:` line with the right host, no global disallow, **explicit** AI/search bot Allow groups, CSS/JS not blocked |
 | IndexNow | key file present when a real key is configured (placeholder is a launch blocker) |
 | Keyword map | every built page appears in `docs/KEYWORD-MAP.md`; no duplicate primary keywords (`cannibalization`) |
 

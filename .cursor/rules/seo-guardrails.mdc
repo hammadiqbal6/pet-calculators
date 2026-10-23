@@ -1,0 +1,38 @@
+---
+description: Hard SEO/AEO guardrails for pet-calculators (canonical origin, titles, OG, worker, no hardcoded hosts)
+globs:
+  - src/**/*
+  - scripts/**/*
+  - public/**/*
+  - wrangler.jsonc
+  - astro.config.mjs
+  - docs/SEO-GUARDRAILS.md
+  - docs/CUSTOM-DOMAIN.md
+---
+
+# SEO guardrails (binding)
+
+Full checklist: [`docs/SEO-GUARDRAILS.md`](../../docs/SEO-GUARDRAILS.md), cutover: [`docs/CUSTOM-DOMAIN.md`](../../docs/CUSTOM-DOMAIN.md). Enforced by `npm run audit:seo-guardrails`.
+
+## Canonical origin
+- One setting: `PUBLIC_SITE_URL` → `siteConfig.siteUrl` (`FALLBACK_SITE_URL` only when unset).
+- Use `absoluteUrl()` / `siteConfig.siteUrl` for canonicals, sitemap, robots Sitemap line, llms.txt, JSON-LD, OG URLs, IndexNow host.
+- Never hard-code `*.workers.dev` or a custom domain outside `src/config/site.ts`, `sisterSites.ts`, `.env.example`, CI env, and docs that describe the URL.
+
+## Titles / meta / structure
+- Full `<title>` (with ` | PetCalc Tools`) ≤ **60** chars.
+- Meta description **50–165** chars.
+- Exactly one H1; self-referencing absolute canonical; `og:image` must not end with `/`.
+
+## Worker / wrangler
+- `src/worker.ts` issues **308** trailing-slash redirects; `FILE_EXT` `{1,16}` so `.webmanifest` is not slashed.
+- `wrangler.jsonc`: `main`, `run_worker_first`, `html_handling: force-trailing-slash`, `"previews": {}`. No top-level `vars` for `PUBLIC_*`.
+
+## Content linking
+- Every tool page links ≥1 guide (RelatedGuides / Learn more). Guides ≥800 words with FAQPage + author + dateModified.
+- Keep nav; add topical Related blocks.
+
+## Do not
+- Do not put `import` inside classic inline `<script define:vars>` (breaks GA).
+- Do not commit IndexNow placeholder `000…0`.
+- Do not change the live domain in a PR unless asked — document cutover only.

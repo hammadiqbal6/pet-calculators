@@ -22,3 +22,7 @@ Shipped named maintainer (Hammad Iqbal), TrustBlock, PNG OG/favicons/manifest, C
 ## 2026-10-23 — CI proof fix after PR #7
 
 Main CI failed on **Generate proof bundle** (home/chocolate Lighthouse CLS/TBT flake). Reserved `.results` layout space; proof now median-retries a missed first run. Workers Builds deploy was not blocked by GitHub Actions.
+
+## 2026-10-23 — SEO/AEO audit + 6 guides + custom-domain prep
+
+Multi-site audit fixes: 308 worker, Learn more blocks, titles ≤60, AI bots in robots, per-page OG, `SEO-GUARDRAILS` + `CUSTOM-DOMAIN` docs, CI `audit:seo-guardrails`. Six new guides (~1.5k+ words). Guides count now 12.

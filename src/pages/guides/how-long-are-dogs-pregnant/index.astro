@@ -1,0 +1,311 @@
+---
+import GuidePageShell from '../../../components/GuidePageShell.astro';
+import { SRC } from '../../../data/sources.ts';
+
+const faq = [
+  {
+    q: 'How long are dogs pregnant in days?',
+    a: 'Most dogs whelp about 63 days after ovulation. Counting from a single breeding date is less precise because sperm can wait for eggs, so the visible window is often about 58 to 68 days from mating. Your veterinarian may refine timing with hormone tests and ultrasound. Do not schedule elective cesarean dates from a backyard calendar alone.',
+  },
+  {
+    q: 'Can I confirm pregnancy at home without a vet?',
+    a: 'Home guesses from nipple color, belly size, or appetite are unreliable and can miss false pregnancy or pyometra. Blood tests, ultrasound, and later radiographs performed by a veterinarian are the appropriate confirmation methods. Skip internet “squeeze tests” and early belly palpation by untrained hands.',
+  },
+  {
+    q: 'When can an ultrasound show puppies?',
+    a: 'Many clinics detect pregnancy by ultrasound around three to four weeks after ovulation, though exact timing depends on the dog and equipment. Radiographs for puppy count are typically more useful in the final week or so when skeletons are mineralized. Ask your veterinarian which test fits the breeding timeline.',
+  },
+  {
+    q: 'How should I feed a pregnant dog?',
+    a: 'Early pregnancy often needs little more than high-quality adult maintenance if the dam was already at ideal weight. Calorie needs usually rise in the last third of pregnancy and soar during lactation. Many veterinarians transition to a complete puppy or growth/lactation diet later in pregnancy. Use the dog food calculator only as a starting discussion point with your vet—do not invent megadoses of supplements.',
+  },
+  {
+    q: 'What are early signs of labor (whelping)?',
+    a: 'Nesting, restlessness, refusal of food, and a drop in rectal temperature in the day before labor are commonly discussed signs, but they are not perfect. Active straining without producing a puppy for a prolonged period, green discharge before any puppy, or extreme lethargy are emergencies. Call your veterinarian or an emergency clinic if you are unsure.',
+  },
+  {
+    q: 'Is false pregnancy common?',
+    a: 'Pseudopregnancy can follow a heat cycle even without mating, with mammary development and nesting. It can look like true pregnancy. Only veterinary testing sorts them out. Do not start whelping prep or restrict food based on assumptions.',
+  },
+  {
+    q: 'Should first-time breeders induce labor at home?',
+    a: 'No. Do not give oxytocin, herbal “whelping aids,” or other drugs without direct veterinary instruction. Incorrect use can rupture the uterus or stress puppies. Responsible breeding includes a veterinary relationship before breeding and a clear emergency plan.',
+  },
+];
+
+const sources = [
+  SRC.msdDogReproduction,
+  SRC.aahaCanineLife,
+  SRC.aahaNutrition,
+  SRC.nrc,
+  SRC.aspcaDogCare,
+];
+---
+
+<GuidePageShell
+  slug="how-long-are-dogs-pregnant"
+  title="How Long Are Dogs Pregnant?"
+  description="Dog pregnancy length (~63 days from ovulation), week-by-week stages, and why ultrasound confirmation with your vet matters."
+  answer="How long are dogs pregnant? Most bitches whelp about 63 days after ovulation—roughly nine weeks. Counting from breeding alone is fuzzier (often about 58–68 days) because mating may not match ovulation day. Confirm pregnancy and due dates with your veterinarian using hormone timing, ultrasound, or radiographs. Home belly checks are not a diagnosis."
+  takeaways={[
+    'Typical gestation ≈ 63 days from ovulation; breeding-date windows are wider.',
+    'Week-by-week changes are gradual—ultrasound beats guessing from appetite alone.',
+    'Confirm pregnancy with your veterinarian; false pregnancy and pyometra can mimic signs.',
+    'Calorie needs rise mainly in late pregnancy and lactation—plan food with your vet.',
+    'Hard labor without progress is an emergency; have a clinic phone number ready.',
+    'Use the dog pregnancy calculator for an educational due-date window, then verify clinically.',
+  ]}
+  faq={faq}
+  sources={sources}
+>
+  <h2>The 63-day answer—and why breeding dates mislead</h2>
+  <p>
+    Owners asking <strong>how long are dogs pregnant</strong> usually hear “about nine weeks.” More
+    precisely, veterinary reproduction references commonly cite about <strong>63 days from
+    ovulation</strong> (timed from the LH surge / ovulation window) to whelping. If you only know the
+    day of mating, the due date spreads because dogs can be bred days before or after ovulation and
+    sperm can survive in the reproductive tract. That is why breeding-to-whelping intervals often span
+    roughly the high 50s to high 60s in days. The{' '}
+    <a href="/tools/dog-pregnancy-calculator/">dog pregnancy calculator</a> illustrates a 63-day center
+    with a wider window from breeding dates and a tighter window from ovulation dates—educational
+    math you should still confirm with your veterinarian. For calorie planning later in pregnancy,
+    keep the <a href="/tools/dog-food-calculator/">dog food calculator</a> handy as a discussion aid,
+    not a prescription.
+  </p>
+  <p>
+    MSD Veterinary Manual owner materials on canine reproduction emphasize professional management of
+    breeding and whelping. This guide explains timelines so you can ask better questions—it does not
+    replace theriogenology care, and it is not permission to diagnose pregnancy at home.
+  </p>
+
+  <h2>Week-by-week pregnancy stages</h2>
+  <p>
+    Individual bitches vary. The table below is a plain-language map from ovulation week 0, not a
+    substitute for ultrasound reports. When in doubt, schedule veterinary confirmation rather than
+    waiting for a dramatic belly.
+  </p>
+  <table>
+    <caption>Educational dog pregnancy timeline from ovulation (≈63-day gestation)</caption>
+    <thead>
+      <tr>
+        <th scope="col">Week (approx.)</th>
+        <th scope="col">Days from ovulation</th>
+        <th scope="col">What often happens</th>
+        <th scope="col">Owner action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Week 1</td>
+        <td>0–7</td>
+        <td>Fertilization and early embryo travel; little external change.</td>
+        <td>Maintain normal gentle routine; avoid new drugs unless vet-approved.</td>
+      </tr>
+      <tr>
+        <td>Week 2</td>
+        <td>8–14</td>
+        <td>Embryos continue development; still easy to miss pregnancy.</td>
+        <td>Do not palpate aggressively; note breeding/ovulation dates for the clinic.</td>
+      </tr>
+      <tr>
+        <td>Week 3</td>
+        <td>15–21</td>
+        <td>Implantation period; mild appetite or attitude changes possible.</td>
+        <td>Ask your vet when blood testing or early imaging makes sense for your timing.</td>
+      </tr>
+      <tr>
+        <td>Week 4</td>
+        <td>22–28</td>
+        <td>Fetuses more detectable on ultrasound in many clinics.</td>
+        <td>Schedule confirmation imaging if breeding was intentional.</td>
+      </tr>
+      <tr>
+        <td>Week 5</td>
+        <td>29–35</td>
+        <td>Abdomen may start to round; nipples may look more prominent.</td>
+        <td>Keep walks controlled; maintain ideal body condition—not free-choice junk calories.</td>
+      </tr>
+      <tr>
+        <td>Week 6</td>
+        <td>36–42</td>
+        <td>Clearer abdominal enlargement in many bitches; fetal growth accelerates.</td>
+        <td>Discuss diet transition and whelping supply lists with your veterinarian.</td>
+      </tr>
+      <tr>
+        <td>Week 7</td>
+        <td>43–49</td>
+        <td>Rapid fetal growth; calorie needs often rising.</td>
+        <td>Frequent smaller meals may help; monitor for lethargy or vaginal discharge.</td>
+      </tr>
+      <tr>
+        <td>Week 8</td>
+        <td>50–56</td>
+        <td>Late pregnancy; radiographs may count skeletons near term.</td>
+        <td>Prepare whelping area; know emergency clinic route and phone numbers.</td>
+      </tr>
+      <tr>
+        <td>Week 9</td>
+        <td>57–63+</td>
+        <td>Term; nesting and appetite drop may precede labor.</td>
+        <td>Watch for dystocia signs; call your vet if timelines or symptoms worry you.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Worked example: ovulation-dated due window</h2>
+  <p>
+    A breeder documents ovulation with progesterone timing on 1 January 2026. Using the same 63-day
+    framing as our pregnancy calculator, the estimated due date is 5 March 2026, with a narrow
+    educational window of about 3–7 March when ovulation dating is trusted. If the same bitch was only
+    known to be bred on 1 January without hormone timing, the calculator’s breeding mode widens the
+    window (plus-or-minus several days) because mating day is not ovulation day. The owner still books
+    an ultrasound in the clinic’s preferred week rather than announcing a litter on social media from
+    the calendar alone.
+  </p>
+  <p>
+    That discipline matters: a swollen belly can be fluid, pyometra, or other disease. Only veterinary
+    confirmation protects the dam.
+  </p>
+
+  <h2>Confirm with your veterinarian—not home diagnosis</h2>
+  <p>
+    Responsible steps include discussing breeding soundness before mating, using progesterone or other
+    timing when precise due dates matter (especially for planned cesarean), confirming pregnancy with
+    ultrasound, and considering late-term radiographs for puppy count when your veterinarian recommends
+    them. Skip folklore tests (wheat paste, “poke the belly weekly,” human pregnancy strips marketed for
+    dogs without veterinary context). If breeding was accidental, call your clinic promptly to discuss
+    options and health screening—do not wait nine weeks hoping for the best.
+  </p>
+  <p>
+    False pregnancy can mimic mammary development and nesting after a heat. Pyometra is a uterine
+    infection that can follow heat cycles and become life-threatening. Both are reasons never to treat
+    “she looks pregnant” as a complete answer.
+  </p>
+
+  <h2>Nutrition and body condition while pregnant</h2>
+  <p>
+    Ideal body condition at breeding is safer than starting obese or underweight. Many dams do not need
+    huge calorie jumps in early pregnancy; overfeeding early can create soft dams and whelping trouble.
+    Energy needs typically climb in the last weeks and peak in lactation. Complete diets labeled for
+    growth/lactation or puppy feeding are often chosen under veterinary guidance. Calcium supplements
+    tossed onto homemade diets without a formulated plan are a known risk—especially around whelping.
+  </p>
+  <p>
+    Track ribs and waist with help from the{' '}
+    <a href="/guides/dog-body-condition-score-chart/">dog body condition score chart</a> and ask your
+    veterinarian before changing brands mid-pregnancy. Sudden anorexia, vomiting, or weakness in late
+    pregnancy is a reason to call, not to “wait until tomorrow’s meal.”
+  </p>
+
+  <h2>Whelping readiness and red flags</h2>
+  <p>
+    Prepare a clean, quiet whelping box, know normal stage-two labor expectations from your
+    veterinarian, and keep transport ready. Emergency red flags commonly include strong pushing for an
+    extended period without a puppy, more than a couple of hours between puppies when more are
+    expected, green discharge before any puppy arrives, heavy bleeding, extreme pain, or collapse.
+    Phone your veterinarian or emergency hospital immediately—do not download unvetted “pull the puppy”
+    videos as your plan.
+  </p>
+
+  <h2>How to use the pregnancy calculator responsibly</h2>
+  <p>
+    Enter an ovulation date when hormone timing exists; otherwise enter the breeding date and expect a
+    wider window. Write the calculator’s due date on a calendar as “estimate—confirm with clinic,” then
+    schedule the ultrasound your veterinarian recommends. Do not announce C-section dates to friends
+    from the web tool alone. If breeding was unplanned, call your veterinarian promptly; timelines still
+    help with triage even when you are not planning a litter.
+  </p>
+  <p>
+    Late in pregnancy, keep exercise to controlled leash walks unless your veterinarian advises
+    otherwise, prevent jumping from cars and sofas, and introduce the whelping area early so the dam
+    is not stressed by last-minute changes. Record appetite, vulvar discharge (normal vs concerning as
+    defined by your clinic), and resting respiratory rate if your veterinarian asks you to monitor it.
+  </p>
+
+  <h2>After whelping: calories and recovery</h2>
+  <p>
+    Lactation can demand more energy than pregnancy itself. Many dams need free access to a complete
+    growth/lactation diet while nursing a large litter, with fresh water always available. Watch for
+    mastitis (hot, painful glands), eclampsia signs (restlessness, tremors—emergency), and failure of
+    puppies to gain weight. The dog food calculator can sketch adult maintenance later; during peak
+    lactation your veterinarian’s feeding instructions override online estimates. Keep the dam’s body
+    condition in view—ribbiness while nursing is common, but extreme emaciation needs help.
+  </p>
+
+  <h2>Ethics and “should we breed?”</h2>
+  <p>
+    Length of pregnancy is easy to memorize; the responsibilities are not. Genetic testing, temperament,
+    hip/elbow or breed-relevant health clearances, neonatal care skills, and a budget for emergency
+    cesarean sections all belong in the decision before mating. If you cannot commit to rehoming
+    standards and veterinary costs, discuss spay/neuter timing with your veterinarian instead of relying
+    on a due-date article.
+  </p>
+
+  <h2>Breeding-date worked check</h2>
+  <p>
+    Using the same 1 January 2026 start in the pregnancy calculator’s breeding mode still centers on a
+    5 March 2026 due date, but the educational window widens to about <strong>28 February–10 March
+    2026</strong> (plus-or-minus five days around day 63) because mating day is not ovulation day. That
+    wider band is why breeders who need a precise elective cesarean date invest in progesterone timing
+    rather than counting from a single tie. Owners with an accidental breeding should still call the
+    clinic early—waiting until day 60 to “see if she looks pregnant” delays care for pyometra and other
+    look-alike conditions.
+  </p>
+
+  <h2>What not to do at home</h2>
+  <ul>
+    <li>Do not give oxytocin, herbal labor teas, or human pregnancy tests as diagnostic tools.</li>
+    <li>Do not restrict water or food to keep the whelping box cleaner.</li>
+    <li>Do not add calcium powders to homemade diets without a formulated plan—imbalance around
+      whelping is dangerous.</li>
+    <li>Do not attempt to “feel for puppies” aggressively in early pregnancy.</li>
+    <li>Do not ignore green discharge before any puppy arrives; contact a veterinarian or emergency
+      clinic immediately.</li>
+  </ul>
+  <p>
+    AAHA canine life stage thinking still applies to breeding dogs: they need wellness care, parasite
+    control, and nutrition assessment before mating—not only a due-date app. NRC energy equations and
+    AAHA nutrition guidance remind clinicians that late pregnancy and lactation multiply calorie needs;
+    use the dog food calculator only as a conversation aid while your veterinarian chooses the diet.
+  </p>
+
+  <h2>After whelping: brief orientation</h2>
+  <p>
+    Once puppies arrive, the dam’s calorie and water needs usually rise sharply. Keep the whelping area
+    warm, quiet, and clean, and have your clinic’s phone number visible. Puppy weight checks in the
+    first days catch failure to thrive early—your veterinarian will set the schedule. This guide stops
+    at pregnancy length and readiness; neonatal protocols belong in a hands-on veterinary relationship.
+  </p>
+
+  <h2>Breeding-date math versus progesterone timing</h2>
+  <p>
+    If the only date you have is “she was bred on Saturday,” treat the calculator’s wider window as a
+    planning aid for when to call the clinic—not as theater for a surprise party. Progesterone timing
+    (and related ovulation estimates) lets veterinarians narrow cesarean scheduling and predict
+    whelping more tightly. Ask your clinic whether timing bloodwork was done; if not, expect more
+    uncertainty and earlier ultrasound. Never give labor-inducing drugs from online protocols because
+    a calendar says day 63 has arrived.
+  </p>
+  <p>
+    Singleton litters, very large litters, and older dams can shift patterns. Maternal illness, heat
+    stress, and trauma also change risk. Keep emergency contacts on the fridge next to the estimated
+    due date so overnight decisions are not made from memory alone.
+  </p>
+
+  <h2>Assumptions and limits</h2>
+  <p>
+    Gestation figures here reflect common veterinary teaching (~63 days post-ovulation) and the
+    calculator’s educational windows. Breed size, litter size, and medical interventions can shift
+    timelines. This page does not teach home ultrasound interpretation, medication protocols, or
+    delivery techniques. It does not encourage casual breeding. If you are not prepared for genetic
+    testing, neonatal care, and emergency costs, talk with your veterinarian before breeding.
+  </p>
+
+  <h2>Bottom line</h2>
+  <p>
+    Dogs are pregnant about nine weeks, centered on roughly 63 days from ovulation, with wider ranges
+    from breeding dates alone. Use week-by-week expectations only as orientation, confirm with
+    veterinary ultrasound or other tests, feed under professional guidance, and treat labor problems as
+    emergencies. Calendar math supports planning; clinics protect mothers and puppies.
+  </p>
+</GuidePageShell>

@@ -23,14 +23,17 @@ export const STRICT = process.env.AUDIT_STRICT === '1' || process.argv.includes(
 /** Thresholds shared by the auditors. Keep in sync with .cursor/rules/seo-pages.mdc. */
 export const LIMITS = {
   titleMin: 30,
-  titleMax: 65,
-  titleHardMax: 80,
-  descMin: 70,
-  descMax: 160,
-  descHardMax: 200,
+  /** Soft+hard target: full <title> including brand suffix must be ≤60 (audit Oct 2026). */
+  titleMax: 60,
+  titleHardMax: 60,
+  /** Meta description allowed range (guardrails fail outside). */
+  descMin: 50,
+  descMax: 165,
+  descHardMax: 165,
   toolMinWords: 600,
   guideMinWords: 800,
-  guideHardMinWords: 600,
+  /** Guides below this are errors (was warn-only at 800 / hard 600). */
+  guideHardMinWords: 800,
   hubMinWords: 150,
   legalMinWords: 150,
   minToolPages: 8,
