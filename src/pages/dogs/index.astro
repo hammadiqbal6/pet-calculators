@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { absoluteUrl } from '../../config/site.ts';
 import { tools } from '../../data/tools.ts';
 import { guides } from '../../data/guides.ts';
 
@@ -14,17 +15,53 @@ const description =
 const breadcrumbs = [
   { name: 'Dogs', path: '/dogs/' },
 ];
+
+const itemListJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: title,
+  description,
+  url: absoluteUrl('/dogs/'),
+  isPartOf: { '@id': absoluteUrl('/#website') },
+  mainEntity: {
+    '@type': 'ItemList',
+    itemListElement: dogTools.map((t, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      url: absoluteUrl(`/tools/${t.slug}/`),
+      name: t.title,
+    })),
+  },
+};
 ---
 
-<BaseLayout title={title} description={description} canonicalPath="/dogs/" breadcrumbs={breadcrumbs}>
+<BaseLayout
+  title={title}
+  description={description}
+  canonicalPath="/dogs/"
+  breadcrumbs={breadcrumbs}
+  jsonLd={[itemListJsonLd]}
+>
   <h1>Dog calculators</h1>
   <p class="answer-first">
-    This hub collects every dog-focused calculator on the site—growth, feeding, age, pregnancy,
-    toxicity, hydration, and body condition—plus guides that answer the questions owners search for
-    next. Start with a tool, then read the linked formula and sources on each page.
+    Every dog-focused calculator on this site—growth, feeding, age, pregnancy, toxicity, hydration,
+    and body condition. Example: a healthy adult often drinks about 50–60 ml of water per kg per day.
+    Pick a tool below, then read the formula and sources on each page. Confirm care with your veterinarian.
   </p>
 
-  <div class="prose">
+  <h2>Dog tools</h2>
+  <div class="card-grid cols-3">
+    {
+      dogTools.map((t) => (
+        <a class="tool-card" href={`/tools/${t.slug}/`}>
+          <h3>{t.title}</h3>
+          <p>{t.description}</p>
+        </a>
+      ))
+    }
+  </div>
+
+  <div class="prose" style="margin-top: 2rem">
     <h2>Growing, feeding, and caring for a dog</h2>
     <p>
       Most dog questions follow the same arc. A puppy arrives and you want to know how big it will get, which the{' '}
@@ -54,20 +91,9 @@ const breadcrumbs = [
     </p>
     <p>
       Every dog is an individual. Use these results as a starting point, check body condition regularly, and let your
-      veterinarian make the final call. See the <a href="/methodology/">methodology</a> for the formulas and sources.
+      veterinarian make the final call. See the <a href="/methodology/">methodology</a> and{' '}
+      <a href="/editorial-policy/">editorial policy</a> for formulas and sourcing.
     </p>
-  </div>
-
-  <h2>Dog tools</h2>
-  <div class="card-grid cols-3">
-    {
-      dogTools.map((t) => (
-        <a class="tool-card" href={`/tools/${t.slug}/`}>
-          <h3>{t.title}</h3>
-          <p>{t.description}</p>
-        </a>
-      ))
-    }
   </div>
 
   <h2 style="margin-top: 2rem">Related guides</h2>

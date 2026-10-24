@@ -1,6 +1,7 @@
 ---
 import ToolPageShell from '../../../components/ToolPageShell.astro';
 import WaterIntakeCalc from '../../../components/calculators/WaterIntakeCalc.astro';
+import { SRC } from '../../../data/sources.ts';
 
 const faq = [
   {
@@ -30,20 +31,13 @@ const faq = [
 ];
 
 const sources = [
+  SRC.nrc,
+  SRC.aahaNutrition,
+  SRC.msdPolydipsia,
   {
-    title: 'NRC Nutrient Requirements of Dogs and Cats (water requirements)',
-    url: 'https://nap.nationalacademies.org/catalog/10668/nutrient-requirements-of-dogs-and-cats',
-    publisher: 'National Academies Press',
-  },
-  {
-    title: 'Merck Veterinary Manual: Water requirements of small animals',
+    title: 'Merck Veterinary Manual: Nutrition in Small Animals (water context)',
     url: 'https://www.merckvetmanual.com/management-and-nutrition/nutrition-small-animals/nutrition-in-small-animals',
     publisher: 'Merck Veterinary Manual',
-  },
-  {
-    title: 'AAHA Nutrition and Weight Management Guidelines',
-    url: 'https://www.aaha.org/resources/2021-aaha-nutrition-and-weight-management-guidelines/',
-    publisher: 'AAHA',
   },
 ];
 ---
@@ -52,11 +46,12 @@ const sources = [
   slug="dog-water-intake-calculator"
   title="Dog Water Intake Calculator"
   description="Estimate how much water your dog should drink per day by weight and activity. Sudden changes in thirst warrant a vet visit."
-  answer="A healthy adult dog typically drinks about 50 to 60 milliliters of water per kilogram of body weight per day, roughly one fluid ounce per pound. This calculator adjusts that range for activity, heat, and lactation. A sustained increase in thirst is a reason to call your veterinarian."
+  answer="A healthy adult dog typically drinks about 50 to 60 milliliters of water per kilogram of body weight per day, roughly one fluid ounce per pound. This calculator adjusts that range for activity, heat, and lactation. Sustained intake above about 100 mL/kg/day is a common polydipsia flag—call your veterinarian."
+  lastReviewed="2026-10-24"
   takeaways={[
     'Typical range: about 50–60 mL per kg per day (about 1 oz per lb).',
     'Heat, exercise, dry food, and lactation raise needs.',
-    'Sustained thirst above about 100 mL/kg/day warrants a vet visit.',
+    'Sustained thirst above about 100 mL/kg/day warrants a vet visit (polydipsia flag).',
     'Always leave fresh water available; do not restrict without vet advice.',
     'Track changes in your own dog; the trend matters more than the average.',
   ]}
@@ -118,10 +113,13 @@ const sources = [
   <p>
     Excessive drinking (polydipsia) and urination (polyuria) are classic signs of diabetes mellitus,
     chronic kidney disease, Cushing’s disease, liver disease, and infections such as pyometra in
-    unspayed females. Many veterinarians use roughly 100 mL per kg per day as a flag, but a steady
-    climb from your dog’s own normal is just as important. If your dog is waking you at night to
-    drink or having new accidents in the house, mention it to your vet and bring a record of
-    how much your dog drinks.
+    unspayed females. Teaching materials and clinical texts often use roughly{' '}
+    <strong>&gt;100 mL per kg per day</strong> as a polydipsia flag (see MSD Veterinary Manual coverage of
+    polyuria/polydipsia), but a steady climb from your dog’s own normal is just as important. If your dog
+    is waking you at night to drink or having new accidents in the house, mention it to your vet and bring
+    a record of how much your dog drinks. Read{' '}
+    <a href="/guides/how-much-water-should-a-dog-drink/">how much water should a dog drink</a> for owner-facing
+    context, and use the <a href="/guides/dog-body-condition-score-chart/">BCS chart</a> if weight is changing too.
   </p>
 
   <h2>Keeping your dog hydrated</h2>

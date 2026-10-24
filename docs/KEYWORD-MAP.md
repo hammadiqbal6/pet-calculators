@@ -71,7 +71,8 @@ These pages exist for E-E-A-T and AdSense. They must not target commercial keywo
 | Route | Page type | Primary keyword | Secondary cluster | Intent | Notes |
 |---|---|---|---|---|---|
 | `/about/` | Trust | `petcalc tools` | who runs PetCalc, about PetCalc | N | Brand/entity page. Real people, mission, editorial standards. |
-| `/methodology/` | Trust | `how petcalc calculators work` | pet calculator formulas, pet calculator sources, editorial policy | N | Formula index with sources. Link every tool's formula section here. |
+| `/methodology/` | Trust | `how petcalc calculators work` | pet calculator formulas, pet calculator sources | N | Formula index with sources. Link every tool's formula section here. |
+| `/editorial-policy/` | Trust | `petcalc editorial policy` | pet calculator sources policy, AI drafting disclosure petcalc | N | Sourcing hierarchy, update cadence, AI disclosure, corrections; no invented reviewers. |
 | `/contact/` | Trust | `none` | n/a | N | `mailto:` or form. No keyword target. |
 | `/privacy/` | Trust | `none` | n/a | N | Must contain the AdSense/cookie/opt-out disclosures (`npm run audit:adsense`). |
 | `/terms/` | Trust | `none` | n/a | N | Includes the veterinary disclaimer. |

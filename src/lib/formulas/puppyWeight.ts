@@ -1,10 +1,13 @@
 import { SIZE_ADULT_KG, SIZE_GROWTH_MONTHS, type SizeClass, getBreed } from '../../data/breeds';
 
 /**
- * Adult weight prediction for puppies.
- * Simple veterinary rule of thumb used widely in practice (educational):
- *   adultWeight ≈ (currentWeight / ageWeeks) × 52
- * for dogs under ~16–20 weeks, refined by breed/size expected adult range.
+ * Adult weight prediction for puppies — site heuristic (educational).
+ *
+ * Early estimate (≤16 weeks): adultWeight ≈ (currentWeight / ageWeeks) × 52,
+ * then blended (65%) with the breed/size adult midpoint (35%). This ×52 + blend
+ * method is a common breeder/owner rule of thumb used on this site; it is NOT
+ * published as a clinical standard by NRC, WSAVA, or AAHA. Growth context:
+ * Hawthorne et al. 2004 (J Nutr) on breed growth curves.
  *
  * For older puppies we interpolate toward expected adult weight using a
  * logistic-ish growth fraction by age vs size-class maturity months.

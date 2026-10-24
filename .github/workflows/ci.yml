@@ -16,12 +16,12 @@ permissions:
 jobs:
   build-test-audit:
     name: Build, test, audit
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
@@ -54,11 +54,14 @@ jobs:
       - name: Performance budgets
         run: npm run audit:budgets
 
+      - name: Page checklist audit
+        run: npm run audit:page-checklist
+
       - name: Internal links
         run: npm run check:links
 
       - name: Upload dist
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: dist
           path: dist
@@ -67,12 +70,12 @@ jobs:
   lighthouse:
     name: Lighthouse CI (mobile)
     needs: build-test-audit
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
@@ -98,12 +101,12 @@ jobs:
   proof:
     name: Generate proof bundle
     needs: build-test-audit
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 25
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
@@ -125,7 +128,7 @@ jobs:
           PUBLIC_SITE_URL_PET: https://pet-calculators.hammadiqbal117.workers.dev
 
       - name: Upload proof artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: docs-proof
           path: docs/proof

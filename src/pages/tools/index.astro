@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { absoluteUrl } from '../../config/site.ts';
 import { tools } from '../../data/tools.ts';
 
 const title = 'All Pet Calculator Tools';
@@ -8,13 +9,38 @@ const description =
 const breadcrumbs = [
   { name: 'Tools', path: '/tools/' },
 ];
+
+const itemListJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: title,
+  description,
+  url: absoluteUrl('/tools/'),
+  isPartOf: { '@id': absoluteUrl('/#website') },
+  mainEntity: {
+    '@type': 'ItemList',
+    itemListElement: tools.map((t, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      url: absoluteUrl(`/tools/${t.slug}/`),
+      name: t.title,
+    })),
+  },
+};
 ---
 
-<BaseLayout title={title} description={description} canonicalPath="/tools/" breadcrumbs={breadcrumbs}>
+<BaseLayout
+  title={title}
+  description={description}
+  canonicalPath="/tools/"
+  breadcrumbs={breadcrumbs}
+  jsonLd={[itemListJsonLd]}
+>
   <h1>All pet calculator tools</h1>
   <p class="answer-first">
     Every calculator here runs in your browser, works in pounds or kilograms, cites its formula, and needs no
-    account. Choose a tool below, or start from the <a href="/dogs/">dog hub</a> or the <a href="/cats/">cat hub</a>.
+    account. Example: a 20 kg neutered adult often needs about 1,075 kcal/day. Choose a tool below, or start from the{' '}
+    <a href="/dogs/">dog hub</a> or the <a href="/cats/">cat hub</a>.
   </p>
   <div class="card-grid cols-3">
     {

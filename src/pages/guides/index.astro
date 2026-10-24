@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { absoluteUrl } from '../../config/site.ts';
 import { guides } from '../../data/guides.ts';
 
 const title = 'Pet Care Guides';
@@ -8,14 +9,38 @@ const description =
 const breadcrumbs = [
   { name: 'Guides', path: '/guides/' },
 ];
+
+const itemListJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: title,
+  description,
+  url: absoluteUrl('/guides/'),
+  isPartOf: { '@id': absoluteUrl('/#website') },
+  mainEntity: {
+    '@type': 'ItemList',
+    itemListElement: guides.map((g, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      url: absoluteUrl(`/guides/${g.slug}/`),
+      name: g.title,
+    })),
+  },
+};
 ---
 
-<BaseLayout title={title} description={description} canonicalPath="/guides/" breadcrumbs={breadcrumbs}>
+<BaseLayout
+  title={title}
+  description={description}
+  canonicalPath="/guides/"
+  breadcrumbs={breadcrumbs}
+  jsonLd={[itemListJsonLd]}
+>
   <h1>Pet care guides</h1>
   <p class="answer-first">
     These articles answer common follow-up questions around our calculators: growth timelines,
     feeding practice, age myths, raw diets, and chocolate safety. Each guide cites authoritative
-    sources and links back to the matching tool.
+    sources and links back to the matching tool. See also our <a href="/editorial-policy/">editorial policy</a>.
   </p>
   <div class="card-grid">
     {

@@ -42,7 +42,14 @@ export const LIMITS = {
 };
 
 export const HUB_ROUTES = ['/tools/', '/dogs/', '/cats/', '/guides/'];
-export const LEGAL_ROUTES = ['/about/', '/contact/', '/privacy/', '/terms/', '/methodology/'];
+export const LEGAL_ROUTES = [
+  '/about/',
+  '/contact/',
+  '/privacy/',
+  '/terms/',
+  '/methodology/',
+  '/editorial-policy/',
+];
 
 export function readSiteConfig() {
   const file = path.join(ROOT, 'src', 'config', 'site.ts');

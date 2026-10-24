@@ -135,6 +135,9 @@ Follow [.cursor/skills/write-seo-article/SKILL.md](.cursor/skills/write-seo-arti
 
 Short form; the rules files and docs above are authoritative.
 
+**Research before writing** (binding for every new/reworked page)
+- Research the primary query and SERP format first; claim the keyword in `docs/KEYWORD-MAP.md`; follow `.cursor/rules/seo-pages.mdc` and the per-page checklist (keyword, structure, metadata, schema, links, sources, mobile, ship). `npm run audit:page-checklist` fails regressions.
+
 **Keywords and structure** (SEO-PLAYBOOK sections 1, 3, 6; KEYWORD-MAP)
 - One primary keyword per page, unique across the site. Primary keyword in `<title>` (first), H1, first paragraph, slug, meta description. Titles <= 65 chars including the brand suffix the layout adds, descriptions 70-160 chars, both unique.
 - Exactly one H1. Heading levels never skip. H2s are specific ("Worked example", "Formula"), not generic.
@@ -187,10 +190,11 @@ Node `>= 22.22.0` is required (`engines`). If `node` is missing from `PATH`, use
 | `npm test` | Vitest: formula unit tests (`src/**/*.test.ts`) |
 | `npm run audit:seo` | Titles/meta, H1, canonical, JSON-LD, OG, alt, word counts, sitemap/robots, orphans, keyword map, tool→guide links |
 | `npm run audit:seo-guardrails` | example.com / hard-coded workers.dev, og:image slash, title≤60, desc 50–165, IndexNow, wrangler preview/308 worker, inline `import` |
+| `npm run audit:page-checklist` | Fast checklist gate: unique title/desc, one H1, canonical, JSON-LD, sitemap coverage, viewport, no placeholder/leaks, answer-first structure |
 | `npm run audit:adsense` | Required pages, privacy, ads.txt, thin/duplicate pages, ad placement, CMP |
 | `npm run audit:budgets` | JS/CSS/HTML/image size budgets from `dist/` |
 | `npm run check:links` | Broken internal links, assets and fragments (`-- --external` also checks outbound links) |
-| `npm run audit` | `build` + `test` + all audits above (including seo-guardrails) |
+| `npm run audit` | `build` + `test` + all audits above (including seo-guardrails + page-checklist) |
 | `npm run generate:og` | Per-page OG PNGs under `public/og/` (runs automatically before `astro build`) |
 | `npm run lhci` | Lighthouse CI (mobile): Perf >= 95, LCP <= 2.5 s, CLS <= 0.1, TBT <= 200 ms (build first; set `CHROME_PATH` if Chrome is not found) |
 | `npm run proof` | Regenerate committed evidence under `docs/proof/` (audits, Lighthouse HTML/JSON, screenshots, JSON-LD extract) |

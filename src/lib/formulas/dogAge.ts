@@ -3,16 +3,14 @@ import type { SizeClass } from '../../data/breeds';
 /**
  * Dog-to-human age conversion.
  * The old "multiply by 7" rule is inaccurate. Modern approaches:
- * 1) AAHA / clinical life-stage banding by size
- * 2) Research-inspired logarithmic models (e.g. epigenetic clock style curves)
+ * 1) Size-aware piecewise human-year chart used in client education (AVMA /
+ *    AAHA–Zoetis-style posters). AAHA Canine Life Stage Guidelines define life
+ *    *stages* (puppy → senior), not the year-conversion chart itself.
+ * 2) Research-inspired logarithmic models (Wang et al. 2020 epigenetic clock;
+ *    illustrative, single-breed).
  *
- * We implement a size-aware piecewise model commonly used in client education,
- * aligned with AAHA Canine Life Stage Guidelines life stages, plus an optional
- * research-style log curve for comparison.
- *
- * Sources cited on the tool page: AAHA Canine Life Stage Guidelines;
- * Wang et al. cell methylation / epigenetic aging discussions in popular science
- * (educational comparison only).
+ * We implement the size-aware piecewise model for education, map ages to AAHA-style
+ * life-stage labels, and offer the Wang log curve as an optional comparison only.
  */
 
 export type DogAgeResult = {

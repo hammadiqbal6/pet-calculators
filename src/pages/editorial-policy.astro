@@ -1,0 +1,111 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { siteConfig } from '../config/site.ts';
+
+const title = 'Editorial Policy: Sources, Updates & AI';
+const description =
+  'How PetCalc Tools sources claims, updates pages, discloses AI drafting, and handles corrections — without inventing veterinary credentials.';
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonicalPath="/editorial-policy/"
+  breadcrumbs={[{ name: 'Editorial policy', path: '/editorial-policy/' }]}
+>
+  <header class="hero">
+    <h1>Editorial policy</h1>
+    <p class="lead">
+      {siteConfig.siteName} publishes free dog and cat calculators and guides. This page explains how we
+      choose sources, show formulas, update content, use AI in drafting, and correct mistakes. Maintained by{' '}
+      {siteConfig.defaultAuthor.name}. Last updated: {siteConfig.buildDate}.
+    </p>
+  </header>
+
+  <div class="prose">
+    <h2>What we are (and are not)</h2>
+    <p>
+      Every tool and guide is for <strong>education</strong>. Results are estimates, not diagnoses, prescriptions,
+      or a substitute for a licensed veterinarian. When your pet is ill, injured, ate something toxic, or you are
+      unsure about feeding, contact your veterinarian or an emergency clinic. We do not claim “vet-approved”
+      status and we do not invent reviewers or credentials.
+    </p>
+
+    <h2>Source hierarchy</h2>
+    <p>When a claim needs a citation, we prefer sources in this order:</p>
+    <ol>
+      <li>
+        <strong>Primary veterinary guidance:</strong> WSAVA, AAHA, AAFP, AVMA, AAFCO, National Research Council
+        (NRC), ASPCA Animal Poison Control, Pet Poison Helpline, Merck / MSD Veterinary Manual.
+      </li>
+      <li>
+        <strong>Peer-reviewed research:</strong> journal articles that directly support a formula, threshold, or
+        finding (for example Wang et al. 2020 on dog aging; Stockman et al. 2013 on homemade recipe adequacy;
+        Hawthorne et al. 2004 on puppy growth).
+      </li>
+      <li>
+        <strong>Reputable charities and teaching hospitals:</strong> used when they rest on the same primary
+        literature, not as a substitute for it.
+      </li>
+    </ol>
+    <p>
+      Blog posts, forums, and unsourced “rules of thumb” are not enough for a numeric claim. If a common industry
+      convention (such as raw-feeding percent-of-body-weight portions) is not stated in those primary sources, we
+      label it as a <strong>convention or site heuristic</strong>, not as veterinary standard.
+    </p>
+
+    <h2>Formulas must be visible</h2>
+    <p>
+      Each calculator page shows the equation or method in plain language, a worked example with the same numbers
+      the code returns, and a references list. Implementation lives in pure TypeScript under
+      <code>src/lib/formulas/</code> and is covered by unit tests. The{' '}
+      <a href="/methodology/">methodology</a> page summarizes every tool’s equation in one place.
+    </p>
+
+    <h2>Reviewer honesty</h2>
+    <p>
+      Until a named, credentialed veterinarian has actually reviewed a page, we do <strong>not</strong> show a
+      “Reviewed by” credit, “vet-approved” wording, or <code>reviewedBy</code> in schema. The reviewer box states
+      that the site maintainer checked claims against the listed sources and that the page is not
+      veterinary-reviewed. See <a href="/about/#maintainer">About</a>.
+    </p>
+
+    <h2>Update cadence and dates</h2>
+    <ul>
+      <li>
+        “Last reviewed” / <code>dateModified</code> change only when the formula, sources, or substantive text
+        change — not to look fresh.
+      </li>
+      <li>
+        We re-check outbound citations on a schedule (at least quarterly for health thresholds; sooner when a
+        source announces a revision).
+      </li>
+      <li>
+        Material number changes get a dated note in the methodology <a href="/methodology/#changelog">changelog</a>.
+      </li>
+    </ul>
+
+    <h2>AI-assisted drafting</h2>
+    <p>
+      AI tools may help draft wording or structure. Publishing unverified AI text is not allowed. Every number,
+      threshold, title, meta description, and structured-data value must be checked against the sources above
+      before a page ships. AI does not replace veterinary judgment and is never listed as an author or reviewer.
+    </p>
+
+    <h2>Corrections</h2>
+    <p>
+      If you find an error in a formula, citation, or claim, email{' '}
+      <a href={`mailto:${siteConfig.contactEmail}`}>{siteConfig.contactEmail}</a> or use the{' '}
+      <a href="/contact/">contact form</a>. Confirmed corrections are logged on the methodology changelog with a
+      date. We do not silently rewrite disputed claims without a source.
+    </p>
+
+    <h2>Related pages</h2>
+    <ul>
+      <li><a href="/methodology/">Methodology</a> — equations and correction log</li>
+      <li><a href="/about/">About</a> — maintainer bio and veterinary-review status</li>
+      <li><a href="/privacy/">Privacy</a> — calculator inputs stay in your browser</li>
+      <li><a href="/terms/">Terms</a> — educational use limits</li>
+    </ul>
+  </div>
+</BaseLayout>
