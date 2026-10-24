@@ -130,6 +130,48 @@ export const SRC = {
     publisher: 'Wang et al., Cell Systems (2020)',
     accessed,
   },
+  hawthornePuppyGrowth: {
+    title: 'Body-weight changes during growth in puppies of different breeds (Hawthorne et al., 2004)',
+    url: 'https://doi.org/10.1093/jn/134.8.2027S',
+    publisher: 'Journal of Nutrition 134(8)',
+    accessed,
+  },
+  stockmanHomemade: {
+    title: 'Evaluation of recipes of home-prepared maintenance diets for dogs (Stockman et al., 2013)',
+    url: 'https://doi.org/10.2460/javma.242.11.1500',
+    publisher: 'JAVMA 242(11):1500–1505',
+    accessed,
+  },
+  avmaSeniorPets: {
+    title: 'Senior pet care',
+    url: 'https://www.avma.org/resources-tools/pet-owners/petcare/senior-pet-care',
+    publisher: 'American Veterinary Medical Association (AVMA)',
+    accessed,
+  },
+  avmaRawPolicy: {
+    title: 'Raw or undercooked animal-source protein in cat and dog diets',
+    url: 'https://www.avma.org/resources-tools/avma-policies/raw-or-undercooked-animal-source-protein-cat-and-dog-diets',
+    publisher: 'American Veterinary Medical Association (AVMA)',
+    accessed,
+  },
+  fdaRawPetFood: {
+    title: 'Get the Facts about Raw Pet Food Diets',
+    url: 'https://www.fda.gov/animal-veterinary/animal-health-literacy/get-facts-about-raw-pet-food-diets',
+    publisher: 'U.S. Food and Drug Administration (FDA)',
+    accessed,
+  },
+  msdPolydipsia: {
+    title: 'Polyuria and Polydipsia in Animals',
+    url: 'https://www.msdvetmanual.com/urinary-system/polyuria-and-polydipsia-in-animals',
+    publisher: 'MSD Veterinary Manual',
+    accessed,
+  },
+  aahaAafpFelinePmc: {
+    title: '2021 AAHA/AAFP Feline Life Stage Guidelines (full text)',
+    url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC8344318/',
+    publisher: 'AAHA/AAFP via PMC',
+    accessed,
+  },
 } satisfies Record<string, SourceItem>;
 
 export type { SourceItem };

@@ -1,12 +1,17 @@
 /**
  * Homemade / raw ration sizing — educational portion estimates only.
- * Common rules of thumb (NOT complete nutrition):
- * - Adult maintenance raw/homemade: ~2–3% of body weight per day (as-fed)
- * - Puppies / highly active: ~2.5–5% depending on age
+ *
+ * The percent-of-body-weight bands below are an industry / raw-feeder convention
+ * used for as-fed portion sizing. They are NOT a veterinary standard and are not
+ * stated as such in WSAVA, NRC, FDA, or AVMA guidance. Those sources address
+ * nutrient completeness and (for raw) pathogen risk — not a 2–3% BW rule.
+ *
+ * - Adult maintenance (convention): ~2–3% of body weight per day (as-fed)
+ * - Puppies / highly active (convention): ~2.5–5% depending on age
  * - Weight loss: often toward ~1.5–2% under veterinary supervision
  *
- * Balanced recipes require calcium, vitamins, essential fatty acids — WSAVA and
- * veterinary nutritionists warn against incomplete homemade diets.
+ * Balanced recipes require calcium, vitamins, essential fatty acids. Analyses such
+ * as Stockman et al. 2013 (JAVMA) found many published homemade recipes deficient.
  */
 
 export type HomemadeGoal = 'maintain' | 'puppy' | 'active' | 'weight_loss';

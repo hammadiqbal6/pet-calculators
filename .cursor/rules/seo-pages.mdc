@@ -6,7 +6,14 @@ alwaysApply: false
 
 # SEO rules for pages
 
-Source of truth: `docs/SEO-PLAYBOOK.md` (sections 2, 3, 6), `docs/KEYWORD-MAP.md`. Enforced by `npm run audit:seo` (run `npm run build` first). Thresholds live in `scripts/audit/lib.mjs` `LIMITS`.
+Source of truth: `docs/SEO-PLAYBOOK.md` (sections 2, 3, 6), `docs/KEYWORD-MAP.md`. Enforced by `npm run audit:seo` and `npm run audit:page-checklist` (run `npm run build` first). Thresholds live in `scripts/audit/lib.mjs` `LIMITS`.
+
+## Research first (before any new or reworked page)
+- One primary query; name the intent (do / know / compare / navigate) and match the page type.
+- Check the live top results and plan one gap (worked example, sourced formula, table, reverse mode).
+- Check `docs/KEYWORD-MAP.md` for cannibalization; extend an existing page instead of cloning intent.
+- List 3–6 PAA / secondary questions for H2s and FAQ.
+- Full reusable checklist: keep the items in `uploads/page-checklist` spirit — keyword research, structure, metadata, schema, internal links, cited sources, mobile 390×844, performance, ship/verify.
 
 ## Keyword ownership
 - One primary keyword per page, unique across the site. Register it in `docs/KEYWORD-MAP.md` **before** creating the page. A phrasing of an owned intent is a secondary keyword of the owner, never a new page.
@@ -20,22 +27,26 @@ Source of truth: `docs/SEO-PLAYBOOK.md` (sections 2, 3, 6), `docs/KEYWORD-MAP.md
 - Canonical: exactly one, absolute `https`, self-referencing, built from `absoluteUrl()`; never `pages.dev`; query-string calculator state never changes it. Trailing slash always.
 - Open Graph/Twitter complete (`og:title/description/url/type/image`); `og:image` is a raster file (PNG/JPG/WebP) 1200x630; `og:url` equals canonical.
 - Do not add `noindex` to content pages. Only `/embed/*` and `/404` are noindex (embeds canonicalise to their tool).
+- `<html lang>` and viewport required.
 
-## Body
-- First paragraph is answer-first (`class="answer-first"` / guide `lead`), 40-60 words, with the answer or formula and one limitation.
-- Required sections for tools: how to use, formula/method, worked example (numbers equal the unit test), assumptions/limits, FAQ (5-8 real questions), sources, related tools. Tools >= 600 words; guides >= 800 words.
+## Body / answer-first
+- First paragraph is answer-first (`class="answer-first"` / guide `lead`), 40-60 words, with a **number or clear verdict** in sentence 1–2 where one exists.
+- On tool pages the calculator sits above the fold on mobile (≤80 words before the first input; cookie bar ≤56px).
+- On hubs/home: 1–2 sentence lead, then the **card grid** (first card well above the fold)—no long prose before the cards.
+- Required sections for tools: how to use, formula/method (visible), worked example (numbers equal the unit test), assumptions/limits, FAQ (5–8), sources, related tools. Tools >= 600 words; guides >= 800 words.
+- Cite every number/threshold to `src/data/sources.ts`; never invent reviewers, “vet-approved”, or `reviewedBy` schema without a real named reviewer.
 - >= 2 contextual links to other tools/guides in the body; descriptive anchors (never "click here"); every internal href ends with `/`.
-- Visible "Last updated" and author box; dates only change on material edits.
-- Calculator UI and the page text must both be present in the initial HTML; JS only powers the interactive part.
+- No placeholder, lorem, “coming soon”, “— not a calculator page”, or internal KD notes in visible copy.
 
 ## Structured data
-- Use the shells (`ToolPageShell` -> `WebApplication` price 0; `GuidePageShell` -> `Article`) and `BaseLayout` (`Organization`, `WebSite`, `BreadcrumbList`). No `aggregateRating`/`review`/`HowTo`. FAQ markup must mirror the visible FAQ and gives no Google rich result (see `structured-data` skill).
+- Use the shells (`ToolPageShell` -> `WebApplication` price 0; `GuidePageShell` -> `Article` with `dateModified`, `citation` URLs) and `BaseLayout` (`Organization`, `WebSite`, `BreadcrumbList`). Hubs may add `CollectionPage` + `ItemList`.
+- No `aggregateRating`/`review`/`HowTo`/`reviewedBy` unless real on-site data / a configured reviewer exists.
 
 ## Registries and routes
 - Every page has a registry entry (`src/data/tools.ts` / `guides.ts`) with a unique `description` <= 160 chars; reciprocal `related` links; no registry entry without a page.
 - Slug = primary keyword, lowercase, hyphenated, never changed after publish without 301s in `public/_redirects` **and** `vercel.json`.
 - Sitemap is automatic (`@astrojs/sitemap`); new indexable pages must appear there, embeds/404 must not.
-- Update `docs/KEYWORD-MAP.md`, `public/llms.txt` and `buildDate` with every new page.
+- Update `docs/KEYWORD-MAP.md` and `buildDate` with every new page (`llms.txt` is generated).
 
 ## Before you finish
-Run `npm run audit`. Zero errors required; warnings explained.
+Run `npm run audit` (includes `audit:page-checklist`). Zero errors required; warnings explained.

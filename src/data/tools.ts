@@ -98,7 +98,7 @@ export const tools: ToolMeta[] = [
       'Estimate whelping due date from breeding or ovulation date. Typical gestation is about 63 days.',
     category: 'dog',
     keywords: ['dog pregnancy calculator', 'dog due date calculator', 'whelping date'],
-    related: ['puppy-weight-calculator', 'puppy-food-calculator', 'dog-age-calculator'],
+    related: ['puppy-weight-calculator', 'puppy-food-calculator', 'dog-food-calculator'],
   },
   {
     slug: 'dog-chocolate-toxicity-calculator',
@@ -108,7 +108,7 @@ export const tools: ToolMeta[] = [
       'Estimate theobromine dose from chocolate type, amount and weight. Call a vet or poison hotline if your dog ate chocolate.',
     category: 'dog',
     keywords: ['dog chocolate toxicity calculator', 'chocolate poisoning dog', 'how much chocolate is toxic'],
-    related: ['dog-water-intake-calculator', 'dog-bmi-calculator'],
+    related: ['dog-water-intake-calculator', 'dog-food-calculator'],
   },
   {
     slug: 'dog-water-intake-calculator',
@@ -118,7 +118,7 @@ export const tools: ToolMeta[] = [
       'Estimate typical daily water needs from body weight and activity. Sudden changes warrant a vet visit.',
     category: 'dog',
     keywords: ['dog water intake calculator', 'dog water intake by weight', 'daily water for dogs'],
-    related: ['dog-food-calculator', 'dog-bmi-calculator'],
+    related: ['dog-food-calculator', 'dog-bmi-calculator', 'dog-chocolate-toxicity-calculator'],
   },
 ];
 

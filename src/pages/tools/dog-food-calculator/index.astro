@@ -51,13 +51,14 @@ const sources = [
   slug="dog-food-calculator"
   title="Dog Food Calculator: Daily Calories & Cups"
   description="Work out how many calories and cups to feed your dog each day from weight, life stage and your food's kcal per cup. Uses RER and MER factors; lb or kg, free."
-  answer="A dog food calculator estimates how many calories and cups your dog needs per day. It multiplies resting energy, 70 × weight in kg to the 0.75 power, by a life-stage factor, then divides by the kcal per cup on your food label. Start there, then adjust by body condition."
-  formulaSummary="RER (kcal/day) = 70 × (body weight kg)^0.75. MER = RER × life-stage factor (e.g. 1.6 neutered adult). Cups/day = MER ÷ kcal per cup from the label."
+  answer="A dog food calculator estimates daily calories and cups. Example: a 45 lb (20.4 kg) neutered adult at 1.6 × RER needs about 1,076 kcal/day (~3.1 cups at 350 kcal/cup). Keep treats ≤10% of daily calories, then adjust by body condition with your veterinarian."
+  formulaSummary="RER (kcal/day) = 70 × (body weight kg)^0.75. MER = RER × life-stage factor (e.g. 1.6 neutered adult). Cups/day = MER ÷ kcal per cup from the label. Treats: keep ≤10% of daily kcal (WSAVA/AAHA nutrition teaching)."
   embeddable
+  lastReviewed="2026-10-24"
   takeaways={[
     "Daily calories = 70 × (kg)^0.75 × a life-stage factor. For a neutered adult the factor is 1.6.",
     "Enter kcal per cup from your bag. Foods range from under 300 to over 500 kcal per cup, so the same cup means different things.",
-    "Treats count. Keep them under roughly 10 percent of daily calories.",
+    "Treats count. Keep them at ≤10% of daily calories (common WSAVA/AAHA nutrition teaching).",
     "Re-weigh every two to four weeks and nudge portions by about 10 percent if weight drifts.",
   ]}
   faq={faq}
@@ -138,15 +139,16 @@ const sources = [
   <p>
     Dog foods vary from under 300 to well over 500 kcal per cup. A "cup a day" is therefore a very different
     amount from brand to brand. Starting from calories lets you change foods without guessing: divide the same daily
-    target by the new food's kcal per cup. Also keep in mind that scoops are imprecise. A scoop can hold 20 percent more
-    or less kibble depending on how it is filled, so a kitchen scale in grams is better. Wet food, fresh food, and toppers have
-    their own calorie counts, which you can subtract from the target before measuring dry food.
+    target by the new food's kcal per cup.     Scoops are imprecise compared with a kitchen scale in grams—fill level and kibble density both change the
+    true cup. Wet food, fresh food, and toppers have their own calorie counts, which you can subtract from the
+    target before measuring dry food. AAHA nutrition guidance emphasizes matching calories to body condition
+    rather than guessing by scoop.
   </p>
 
   <h2>Common mistakes</h2>
   <ul>
     <li><strong>Using the current weight of an overweight dog.</strong> This locks in the extra weight. Calculate on the target weight.</li>
-    <li><strong>Ignoring treats and chews.</strong> They can add 10 to 20 percent of the day's calories without anyone noticing.</li>
+    <li><strong>Ignoring treats and chews.</strong> Keep treats at ≤10% of daily calories (common veterinary nutrition teaching; see WSAVA/AAHA nutrition guidance) and reduce meals to match.</li>
     <li><strong>Copying the bag chart.</strong> Charts are broad averages. Use your dog's body condition as the final test.</li>
     <li><strong>Mixing kcal per cup and kcal per 100 g.</strong> Check the unit on the label before typing the number in.</li>
     <li><strong>Using this for puppies.</strong> Growing dogs have higher multipliers and need a growth diet. Use the <a href="/tools/puppy-food-calculator/">puppy food calculator</a>.</li>

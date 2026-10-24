@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { absoluteUrl } from '../../config/site.ts';
 import { tools } from '../../data/tools.ts';
 import { guides } from '../../data/guides.ts';
 
@@ -12,35 +13,39 @@ const description =
 const breadcrumbs = [
   { name: 'Cats', path: '/cats/' },
 ];
+
+const itemListJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: title,
+  description,
+  url: absoluteUrl('/cats/'),
+  isPartOf: { '@id': absoluteUrl('/#website') },
+  mainEntity: {
+    '@type': 'ItemList',
+    itemListElement: catTools.map((t, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      url: absoluteUrl(`/tools/${t.slug}/`),
+      name: t.title,
+    })),
+  },
+};
 ---
 
-<BaseLayout title={title} description={description} canonicalPath="/cats/" breadcrumbs={breadcrumbs}>
+<BaseLayout
+  title={title}
+  description={description}
+  canonicalPath="/cats/"
+  breadcrumbs={breadcrumbs}
+  jsonLd={[itemListJsonLd]}
+>
   <h1>Cat calculators</h1>
   <p class="answer-first">
-    Use these cat tools to estimate age in human years and daily calorie needs by life stage. Each
-    calculator explains its method, links veterinary nutrition sources, and reminds you that results
-    are educational—not a substitute for your veterinarian.
+    Estimate cat age in human years and daily calories by life stage. Example: a 10 lb (4.5 kg)
+    neutered adult often needs about 200–250 kcal/day before treats. Each calculator shows its
+    method and sources; results are educational—confirm care with your veterinarian.
   </p>
-
-  <div class="prose">
-    <p>
-      Cats are obligate carnivores with different calorie and protein needs than dogs. Indoor neutered
-      adults often gain weight on ad lib feeding, while kittens need frequent meals and higher MER
-      multipliers. Our <a href="/tools/cat-food-calculator/">cat food calculator</a> starts from the
-      same RER formula used in veterinary nutrition (70 × kg<sup>0.75</sup>) and applies life-stage
-      factors from WSAVA-style teaching charts. The <a href="/tools/cat-age-calculator/">cat age
-      calculator</a> converts calendar age to human years and names the life stage (kitten, prime,
-      mature, senior, geriatric) so you can align vet visits and diet changes.
-    </p>
-    <p>
-      For deeper feeding context—wet versus dry, meal frequency, and weight goals—read the{' '}
-      <a href="/guides/cat-feeding-guide/">cat feeding guide</a>. New cat owners can map age bands with
-      the <a href="/guides/cat-life-stages/">cat life stages</a> guide (kitten through geriatric) and set
-      meal frequency with the <a href="/guides/kitten-feeding-schedule/">kitten feeding schedule</a>. If
-      you also care for dogs, visit the <a href="/dogs/">dog calculators hub</a> or the full{' '}
-      <a href="/tools/">tool directory</a>.
-    </p>
-  </div>
 
   <h2>Cat tools</h2>
   <div class="card-grid">
@@ -52,6 +57,25 @@ const breadcrumbs = [
         </a>
       ))
     }
+  </div>
+
+  <div class="prose" style="margin-top: 2rem">
+    <p>
+      Cats are obligate carnivores with different calorie and protein needs than dogs. Indoor neutered
+      adults often gain weight on ad lib feeding, while kittens need frequent meals and higher MER
+      multipliers. Our <a href="/tools/cat-food-calculator/">cat food calculator</a> starts from the
+      same RER formula used in veterinary nutrition (70 × kg<sup>0.75</sup>) and applies life-stage
+      factors from WSAVA-style teaching charts. The <a href="/tools/cat-age-calculator/">cat age
+      calculator</a> converts calendar age to human years and names the life stage so you can align vet visits and diet changes.
+    </p>
+    <p>
+      For deeper feeding context—wet versus dry, meal frequency, and weight goals—read the{' '}
+      <a href="/guides/cat-feeding-guide/">cat feeding guide</a>. New cat owners can map age bands with
+      the <a href="/guides/cat-life-stages/">cat life stages</a> guide (kitten through senior) and set
+      meal frequency with the <a href="/guides/kitten-feeding-schedule/">kitten feeding schedule</a>. If
+      you also care for dogs, visit the <a href="/dogs/">dog calculators hub</a> or the full{' '}
+      <a href="/tools/">tool directory</a>. See our <a href="/editorial-policy/">editorial policy</a>.
+    </p>
   </div>
 
   <h2 style="margin-top: 2rem">Related guides</h2>

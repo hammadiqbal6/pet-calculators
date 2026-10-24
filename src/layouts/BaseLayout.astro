@@ -57,6 +57,7 @@ const navLinks = [
 const footerLegal = [
   { href: '/about/', label: 'About' },
   { href: '/methodology/', label: 'Methodology' },
+  { href: '/editorial-policy/', label: 'Editorial policy' },
   { href: '/contact/', label: 'Contact' },
   { href: '/privacy/', label: 'Privacy' },
   { href: '/terms/', label: 'Terms' },
@@ -82,7 +83,7 @@ const defaultJsonLd: Record<string, unknown>[] = [
     },
     email: siteConfig.contactEmail,
     founder: { '@id': siteConfig.personId },
-    publishingPrinciples: absoluteUrl('/methodology/'),
+    publishingPrinciples: absoluteUrl('/editorial-policy/'),
     ...(siteConfig.sameAs.length ? { sameAs: siteConfig.sameAs } : {}),
   },
   {

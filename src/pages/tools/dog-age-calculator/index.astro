@@ -1,6 +1,7 @@
 ---
 import ToolPageShell from '../../../components/ToolPageShell.astro';
 import DogAgeCalc from '../../../components/calculators/DogAgeCalc.astro';
+import { SRC } from '../../../data/sources.ts';
 
 const faq = [
   {
@@ -30,34 +31,25 @@ const faq = [
 ];
 
 const sources = [
-  {
-    title: 'AAHA Canine Life Stage Guidelines',
-    url: 'https://www.aaha.org/resources/canine-life-stage-guidelines/',
-    publisher: 'AAHA',
-  },
-  {
-    title: 'Quantitative translation of dog-to-human aging by conserved remodeling of the DNA methylome (Wang et al., 2020)',
-    url: 'https://doi.org/10.1016/j.cels.2020.06.006',
-    publisher: 'Cell Systems',
-  },
-  {
-    title: 'AVMA: Senior pet care and aging',
-    url: 'https://www.avma.org/resources-tools/pet-owners/petcare/senior-pet-care',
-    publisher: 'AVMA',
-  },
+  SRC.aahaCanineLife,
+  SRC.avmaSeniorPets,
+  SRC.wangDogAging,
+  SRC.wangDogAgingPmc,
 ];
 ---
 
 <ToolPageShell
   slug="dog-age-calculator"
-  title="Dog Age Calculator: Human Years by Size"
-  description="Convert your dog's age to human years by size, not the old 7:1 rule. See the life stage (puppy, adult, senior) based on AAHA guidance and a modern aging curve."
-  answer="A dog age calculator converts your dog’s age into an approximate human-year equivalent. This one uses a size-aware life-stage model aligned with AAHA guidance instead of the old 7:1 rule, because dogs age fastest early on and large breeds reach their senior years sooner than small ones."
-  formulaSummary="Default: year 1 ≈ 15 human years, year 2 ≈ +9, then +4/+5/+6/+7 per year for toy–small / medium / large / giant. Optional log curve: human ≈ 16 × ln(dog age) + 31 (Wang et al. 2020; 104 Labradors; illustrative only)."
+  title="Dog Age Calculator: Years by Size"
+  h1="Dog Age Calculator: Dog Years to Human Years by Size"
+  description="Convert your dog's age to human years by size, not the old 7:1 rule. See life stage and a size chart; optional Wang log curve for comparison."
+  answer="A dog age calculator converts calendar age to an approximate human-year equivalent. Example: a 10-year-old medium dog is about 56 human years on this size chart (24 + 8×5). Life-stage labels follow AAHA bands; the year chart itself is AVMA/client-education style, not the AAHA guideline text."
+  formulaSummary="Default size chart (client-education / AVMA-style): year 1 ≈ 15, year 2 ≈ +9, then +4/+5/+6/+7 per year for toy–small / medium / large / giant. Life-stage labels use AAHA-style bands. Optional log curve: human ≈ 16 × ln(dog age) + 31 (Wang et al. 2020; 104 Labradors; illustrative only)."
+  lastReviewed="2026-10-24"
   takeaways={[
     'The 7:1 rule is a myth; dogs age about 15 human years in year one and about 9 in year two.',
     'After age two, larger dogs add more human years per calendar year than smaller dogs.',
-    'The log curve is illustrative only and is not a clinical standard.',
+    'The Wang log curve is illustrative only and is not a clinical standard.',
     'Life stage matters more than the human-year number for care decisions.',
     'Senior screening usually starts earlier for large and giant breeds.',
   ]}
@@ -85,8 +77,10 @@ const sources = [
 
   <h2>The size-aware model used here</h2>
   <p>
-    The default method is a piecewise estimate commonly used in client education and consistent with
-    the framework of the AAHA Canine Life Stage Guidelines:
+    The default method is a piecewise human-year chart commonly used in client education (AVMA senior-pet
+    materials and AAHA–Zoetis-style posters). The <strong>AAHA Canine Life Stage Guidelines</strong> define
+    life <em>stages</em> (puppy, young adult, mature adult, senior), not this year-conversion table—we use
+    AAHA-style bands for the stage label only.
   </p>
   <ul>
     <li><strong>Year 1:</strong> about 15 human years.</li>
@@ -96,7 +90,38 @@ const sources = [
   <p>
     The life-stage label also depends on size. Senior status is taken to begin around 10 years for toy
     and small dogs, 8 for medium, 7 for large, and 6 for giant breeds. These cut-offs are
-    approximations for education and are not diagnostic.
+    approximations for education and are not diagnostic. Confirm care plans with your veterinarian.
+  </p>
+
+  <h2>Dog years chart (1–16) by size</h2>
+  <p>Approximate human-year equivalents using the default size chart (not the Wang log curve):</p>
+  <div tabindex="0" role="region" aria-label="Dog years to human years by size">
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">Dog age (yr)</th>
+        <th scope="col">Toy / small (+4)</th>
+        <th scope="col">Medium (+5)</th>
+        <th scope="col">Large (+6)</th>
+        <th scope="col">Giant (+7)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>15</td><td>15</td><td>15</td><td>15</td></tr>
+      <tr><td>2</td><td>24</td><td>24</td><td>24</td><td>24</td></tr>
+      <tr><td>5</td><td>36</td><td>39</td><td>42</td><td>45</td></tr>
+      <tr><td>8</td><td>48</td><td>54</td><td>60</td><td>66</td></tr>
+      <tr><td>10</td><td>56</td><td>64</td><td>72</td><td>80</td></tr>
+      <tr><td>12</td><td>64</td><td>74</td><td>84</td><td>94</td></tr>
+      <tr><td>14</td><td>72</td><td>84</td><td>96</td><td>108</td></tr>
+      <tr><td>16</td><td>80</td><td>94</td><td>108</td><td>122</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>
+    Larger sizes age “faster” on this chart after year two—the same reason giant breeds often need senior
+    screening earlier. For the myth vs science narrative, see the{' '}
+    <a href="/guides/dog-years-myth/">dog years myth</a> guide.
   </p>
 
   <h2>About the logarithmic curve (illustrative)</h2>

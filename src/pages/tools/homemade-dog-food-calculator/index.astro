@@ -1,19 +1,20 @@
 ---
 import ToolPageShell from '../../../components/ToolPageShell.astro';
 import HomemadeFoodCalc from '../../../components/calculators/HomemadeFoodCalc.astro';
+import { SRC } from '../../../data/sources.ts';
 
 const faq = [
   {
     q: 'How much homemade food should I feed my dog per day?',
-    a: 'A common rule of thumb for adult maintenance is about 2 to 3 percent of body weight per day as fed, with puppies and very active dogs higher and overweight dogs lower. This calculator turns that range into grams and ounces. It sets portion size only; it does not make a recipe nutritionally complete.',
+    a: 'A common industry convention for adult maintenance is about 2 to 3 percent of body weight per day as fed (not a WSAVA/NRC standard), with puppies and very active dogs higher and overweight dogs lower. This calculator turns that range into grams and ounces. It sets portion size only; it does not make a recipe nutritionally complete.',
   },
   {
     q: 'Is a homemade or raw diet nutritionally complete?',
-    a: 'Only if the recipe is formulated to be. Published analyses of online and cookbook recipes have repeatedly found missing or unbalanced nutrients, especially calcium, vitamins, and essential fatty acids. WSAVA recommends recipes formulated by a board-certified veterinary nutritionist.',
+    a: 'Only if the recipe is formulated to be. Stockman et al. (2013, JAVMA) found most published homemade maintenance recipes deficient in one or more essential nutrients. WSAVA recommends recipes formulated by a board-certified veterinary nutritionist.',
   },
   {
     q: 'Does the 2 to 3 percent rule apply to puppies?',
-    a: 'Puppies often eat a higher percentage of body weight, roughly 2.5 to 5 percent depending on age, but growing dogs are also the most vulnerable to calcium and phosphorus errors. Do not feed a homemade puppy diet without a vet-nutritionist formulation.',
+    a: 'The same convention often uses a higher percentage for puppies, roughly 2.5 to 5 percent depending on age, but growing dogs are also the most vulnerable to calcium and phosphorus errors. Do not feed a homemade puppy diet without a vet-nutritionist formulation.',
   },
   {
     q: 'Is raw feeding safe?',
@@ -30,26 +31,11 @@ const faq = [
 ];
 
 const sources = [
-  {
-    title: 'WSAVA Global Nutrition Guidelines',
-    url: 'https://wsava.org/global-guidelines/global-nutrition-guidelines/',
-    publisher: 'WSAVA',
-  },
-  {
-    title: 'NRC Nutrient Requirements of Dogs and Cats',
-    url: 'https://nap.nationalacademies.org/catalog/10668/nutrient-requirements-of-dogs-and-cats',
-    publisher: 'National Academies Press',
-  },
-  {
-    title: 'Raw Pet Food Diets and Public Health (FDA)',
-    url: 'https://www.fda.gov/animal-veterinary/animal-health-literacy/get-facts-about-raw-pet-food-diets',
-    publisher: 'U.S. FDA',
-  },
-  {
-    title: 'AVMA Policy on Raw or Undercooked Animal-Source Protein in Cat and Dog Diets',
-    url: 'https://www.avma.org/resources-tools/avma-policies/raw-or-undercooked-animal-source-protein-cat-and-dog-diets',
-    publisher: 'AVMA',
-  },
+  SRC.wsavaNutrition,
+  SRC.nrc,
+  SRC.fdaRawPetFood,
+  SRC.avmaRawPolicy,
+  SRC.stockmanHomemade,
 ];
 ---
 
@@ -57,16 +43,17 @@ const sources = [
   slug="homemade-dog-food-calculator"
   title="Homemade & Raw Dog Food Calculator"
   description="Estimate daily homemade or raw dog food portions from body weight (about 2–3%). Educational only; balance recipes with a vet nutritionist."
-  answer="A homemade or raw dog food calculator estimates how much food to prepare per day, usually 2 to 3 percent of body weight for adult maintenance. It sizes the portion only. Whether the recipe is complete and balanced is a separate question that a veterinary nutritionist should answer."
+  answer="A homemade or raw dog food calculator estimates daily as-fed portions. A common industry convention is about 2–3% of adult body weight (for example, 400–600 g for a 20 kg dog)—not a veterinary standard from WSAVA or NRC. It sizes the portion only; a veterinary nutritionist must balance the recipe."
   takeaways={[
-    'Adult maintenance is typically 2–3% of body weight per day, as fed.',
+    'Adult maintenance portion convention: ~2–3% of body weight per day, as fed (not a vet standard).',
     'Portion size is not the same as nutritional completeness.',
     'Use a recipe formulated by a board-certified veterinary nutritionist.',
-    'Raw diets carry food-safety risks for dogs and the people in the home.',
+    'Raw diets carry food-safety risks for dogs and the people in the home (FDA/AVMA).',
     'Weigh food with a scale and adjust by body condition every two weeks.',
   ]}
   faq={faq}
   sources={sources}
+  lastReviewed="2026-10-24"
 >
   <HomemadeFoodCalc slot="calculator" />
 
@@ -81,12 +68,14 @@ const sources = [
 
   <h2>The rule of thumb behind the numbers</h2>
   <p>
-    Home-prepared and raw diets are usually described as a percentage of body weight because the food
-    has no label calorie count. The common ranges used by this tool are:
+    Home-prepared and raw diets are often described as a percentage of body weight because the food
+    has no label calorie count. The ranges below are an <strong>industry / raw-feeder convention</strong> used
+    for as-fed portion sizing. They are <strong>not</strong> a veterinary standard published by WSAVA, NRC, FDA,
+    or AVMA—those sources address nutrient completeness and food safety, not a fixed percent-of-body-weight rule.
   </p>
   <table>
     <thead>
-      <tr><th>Goal</th><th>Percent of body weight per day</th></tr>
+      <tr><th>Goal</th><th>Percent of body weight per day (convention)</th></tr>
     </thead>
     <tbody>
       <tr><td>Adult maintenance</td><td>2–3%</td></tr>
@@ -96,10 +85,10 @@ const sources = [
     </tbody>
   </table>
   <p>
-    These are practical teaching ranges, not laboratory values. Energy density varies enormously: a
-    lean chicken and rice mixture might provide around 1.5 kcal per gram, while a fatty raw mix could
-    be well above 2. That is why two dogs eating the same 2.5 percent can gain or lose weight
-    differently.
+    Energy density varies enormously: a lean chicken and rice mixture might provide around 1.5 kcal per gram,
+    while a fatty raw mix could be well above 2. That is why two dogs eating the same 2.5 percent can gain or
+    lose weight differently. Prefer calorie targets from the{' '}
+    <a href="/tools/dog-food-calculator/">dog food calculator</a> when you know ingredient kcal.
   </p>
 
   <h2>Worked example</h2>
@@ -115,15 +104,15 @@ const sources = [
     The hardest part of homemade feeding is not the amount but the composition. Dogs need specific
     amounts of calcium, phosphorus, zinc, iodine, vitamins A, D, and E, and essential fatty acids. A
     recipe made only of muscle meat and vegetables is typically very low in calcium and high in
-    phosphorus. Studies that analyzed popular homemade recipes found most were deficient in one or
-    more essential nutrients. Dogs on incomplete diets may look fine for months before problems such
-    as bone disease or skin and coat changes appear.
+    phosphorus. Stockman et al. (2013, <em>JAVMA</em>) evaluated 200 published homemade maintenance
+    recipes and found that most were deficient in one or more essential nutrients. Dogs on incomplete
+    diets may look fine for months before problems such as bone disease or skin and coat changes appear.
   </p>
   <p>
     WSAVA’s nutrition guidelines suggest asking whether the person writing the recipe has formal
     nutrition training, and recommend a board-certified veterinary nutritionist (ACVN or ECVCN) when
     feeding homemade diets. Many offer remote consultations and will build a recipe around your dog’s
-    health history and ingredient preferences.
+    health history and ingredient preferences. Always consult your veterinarian before switching diets.
   </p>
 
   <h2>Food safety with raw ingredients</h2>

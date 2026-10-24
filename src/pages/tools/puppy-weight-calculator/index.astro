@@ -35,6 +35,7 @@ const faq = [
 ];
 
 const sources = [
+  SRC.hawthornePuppyGrowth,
   SRC.nrc,
   SRC.wsavaNutrition,
   SRC.aahaCanineLife,
@@ -47,11 +48,12 @@ const sources = [
   slug="puppy-weight-calculator"
   title="Puppy Weight Calculator: Adult Size Estimate"
   description="Predict your puppy's adult weight from age in weeks, current weight and breed or size class. See an estimated adult range and growth chart in lb and kg, free."
-  answer="A puppy weight calculator estimates your dog's adult weight from its current weight, age in weeks, and breed or size class. Enter those values above to get a predicted adult range in pounds and kilograms plus a growth curve. Treat the result as a planning estimate, because genetics, diet, and neuter timing all shift the final number."
-  formulaSummary="Early puppies (≤16 weeks): adult ≈ (current weight ÷ age weeks) × 52. Older puppies: divide current weight by expected growth fraction for age/size, then blend with breed adult midpoint."
+  answer="A puppy weight calculator estimates adult size from current weight, age in weeks, and breed or size. Example: a 12 lb (5.4 kg) medium mix at 12 weeks often lands near ~49 lb (22 kg) adult with this site’s ×52 heuristic—expect a wide range. Genetics and diet still shift the final number."
+  formulaSummary="Site heuristic (≤16 weeks): adult ≈ (current weight ÷ age weeks) × 52, then 65% blend with breed/size adult midpoint. Older puppies: divide by expected growth fraction. Not an NRC/WSAVA clinical standard; see Hawthorne et al. 2004 for growth-curve context."
   embeddable
+  lastReviewed="2026-10-24"
   takeaways={[
-    "Puppies under 16 weeks are predicted with current weight divided by age in weeks, multiplied by 52, then blended with the breed's typical adult range.",
+    "Under 16 weeks this site uses (weight ÷ weeks) × 52, then blends 65% with the breed midpoint—a site heuristic, not a veterinary standard.",
     "Expect a range, not a single number. A 12-week medium-breed puppy can end up anywhere across a 30 to 40 lb span.",
     "Weigh every two weeks on the same scale and plot the trend. Steady, lean growth matters more than hitting a target.",
     "Large and giant breeds keep growing until 16 to 24 months, so do not switch food types early.",
@@ -85,23 +87,24 @@ const sources = [
 
   <h2>Formula and method</h2>
   <p>
-    The calculator uses two methods depending on age. For puppies up to 16 weeks old it applies the classic early
-    estimate used by many breeders and veterinary teams:
+    The calculator uses two methods depending on age. For puppies up to 16 weeks old it applies a common
+    early estimate used by many breeders and owners (a <strong>site heuristic</strong>, not a formula published
+    by NRC, WSAVA, or AAHA):
   </p>
   <p><strong>Estimated adult weight = (current weight ÷ age in weeks) × 52</strong></p>
   <p>
-    This works because young puppies gain weight at a fairly predictable rate relative to age. For older puppies the
-    rule becomes unreliable, so the calculator instead estimates what fraction of adult weight a dog of that age
-    normally has reached and divides the current weight by that fraction. The fraction comes from a smooth curve that
-    rises quickly in early life and tapers as the dog nears maturity, with maturity set by breed or size class
+    Young puppies often gain in a roughly linear way relative to age for a short window, which is why the rule is
+    popular. Peer-reviewed growth work such as Hawthorne et al. (2004, <em>Journal of Nutrition</em>) documents
+    breed differences in growth curves; this tool does not reproduce that logistic model. For older puppies the
+    ×52 rule becomes unreliable, so the calculator instead estimates what fraction of adult weight a dog of that age
+    normally has reached and divides the current weight by that fraction. Maturity is set by breed or size class
     (about 10 months for toy breeds and up to 18 to 24 months for giants).
   </p>
   <p>
     Either raw estimate is then blended with the midpoint of the breed's expected adult range, using 65 percent
     weight on the calculation and 35 percent on the breed midpoint. That blend dampens wild predictions from a single
     odd weigh-in. The final low and high values add and subtract half the breed range, or at least 12 percent of the
-    estimate, whichever is larger. It is an educational model built on common veterinary rules of thumb, not a
-    clinical growth standard.
+    estimate, whichever is larger. Treat the result as educational planning only, and confirm concerns with your veterinarian.
   </p>
 
   <h2>Worked example</h2>

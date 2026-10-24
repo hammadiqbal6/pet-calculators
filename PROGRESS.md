@@ -26,3 +26,7 @@ Main CI failed on **Generate proof bundle** (home/chocolate Lighthouse CLS/TBT f
 ## 2026-10-23 — SEO/AEO audit + 6 guides + custom-domain prep
 
 Multi-site audit fixes: 308 worker, Learn more blocks, titles ≤60, AI bots in robots, per-page OG, `SEO-GUARDRAILS` + `CUSTOM-DOMAIN` docs, CI `audit:seo-guardrails`. Six new guides (~1.5k+ words). Guides count now 12.
+
+## 2026-10-24 — Trust without vet + answer-first + page-checklist CI
+
+Editorial policy page; honest ReviewerBox; fixed mis-attributed claims (homemade %, puppy ×52 heuristic, dog-age chart source); hub cards above the fold; `audit:page-checklist`; CI on ubuntu-24.04 with Node-24 actions.

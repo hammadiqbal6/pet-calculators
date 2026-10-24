@@ -66,6 +66,7 @@ const jsonLd: Record<string, unknown>[] = [
       url: absoluteUrl('/'),
       logo: { '@type': 'ImageObject', url: absoluteUrl('/logo-512.png'), width: 512, height: 512 },
     },
+    citation: sources.filter((s) => s.url).map((s) => s.url as string),
   },
   ...(faq.length
     ? [

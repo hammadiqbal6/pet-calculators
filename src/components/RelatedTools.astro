@@ -16,8 +16,8 @@ const current = getTool(currentSlug);
       <h2 id="related-tools-heading">Related calculators</h2>
       {current && (
         <p class="answer-first">
-          More {current.category === 'cat' ? 'cat' : current.category === 'dog' ? 'dog' : 'pet'}{' '}
-          tools that pair well with {current.shortTitle.toLowerCase()}.
+          Related {current.category === 'cat' ? 'cat' : current.category === 'dog' ? 'dog' : 'pet'}{' '}
+          calculators you may want next after {current.shortTitle.toLowerCase()}.
         </p>
       )}
       <div class="card-grid">

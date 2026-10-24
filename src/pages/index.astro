@@ -1,43 +1,45 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { siteConfig } from '../config/site.ts';
+import { siteConfig, absoluteUrl } from '../config/site.ts';
 import { tools } from '../data/tools.ts';
 import { guides } from '../data/guides.ts';
 
 const title = 'Dog & Cat Calculators: Food, Weight & Age';
 const description =
   'Free dog and cat calculators: predict puppy adult weight, work out daily food calories and cups, convert pet age to human years, and check chocolate risk.';
+
+const itemListJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  '@id': absoluteUrl('/#collection'),
+  name: title,
+  description,
+  url: absoluteUrl('/'),
+  isPartOf: { '@id': absoluteUrl('/#website') },
+  mainEntity: {
+    '@type': 'ItemList',
+    itemListElement: tools.map((t, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      url: absoluteUrl(`/tools/${t.slug}/`),
+      name: t.title,
+    })),
+  },
+};
 ---
 
-<BaseLayout title={title} description={description} canonicalPath="/">
+<BaseLayout title={title} description={description} canonicalPath="/" jsonLd={[itemListJsonLd]}>
   <section class="hero">
     <h1>Free dog &amp; cat calculators: food, weight, age &amp; safety</h1>
-    <p class="lead">
-      Free pet calculators that run in your browser. Predict adult puppy weight, estimate dog and cat feeding calories,
-      convert pet years with modern methods, and check chocolate risk — with breed-aware options and cited veterinary
-      sources. Built by {siteConfig.defaultAuthor.name}.
+    <p class="lead answer-first">
+      Free pet calculators that run in your browser. Example: a 45 lb neutered adult often needs about
+      1,075 kcal/day (~3 cups at 350 kcal/cup). Predict puppy weight, estimate feeding calories, convert
+      pet years, and check chocolate risk — with cited sources. Built by {siteConfig.defaultAuthor.name}.
     </p>
     <div class="btn-row">
       <a class="btn btn-primary" href="/tools/puppy-weight-calculator/">Puppy weight calculator</a>
       <a class="btn btn-secondary" href="/tools/">Browse all tools</a>
     </div>
-  </section>
-
-  <section class="prose" style="margin-bottom: 1.5rem">
-    <h2>What is the best free pet calculator?</h2>
-    <p class="answer-first">
-      The right calculator depends on the question. To feed a dog, use the{' '}
-      <a href="/tools/dog-food-calculator/">dog food calculator</a>. To predict a puppy&apos;s adult size, use the{' '}
-      <a href="/tools/puppy-weight-calculator/">puppy weight calculator</a>. For cats, use the{' '}
-      <a href="/tools/cat-food-calculator/">cat food calculator</a>. Each shows its formula and sources, and none needs an
-      account.
-    </p>
-    <h2>What you can calculate</h2>
-    <p>
-      {siteConfig.siteName} is a free toolkit for everyday dog and cat questions: how big a puppy may get, how many
-      calories to feed, how old a pet is in human years, and whether chocolate exposure looks concerning. Every tool keeps
-      data on your device, supports lb and kg, and links to the formulas and sources behind the numbers.
-    </p>
   </section>
 
   <section aria-labelledby="tools-heading">
@@ -52,6 +54,24 @@ const description =
         ))
       }
     </div>
+  </section>
+
+  <section class="prose" style="margin-top: 2rem; margin-bottom: 1.5rem">
+    <h2>Which pet calculator do I need?</h2>
+    <p>
+      The right calculator depends on the question. To feed a dog, use the{' '}
+      <a href="/tools/dog-food-calculator/">dog food calculator</a>. To predict a puppy&apos;s adult size, use the{' '}
+      <a href="/tools/puppy-weight-calculator/">puppy weight calculator</a>. For cats, use the{' '}
+      <a href="/tools/cat-food-calculator/">cat food calculator</a>. Each shows its formula and sources, and none needs an
+      account. Always confirm feeding and health decisions with your veterinarian.
+    </p>
+    <h2>What you can calculate</h2>
+    <p>
+      {siteConfig.siteName} is a free toolkit for everyday dog and cat questions: how big a puppy may get, how many
+      calories to feed, how old a pet is in human years, and whether chocolate exposure looks concerning. Every tool keeps
+      data on your device, supports lb and kg, and links to the formulas and sources behind the numbers. See our{' '}
+      <a href="/editorial-policy/">editorial policy</a> and <a href="/methodology/">methodology</a>.
+    </p>
   </section>
 
   <section aria-labelledby="hubs-heading" style="margin-top: 2rem">
