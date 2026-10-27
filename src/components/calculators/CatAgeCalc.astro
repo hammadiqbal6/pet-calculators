@@ -22,8 +22,7 @@
   import {
     applyQueryToForm,
     bindFormInputs,
-    getFieldValue,
-    parseNum,
+    readValidNumber,
     showResults,
     syncFormToQuery,
   } from './calc-utils';
@@ -37,8 +36,8 @@
 
     function compute() {
       syncFormToQuery(form, keys);
-      const ageYears = parseNum(getFieldValue(form, 'ageYears'));
-      if (ageYears == null || ageYears < 0) {
+      const ageYears = readValidNumber(form, 'ageYears', { min: 0, label: 'Cat age' });
+      if (ageYears == null) {
         showResults(panel, false);
         return;
       }

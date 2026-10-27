@@ -175,7 +175,7 @@ export const siteConfig = {
     publicKey: resolveEmailjsPublicKey(),
   },
   /** ISO date used for lastmod / "Last updated" defaults (YYYY-MM-DD) */
-  buildDate: '2026-10-24',
+  buildDate: '2026-10-27',
   /** Tagline for homepage and meta fallbacks */
   tagline: 'Free pet calculators for dogs and cats — weight, food, age, and more.',
   /**

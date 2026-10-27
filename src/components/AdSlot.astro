@@ -10,31 +10,26 @@ const { slotId, label = 'Advertisement' } = Astro.props;
 const enabled = Boolean(siteConfig.adsensePublisherId);
 ---
 
-<div class="ad-slot" data-enabled={enabled ? 'true' : 'false'} aria-label={label}>
-  {
-    enabled ? (
-      <ins
-        class="adsbygoogle"
-        style="display:block"
-        data-ad-client={siteConfig.adsensePublisherId}
-        data-ad-slot={slotId}
-        data-ad-format="auto"
-        data-full-width-responsive="true"
-      />
-    ) : (
-      <span>{label}</span>
-    )
-  }
-</div>
-
 {
-  enabled && (
-    <script is:inline>
-      (function () {
-        try {
-          (window.adsbygoogle = window.adsbygoogle || []).push({});
-        } catch (e) {}
-      })();
-    </script>
-  )
+  enabled ? (
+    <>
+      <div class="ad-slot" data-enabled="true" aria-label={label}>
+        <ins
+          class="adsbygoogle"
+          style="display:block"
+          data-ad-client={siteConfig.adsensePublisherId}
+          data-ad-slot={slotId}
+          data-ad-format="auto"
+          data-full-width-responsive="true"
+        />
+      </div>
+      <script is:inline>
+        (function () {
+          try {
+            (window.adsbygoogle = window.adsbygoogle || []).push({});
+          } catch (e) {}
+        })();
+      </script>
+    </>
+  ) : null
 }

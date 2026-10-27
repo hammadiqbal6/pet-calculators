@@ -66,6 +66,7 @@ const sizes: { id: SizeClass; label: string }[] = [
         Estimated growth curve (illustrative)
       </figcaption>
       <svg
+        class="chart-surface"
         data-growth-chart
         role="img"
         aria-label="Puppy weight growth chart"
@@ -73,7 +74,6 @@ const sizes: { id: SizeClass; label: string }[] = [
         height="160"
         viewBox="0 0 400 160"
         preserveAspectRatio="none"
-        style="background: #fff; border: 1px solid var(--border); border-radius: 8px;"
       ></svg>
     </figure>
   </div>
@@ -86,6 +86,7 @@ const sizes: { id: SizeClass; label: string }[] = [
     applyQueryToForm,
     bindFormInputs,
     formatKgLb,
+    readValidNumber,
     showResults,
     syncFormToQuery,
     weightKgFromForm,
@@ -135,8 +136,8 @@ const sizes: { id: SizeClass; label: string }[] = [
         <line x1="${pad.l}" y1="${pad.t}" x2="${pad.l}" y2="${h - pad.b}" stroke="#d5ddd8" />
         <path d="${path}" fill="none" stroke="#1f6b4a" stroke-width="2.5" />
         <circle cx="${x(ageWeeks)}" cy="${y(currentKg)}" r="5" fill="#0b57d0" />
-        <text x="${pad.l}" y="${h - 6}" font-size="11" fill="#4a5a54">Weeks</text>
-        <text x="4" y="${pad.t + 8}" font-size="11" fill="#4a5a54" transform="rotate(-90 8 ${pad.t + 8})">kg</text>
+        <text x="${pad.l}" y="${h - 6}" font-size="12" fill="currentColor" opacity="0.75">Weeks</text>
+        <text x="4" y="${pad.t + 8}" font-size="12" fill="currentColor" opacity="0.75" transform="rotate(-90 8 ${pad.t + 8})">kg</text>
       `;
     }
 
@@ -145,7 +146,7 @@ const sizes: { id: SizeClass; label: string }[] = [
       syncFormToQuery(form, [...keys, 'unit']);
 
       const weightKg = weightKgFromForm(form, 'weight', unit);
-      const ageWeeks = Number(getFieldValueSafe(form, 'ageWeeks'));
+      const ageWeeks = readValidNumber(form, 'ageWeeks', { gt: 0, label: 'Age' });
       const breedId = getFieldValueSafe(form, 'breedId') || undefined;
       let size = getFieldValueSafe(form, 'size') as SizeClass;
 
@@ -154,7 +155,7 @@ const sizes: { id: SizeClass; label: string }[] = [
         if (b) size = b.size;
       }
 
-      if (weightKg == null || !Number.isFinite(ageWeeks) || ageWeeks <= 0) {
+      if (weightKg == null || ageWeeks == null) {
         showResults(panel, false);
         return;
       }

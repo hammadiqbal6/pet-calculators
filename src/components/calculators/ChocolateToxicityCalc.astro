@@ -39,7 +39,7 @@ const types: { id: ChocolateType; label: string }[] = [
           <button type="button" data-unit="g" aria-pressed="false">g</button>
         </span>
       </div>
-      <input id="chocolate-amount" type="number" name="amount" inputmode="decimal" min="0" step="0.1" value="2" required />
+      <input id="chocolate-amount" type="number" name="amount" inputmode="decimal" min="0.1" step="0.1" value="2" required />
     </div>
   </div>
 
@@ -71,7 +71,7 @@ const types: { id: ChocolateType; label: string }[] = [
     applyQueryToForm,
     bindFormInputs,
     getFieldValue,
-    parseNum,
+    readValidNumber,
     showResults,
     syncFormToQuery,
     weightKgFromForm,
@@ -141,9 +141,9 @@ const types: { id: ChocolateType; label: string }[] = [
       writeQuery({ aunit: aUnit });
       const weightKg = weightKgFromForm(form!, 'weight', wUnit);
       const type = getFieldValue(form!, 'type') as ChocolateType;
-      const amount = parseNum(getFieldValue(form!, 'amount'));
+      const amount = readValidNumber(form!, 'amount', { gt: 0, label: 'Amount eaten' });
 
-      if (weightKg == null || amount == null || amount < 0) {
+      if (weightKg == null || amount == null) {
         showResults(panel, false);
         return;
       }

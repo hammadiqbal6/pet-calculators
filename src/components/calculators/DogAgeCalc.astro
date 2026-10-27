@@ -55,7 +55,7 @@ const sizes: { id: SizeClass; label: string }[] = [
     applyQueryToForm,
     bindFormInputs,
     getFieldValue,
-    parseNum,
+    readValidNumber,
     showResults,
     syncFormToQuery,
   } from './calc-utils';
@@ -69,11 +69,11 @@ const sizes: { id: SizeClass; label: string }[] = [
 
     function compute() {
       syncFormToQuery(form, keys);
-      const ageYears = parseNum(getFieldValue(form, 'ageYears'));
+      const ageYears = readValidNumber(form, 'ageYears', { min: 0, label: 'Dog age' });
       const size = getFieldValue(form, 'size') as SizeClass;
       const method = getFieldValue(form, 'method') as 'size-piecewise' | 'log-curve';
 
-      if (ageYears == null || ageYears < 0) {
+      if (ageYears == null) {
         showResults(panel, false);
         return;
       }

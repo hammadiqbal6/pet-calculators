@@ -27,16 +27,19 @@ const toolUrl = absoluteUrl('/tools/dog-food-calculator/');
 <script>
   import { calculateDogMER, cupsFromKcal } from '../../lib/formulas/energy';
   import { lbToKg, round } from '../../lib/units';
-  import { bindFormInputs, getFieldValue, parseNum } from './calc-utils';
+  import { bindFormInputs, readValidNumber } from './calc-utils';
 
   const form = document.getElementById('embed-dog-food') as HTMLFormElement | null;
   if (form) {
     const headline = form.querySelector('[data-embed-headline]') as HTMLElement;
 
     function compute() {
-      const lb = parseNum(getFieldValue(form!, 'weight'));
-      const kcalPerCup = parseNum(getFieldValue(form!, 'kcalPerCup'));
-      if (lb == null || kcalPerCup == null || kcalPerCup <= 0) return;
+      const lb = readValidNumber(form!, 'weight', { gt: 0, label: 'Weight' });
+      const kcalPerCup = readValidNumber(form!, 'kcalPerCup', { gt: 0, label: 'kcal per cup' });
+      if (lb == null || kcalPerCup == null) {
+        headline.textContent = 'Enter valid values';
+        return;
+      }
 
       try {
         const mer = calculateDogMER(lbToKg(lb), 'adult_neutered');
