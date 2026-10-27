@@ -38,17 +38,20 @@ const toolUrl = absoluteUrl('/tools/puppy-weight-calculator/');
   import { predictAdultWeight } from '../../lib/formulas/puppyWeight';
   import type { SizeClass } from '../../data/breeds';
   import { lbToKg, kgToLb, round } from '../../lib/units';
-  import { bindFormInputs, getFieldValue, parseNum } from './calc-utils';
+  import { bindFormInputs, getFieldValue, readValidNumber } from './calc-utils';
 
   const form = document.getElementById('embed-puppy-weight') as HTMLFormElement | null;
   if (form) {
     const headline = form.querySelector('[data-embed-headline]') as HTMLElement;
 
     function compute() {
-      const lb = parseNum(getFieldValue(form!, 'weight'));
-      const ageWeeks = parseNum(getFieldValue(form!, 'ageWeeks'));
+      const lb = readValidNumber(form!, 'weight', { gt: 0, label: 'Weight' });
+      const ageWeeks = readValidNumber(form!, 'ageWeeks', { gt: 0, label: 'Age' });
       const size = getFieldValue(form!, 'size') as SizeClass;
-      if (lb == null || ageWeeks == null || ageWeeks <= 0) return;
+      if (lb == null || ageWeeks == null) {
+        headline.textContent = 'Enter valid values';
+        return;
+      }
 
       try {
         const r = predictAdultWeight({ currentWeightKg: lbToKg(lb), ageWeeks, size });

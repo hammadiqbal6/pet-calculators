@@ -62,6 +62,7 @@ const stages: { id: DogLifeStage; label: string }[] = [
     applyQueryToForm,
     bindFormInputs,
     getFieldValue,
+    readValidNumber,
     showResults,
     syncFormToQuery,
     weightKgFromForm,
@@ -86,9 +87,9 @@ const stages: { id: DogLifeStage; label: string }[] = [
       syncFormToQuery(form, [...keys, 'unit']);
       const weightKg = weightKgFromForm(form, 'weight', unit);
       const stage = getFieldValue(form, 'stage') as DogLifeStage;
-      const kcalPerCup = Number(getFieldValue(form, 'kcalPerCup'));
+      const kcalPerCup = readValidNumber(form, 'kcalPerCup', { gt: 0, label: 'kcal per cup' });
 
-      if (weightKg == null || !(kcalPerCup > 0)) {
+      if (weightKg == null || kcalPerCup == null) {
         showResults(panel, false);
         return;
       }

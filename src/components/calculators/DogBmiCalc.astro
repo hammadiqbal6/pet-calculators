@@ -61,7 +61,7 @@ import { BCS_SCALE } from '../../lib/formulas/bmi';
     formatKgLb,
     getFieldValue,
     inToCm,
-    parseNum,
+    readValidNumber,
     showResults,
     syncFormToQuery,
     weightKgFromForm,
@@ -91,8 +91,8 @@ import { BCS_SCALE } from '../../lib/formulas/bmi';
     const panel = form.querySelector('#dog-bmi-results') as HTMLElement;
 
     function heightCm(): number | null {
-      const h = parseNum(getFieldValue(form!, 'height'));
-      if (h == null || h <= 0) return null;
+      const h = readValidNumber(form!, 'height', { gt: 0, label: 'Height' });
+      if (h == null) return null;
       return hUnit === 'cm' ? h : inToCm(h);
     }
 

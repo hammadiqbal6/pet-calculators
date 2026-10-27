@@ -53,6 +53,104 @@ export function parseNum(value: string | null | undefined): number | null {
   return Number.isFinite(n) ? n : null;
 }
 
+function getNamedInput(form: HTMLFormElement, key: string): HTMLInputElement | null {
+  const el = form.elements.namedItem(key);
+  return el instanceof HTMLInputElement ? el : null;
+}
+
+/** Show or clear an accessible inline error under a field. */
+export function setInputError(input: HTMLInputElement | null, message: string | null): void {
+  if (!input) return;
+  const field = input.closest('.field') ?? input.parentElement;
+  const errId = `${input.id || input.name || 'field'}-error`;
+  let err = field?.querySelector<HTMLElement>('[data-field-error]');
+
+  if (!message) {
+    input.removeAttribute('aria-invalid');
+    const described = (input.getAttribute('aria-describedby') || '')
+      .split(/\s+/)
+      .filter((id) => id && id !== errId);
+    if (described.length) input.setAttribute('aria-describedby', described.join(' '));
+    else input.removeAttribute('aria-describedby');
+    if (err) {
+      err.hidden = true;
+      err.textContent = '';
+    }
+    return;
+  }
+
+  input.setAttribute('aria-invalid', 'true');
+  if (!err && field) {
+    err = document.createElement('p');
+    err.className = 'field-error';
+    err.dataset.fieldError = '';
+    err.setAttribute('role', 'alert');
+    field.appendChild(err);
+  }
+  if (!err) return;
+  err.id = errId;
+  err.hidden = false;
+  err.textContent = message;
+  const described = new Set(
+    (input.getAttribute('aria-describedby') || '').split(/\s+/).filter(Boolean),
+  );
+  described.add(errId);
+  input.setAttribute('aria-describedby', [...described].join(' '));
+}
+
+export type NumberFieldOptions = {
+  /** Inclusive minimum (defaults to the input's min attribute when present). */
+  min?: number;
+  /** Inclusive maximum (defaults to the input's max attribute when present). */
+  max?: number;
+  /** Require n > gt (e.g. gt: 0 rejects zero and negatives). */
+  gt?: number;
+  label?: string;
+};
+
+/**
+ * Parse and validate a numeric form field. Sets aria-invalid + an inline error
+ * when invalid; clears them when valid. Returns null when the value must not
+ * be used for a result.
+ */
+export function readValidNumber(
+  form: HTMLFormElement,
+  key: string,
+  options: NumberFieldOptions = {},
+): number | null {
+  const input = getNamedInput(form, key);
+  const raw = input?.value ?? getFieldValue(form, key);
+  const n = parseNum(raw);
+  const label = options.label || 'Value';
+
+  if (n == null) {
+    setInputError(input, `Enter a valid ${label.toLowerCase()}.`);
+    return null;
+  }
+
+  const minAttr = input && input.min !== '' ? Number(input.min) : undefined;
+  const maxAttr = input && input.max !== '' ? Number(input.max) : undefined;
+  const min = options.min ?? (Number.isFinite(minAttr) ? minAttr : undefined);
+  const max = options.max ?? (Number.isFinite(maxAttr) ? maxAttr : undefined);
+  const gt = options.gt;
+
+  if (gt != null && !(n > gt)) {
+    setInputError(input, `${label} must be greater than ${gt}.`);
+    return null;
+  }
+  if (min != null && n < min) {
+    setInputError(input, `${label} must be at least ${min}.`);
+    return null;
+  }
+  if (max != null && n > max) {
+    setInputError(input, `${label} must be at most ${max}.`);
+    return null;
+  }
+
+  setInputError(input, null);
+  return n;
+}
+
 export function getFieldValue(form: HTMLFormElement, key: string): string {
   const el = form.elements.namedItem(key);
   if (el instanceof RadioNodeList) {
@@ -199,7 +297,7 @@ export function wireLengthUnitToggle(
 }
 
 export function weightKgFromForm(form: HTMLFormElement, weightKey: string, unit: WeightUnit): number | null {
-  const w = parseNum(getFieldValue(form, weightKey));
-  if (w == null || w <= 0) return null;
+  const w = readValidNumber(form, weightKey, { gt: 0, label: 'Weight' });
+  if (w == null) return null;
   return toKg(w, unit);
 }

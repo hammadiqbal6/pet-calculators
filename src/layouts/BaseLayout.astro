@@ -354,10 +354,23 @@ const gaId = siteConfig.ga4MeasurementId;
       (function () {
         var toggle = document.querySelector('[data-nav-toggle]');
         var nav = document.querySelector('[data-site-nav]');
+        function setNavOpen(open) {
+          if (!toggle || !nav) return;
+          nav.classList.toggle('open', open);
+          toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        }
+        function closeNav() {
+          setNavOpen(false);
+        }
         if (toggle && nav) {
           toggle.addEventListener('click', function () {
-            var open = nav.classList.toggle('open');
-            toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+            setNavOpen(!nav.classList.contains('open'));
+          });
+          document.addEventListener('keydown', function (e) {
+            if (e.key !== 'Escape') return;
+            if (!nav.classList.contains('open')) return;
+            closeNav();
+            toggle.focus();
           });
         }
 

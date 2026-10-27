@@ -145,6 +145,15 @@ const jsonLd: Record<string, unknown>[] = [
           <AuthorMeta lastUpdated={lastReviewed} lastReviewed={lastReviewed} />
         </>
       ) : null}
+      <nav class="on-this-page" aria-label="On this page">
+        <p>On this page</p>
+        <ol>
+          <li><a href="#tool-title">Calculator</a></li>
+          {takeaways.length > 0 && <li><a href="#takeaway-heading">Key takeaways</a></li>}
+          <li><a href="#faq-heading">FAQ</a></li>
+          <li><a href="#trust-sources-h">References</a></li>
+        </ol>
+      </nav>
     </section>
 
     <AdSlot slotId={adSlotId} />
