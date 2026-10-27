@@ -859,7 +859,8 @@ textarea[aria-invalid="true"] {
   bottom: 0;
   left: 0;
   right: 0;
-  background: var(--ink);
+  /* Fixed dark surface in both color schemes — do not use --ink (it lightens in dark mode). */
+  background: #121816;
   color: #fff;
   padding: 0.5rem 0.75rem;
   z-index: 100;
