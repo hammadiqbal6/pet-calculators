@@ -160,7 +160,7 @@ See **`.env.example`** for build env vars. Deploy target: Cloudflare Worker `pet
 
 ## How to add a tool or article
 
-See **[AGENTS.md](AGENTS.md)** (step-by-step) and the **`add-new-tool`** / **`write-seo-article`** skills under `.cursor/skills/`.
+See **[AGENTS.md](AGENTS.md)** (step-by-step) and the **`add-new-tool`** / **`write-seo-article`** skills under `.cursor/skills/`. For any visual or interaction change, follow the **UI/UX Pro Max** section in [AGENTS.md](AGENTS.md) (skill at `.cursor/skills/ui-ux-pro-max/`).
 
 Short version:
 
@@ -188,7 +188,7 @@ npm run audit      # recommended before every PR
 npm run lhci       # mobile Lighthouse on key templates
 ```
 
-GitHub Actions (`.github/workflows/ci.yml`) on pull requests: install → test → build → `audit:seo` → `audit:adsense` → `audit:budgets` → `check:links`, then Lighthouse job.
+GitHub Actions (`.github/workflows/ci.yml`) on pull requests / `main`: install → build → unit tests (fast safety net). Full audits, Lighthouse, and proof: run locally or trigger `.github/workflows/full-checks.yml` (`workflow_dispatch`).
 
 ---
 

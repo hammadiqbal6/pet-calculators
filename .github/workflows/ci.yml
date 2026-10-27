@@ -1,10 +1,11 @@
 name: CI
 
+# Fast PR safety net. Full audits / Lighthouse / proof: workflow_dispatch in full-checks.yml.
+# Owner runs `npm run audit`, `npm run lhci`, and `npm run proof` locally before opening PRs.
 on:
   pull_request:
   push:
     branches: [main]
-  workflow_dispatch:
 
 concurrency:
   group: ci-${{ github.ref }}
@@ -17,7 +18,7 @@ jobs:
   build-test-audit:
     name: Build, test, audit
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v5
 
@@ -28,108 +29,16 @@ jobs:
 
       - name: Install
         run: npm ci
+
+      - name: Build
+        run: npm run build
+        env:
+          PUBLIC_SITE_URL: https://pet-calculators.hammadiqbal117.workers.dev
+          PUBLIC_SITE_URL_PAYMENT_FEES: https://payment-fee-calculators.hammadiqbal117.workers.dev
+          PUBLIC_SITE_URL_BUSINESS_DOCS: https://business-document-generators.hammadiqbal117.workers.dev
+          PUBLIC_SITE_URL_HOME_GARDEN: https://home-garden-calculators.hammadiqbal117.workers.dev
+          PUBLIC_SITE_URL_FIBER_ARTS: https://fiber-arts-calculators.hammadiqbal117.workers.dev
+          PUBLIC_SITE_URL_PET: https://pet-calculators.hammadiqbal117.workers.dev
 
       - name: Unit tests (formulas)
         run: npm test
-
-      - name: Build
-        run: npm run build
-        env:
-          PUBLIC_SITE_URL: https://pet-calculators.hammadiqbal117.workers.dev
-          PUBLIC_SITE_URL_PAYMENT_FEES: https://payment-fee-calculators.hammadiqbal117.workers.dev
-          PUBLIC_SITE_URL_BUSINESS_DOCS: https://business-document-generators.hammadiqbal117.workers.dev
-          PUBLIC_SITE_URL_HOME_GARDEN: https://home-garden-calculators.hammadiqbal117.workers.dev
-          PUBLIC_SITE_URL_FIBER_ARTS: https://fiber-arts-calculators.hammadiqbal117.workers.dev
-          PUBLIC_SITE_URL_PET: https://pet-calculators.hammadiqbal117.workers.dev
-
-      - name: SEO audit
-        run: npm run audit:seo
-
-      - name: SEO guardrails
-        run: npm run audit:seo-guardrails
-
-      - name: AdSense readiness audit
-        run: npm run audit:adsense
-
-      - name: Performance budgets
-        run: npm run audit:budgets
-
-      - name: Page checklist audit
-        run: npm run audit:page-checklist
-
-      - name: Internal links
-        run: npm run check:links
-
-      - name: Upload dist
-        uses: actions/upload-artifact@v6
-        with:
-          name: dist
-          path: dist
-          retention-days: 7
-
-  lighthouse:
-    name: Lighthouse CI (mobile)
-    needs: build-test-audit
-    runs-on: ubuntu-24.04
-    timeout-minutes: 20
-    steps:
-      - uses: actions/checkout@v5
-
-      - uses: actions/setup-node@v5
-        with:
-          node-version: 22
-          cache: npm
-
-      - name: Install
-        run: npm ci
-
-      - name: Build
-        run: npm run build
-        env:
-          PUBLIC_SITE_URL: https://pet-calculators.hammadiqbal117.workers.dev
-          PUBLIC_SITE_URL_PAYMENT_FEES: https://payment-fee-calculators.hammadiqbal117.workers.dev
-          PUBLIC_SITE_URL_BUSINESS_DOCS: https://business-document-generators.hammadiqbal117.workers.dev
-          PUBLIC_SITE_URL_HOME_GARDEN: https://home-garden-calculators.hammadiqbal117.workers.dev
-          PUBLIC_SITE_URL_FIBER_ARTS: https://fiber-arts-calculators.hammadiqbal117.workers.dev
-          PUBLIC_SITE_URL_PET: https://pet-calculators.hammadiqbal117.workers.dev
-
-      - name: Lighthouse CI
-        run: npm run lhci
-        env:
-          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
-
-  proof:
-    name: Generate proof bundle
-    needs: build-test-audit
-    runs-on: ubuntu-24.04
-    timeout-minutes: 25
-    steps:
-      - uses: actions/checkout@v5
-
-      - uses: actions/setup-node@v5
-        with:
-          node-version: 22
-          cache: npm
-
-      - name: Install
-        run: npm ci
-
-      - name: Install Playwright Chromium
-        run: npx playwright install chromium
-
-      - name: Regenerate docs/proof
-        run: npm run proof
-        env:
-          PUBLIC_SITE_URL: https://pet-calculators.hammadiqbal117.workers.dev
-          PUBLIC_SITE_URL_PAYMENT_FEES: https://payment-fee-calculators.hammadiqbal117.workers.dev
-          PUBLIC_SITE_URL_BUSINESS_DOCS: https://business-document-generators.hammadiqbal117.workers.dev
-          PUBLIC_SITE_URL_HOME_GARDEN: https://home-garden-calculators.hammadiqbal117.workers.dev
-          PUBLIC_SITE_URL_FIBER_ARTS: https://fiber-arts-calculators.hammadiqbal117.workers.dev
-          PUBLIC_SITE_URL_PET: https://pet-calculators.hammadiqbal117.workers.dev
-
-      - name: Upload proof artifact
-        uses: actions/upload-artifact@v6
-        with:
-          name: docs-proof
-          path: docs/proof
-          retention-days: 14
