@@ -238,4 +238,4 @@ Committed template: **`.env.example`**. Copy to `.env` for local builds (gitigno
 
 Full list with sample values: [`.env.example`](../.env.example).
 
-CI (`.github/workflows/ci.yml`) runs `npm ci`, `npm test`, `npm run build`, the audits and Lighthouse CI on PRs and pushes to `main`. Require the `Build, test, audit` and `Lighthouse CI (mobile)` checks in branch protection before merging.
+CI (`.github/workflows/ci.yml`) on PRs and pushes to `main` is a fast safety net: `npm ci` → `npm run build` → `npm test` (job name `Build, test, audit`). Full SEO/AdSense/budget/page-checklist audits, link checks, Lighthouse, and `npm run proof` run via **workflow_dispatch** in `.github/workflows/full-checks.yml` (and locally before opening a PR). Cloudflare Workers Builds deploy is unchanged.

@@ -34,3 +34,7 @@ Editorial policy page; honest ReviewerBox; fixed mis-attributed claims (homemade
 ## 2026-10-27 — UI/UX audit polish (a11y, dark mode, validation)
 
 Dark-mode WCAG AA (poison hotlines, primary buttons, footer/reviewer surfaces, `color-scheme`); shared number validation with `aria-invalid` + inline errors; homepage max-width aligned with header; hide AdSlot until AdSense is configured; Escape closes mobile nav; cookie tap targets 44px; chart labels ≥12px; on-this-page nav on tool pages.
+
+## 2026-10-27 — Fast CI + UI/UX Pro Max skill
+
+PR CI is build + unit tests only (`ci.yml`); full audits/LHCI/proof moved to `full-checks.yml` (`workflow_dispatch`). Added `.cursor/skills/ui-ux-pro-max/` and PR template UI checklist.

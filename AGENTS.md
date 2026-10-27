@@ -64,7 +64,7 @@ src/
 public/                     favicon, og-default.svg, ads.txt template, _headers, _redirects, IndexNow key file (llms.txt is generated from registries)
 scripts/audit/              lib.mjs + seo.mjs + adsense.mjs + links.mjs + budgets.mjs  (all read dist/)
 lighthouserc.cjs            Lighthouse CI mobile budgets
-.github/workflows/ci.yml    test + build + audits + Lighthouse on every PR
+.github/workflows/ci.yml    fast PR safety net: build + unit tests (full audits/LHCI/proof via full-checks.yml)
 .cursor/                    rules/ (constraints by glob), skills/ (playbooks), agents/ (subagents)
 docs/                       strategy and operations (section 1)
 ```
@@ -109,6 +109,30 @@ A publish-ready page needs sign-off from `vet-fact-checker` (accuracy) and a cle
 | [internal-linking](.cursor/skills/internal-linking/SKILL.md) | Hub -> tool -> guide linking, orphan and anchor-text fixes |
 | [structured-data](.cursor/skills/structured-data/SKILL.md) | JSON-LD for new page types; validating and extending schema |
 | [vet-source-citation](.cursor/skills/vet-source-citation/SKILL.md) | Adding or verifying citations in `src/data/sources.ts` |
+| [ui-ux-pro-max](.cursor/skills/ui-ux-pro-max/SKILL.md) | Any change to how the site looks or behaves (layout, CSS, calculator UI, forms, motion, dark mode) |
+
+### UI/UX Pro Max
+
+Use this skill for **any change to how the site looks or behaves**. Read [`.cursor/skills/ui-ux-pro-max/SKILL.md`](.cursor/skills/ui-ux-pro-max/SKILL.md) first, then search the local design database:
+
+```bash
+python3 .cursor/skills/ui-ux-pro-max/scripts/search.py "<query>" --domain <domain>
+```
+
+Useful flags (see SKILL.md for the full list):
+
+- `--domain ux` / `typography` / `color` / `style` / … — focused guideline search
+- `--stack astro` — Astro-specific implementation notes (this repo’s stack)
+- `--design-system` — coherent product-wide visual direction for new pages
+
+**Priority checks before shipping UI:** contrast ≥ 4.5:1, touch targets ≥ 44×44px, visible focus, labels + inline errors, dark mode, no horizontal scroll, `prefers-reduced-motion`.
+
+Example (Astro stack):
+
+```bash
+python3 .cursor/skills/ui-ux-pro-max/scripts/search.py "accessible form calculator" --stack astro
+# → ViewTransitions / no-JS fallback guidance from stacks/astro.csv
+```
 
 ## 5. Rules (`.cursor/rules/*.mdc`)
 
@@ -222,7 +246,7 @@ Astro docs for routing, components and content: <https://docs.astro.build>.
 ## 12. Git and PR conventions
 
 - Small, logical commits; imperative subject ("Add dog food transition calculator").
-- Run `npm run audit` before pushing; CI (`.github/workflows/ci.yml`) re-runs tests, audits, Lighthouse, and `npm run proof` (artifact upload).
+- Run `npm run audit` (and `npm run lhci` / `npm run proof` when relevant) locally before pushing. PR CI (`.github/workflows/ci.yml`) only re-runs build + unit tests; trigger `.github/workflows/full-checks.yml` for the full suite.
 - Committed proof bundle: [docs/proof/README.md](docs/proof/README.md) — regenerate with `npm run proof`, do not hand-edit.
 - Do not commit `dist/`, `.astro/`, `.lighthouseci/` or `node_modules/` (all ignored).
 - Do not change `docs/MARKET-RESEARCH.md`, `docs/SEO-PLAYBOOK.md` or `docs/ideas/*` without an explicit instruction; add dated notes in the operational docs instead.

@@ -1,0 +1,124 @@
+name: Full checks
+
+# Manual-only: SEO/AdSense/budget/page-checklist audits, link check, Lighthouse, proof.
+# PR/main path stays fast via ci.yml (build + unit tests).
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: full-checks-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  PUBLIC_SITE_URL: https://pet-calculators.hammadiqbal117.workers.dev
+  PUBLIC_SITE_URL_PAYMENT_FEES: https://payment-fee-calculators.hammadiqbal117.workers.dev
+  PUBLIC_SITE_URL_BUSINESS_DOCS: https://business-document-generators.hammadiqbal117.workers.dev
+  PUBLIC_SITE_URL_HOME_GARDEN: https://home-garden-calculators.hammadiqbal117.workers.dev
+  PUBLIC_SITE_URL_FIBER_ARTS: https://fiber-arts-calculators.hammadiqbal117.workers.dev
+  PUBLIC_SITE_URL_PET: https://pet-calculators.hammadiqbal117.workers.dev
+
+jobs:
+  build-test-audit:
+    name: Build, test, audit
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Unit tests (formulas)
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+      - name: SEO audit
+        run: npm run audit:seo
+
+      - name: SEO guardrails
+        run: npm run audit:seo-guardrails
+
+      - name: AdSense readiness audit
+        run: npm run audit:adsense
+
+      - name: Performance budgets
+        run: npm run audit:budgets
+
+      - name: Page checklist audit
+        run: npm run audit:page-checklist
+
+      - name: Internal links
+        run: npm run check:links
+
+      - name: Link spaces
+        run: npm run audit:link-spaces
+
+      - name: Upload dist
+        uses: actions/upload-artifact@v6
+        with:
+          name: dist
+          path: dist
+          retention-days: 7
+
+  lighthouse:
+    name: Lighthouse CI (mobile)
+    needs: build-test-audit
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Lighthouse CI
+        run: npm run lhci
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+
+  proof:
+    name: Generate proof bundle
+    needs: build-test-audit
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Install Playwright Chromium
+        run: npx playwright install chromium
+
+      - name: Regenerate docs/proof
+        run: npm run proof
+
+      - name: Upload proof artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: docs-proof
+          path: docs/proof
+          retention-days: 14
